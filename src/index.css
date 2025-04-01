@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'Blue Cashew';
+  src: url('/fonts/BlueCashews.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.react-phone-number-input input {
+  background: transparent;
+  border: none;
+}
+
+/* Hover effect */
+.react-phone-number-input input:hover {
+  border-color: 'transparent';
+}
+
+/* Focus effect */
+.react-phone-number-input input:focus {
+  outline: none;
+  border-color: white;
+}
+.react-phone-number-input {
+  background: transparent;
+  border: 1px solid #b8b7b7;
+  min-height: 48px;
+  border-radius: 8px;
+  padding: 8px 4px 8px 10px;
+  width: 100%;
+}
+
+.react-phone-number-input:hover {
+  border-color: #585757; /* Blue on hover */
+}
+
+.react-phone-number-input:focus {
+  border-color: #585757; /* Darker blue on focus */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+.PhoneInputInput {
+  border: none;
+}
