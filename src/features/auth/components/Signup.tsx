@@ -46,7 +46,7 @@ const validationSchema = yup.object().shape({
 });
 
 export const Signup = () => {
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('+234');
 
   const formik = useFormik({
     initialValues: {
@@ -107,10 +107,12 @@ export const Signup = () => {
                         className="react-phone-number-input"
                         value={formik.values.countryCode}
                         onChange={(phone) => {
+                            console.log('phone', phone)
                           formik.setFieldValue('countryCode', phone);
                         }}
                         onCountryChange={(country) => {
                           if (country) {
+                            console.log(country)
                             setSelectedCountry(country);
                           }
                         }}
