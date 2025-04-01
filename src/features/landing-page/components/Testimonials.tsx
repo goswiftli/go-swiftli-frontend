@@ -1,14 +1,14 @@
 import { Avatar, Box, Flex, HStack, Icon, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { MdArrowCircleLeft, MdArrowCircleRight } from 'react-icons/md';
 
+import { ReactComponent as BlockQuotesIcon } from '@/assets/icons/blockquotes.svg';
 import user1 from '@/assets/images/user1.png';
 import user2 from '@/assets/images/user2.png';
 import user3 from '@/assets/images/user3.png';
-import { ReactComponent as BlockQuotesIcon } from '@/assets/icons/blockquotes.svg';
-import { MdArrowCircleLeft, MdArrowCircleRight } from 'react-icons/md';
 
 import { TestimonialCard } from './TestimonialCard';
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 export const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);

@@ -1,8 +1,8 @@
 import { Outlet, RouteObject } from 'react-router';
 
 import { RouteError } from '@/components/Error';
-import { lazyImport } from '@/utils';
 import { LINKS } from '@/constants';
+import { lazyImport } from '@/utils';
 
 const { SignupView } = lazyImport(() => import('./sign-up'), 'SignupView');
 const { VerifyEmailView } = lazyImport(() => import('./verify-email'), 'VerifyEmailView');

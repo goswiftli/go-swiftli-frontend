@@ -1,13 +1,11 @@
-import { Form, FormInput, FormTextarea } from '@/components';
 import { Box, Button, Center, HStack, Icon, Image, Stack, Text } from '@chakra-ui/react';
-
-import * as yup from 'yup';
 import { useFormik } from 'formik';
-
 import { MdEmail, MdLocalPhone } from 'react-icons/md';
+import * as yup from 'yup';
 
 import contactImg1 from '@/assets/images/contact1.jpg';
 import contactImg2 from '@/assets/images/contact2.jpg';
+import { Form, FormInput, FormTextarea } from '@/components';
 
 export const ContactUs = () => {
   const validationSchema = yup.object().shape({

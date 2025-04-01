@@ -1,9 +1,9 @@
 import { Box, Card, CardBody, Flex, Image, SimpleGrid, Text } from '@chakra-ui/react';
 
-import fastSecureTranImg from '@/assets/images/fast-group-tran-img.png';
-import transparentImg from '@/assets/images/trans-low-fees-img.png';
 import customerSupportImg from '@/assets/images/customer-support-img.png';
+import fastSecureTranImg from '@/assets/images/fast-group-tran-img.png';
 import salesImg from '@/assets/images/sales-reliable-img.png';
+import transparentImg from '@/assets/images/trans-low-fees-img.png';
 
 export const WhyChoose = () => {
   return (

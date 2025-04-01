@@ -1,8 +1,8 @@
 import { Box, Button, Center, Flex, HStack, Stack, Text } from '@chakra-ui/react';
 
-import { ReactComponent as HandIcon } from '@/assets/icons/handIcon.svg';
-import { ReactComponent as FocusIcon } from '@/assets/icons/focusIcon.svg';
 import { ReactComponent as BriefcaseIcon } from '@/assets/icons/briefcase.svg';
+import { ReactComponent as FocusIcon } from '@/assets/icons/focusIcon.svg';
+import { ReactComponent as HandIcon } from '@/assets/icons/handIcon.svg';
 
 export const WhoWeServe = () => {
   return (

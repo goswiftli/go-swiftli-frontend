@@ -6,17 +6,8 @@ export const Footer = () => {
   return (
     <footer>
       <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} bgColor="white">
-        <Stack
-          direction={{ base: 'column', lg: 'row' }}
-          pt="6em"
-          alignItems="start"
-          spacing={12}
-        >
-          <Stack
-            w="full"
-            h="full"
-            spacing={6}
-          >
+        <Stack direction={{ base: 'column', lg: 'row' }} pt="6em" alignItems="start" spacing={12}>
+          <Stack w="full" h="full" spacing={6}>
             <Logo />
             <Text fontFamily="body" fontWeight="normal" fontSize="1.25rem">
               GoSwitfli helps businesses and freelancers make seamless international payments for

@@ -1,4 +1,5 @@
 import { Head } from '@/components';
+
 import { VerifyEmail } from '../components';
 
 export const VerifyEmailView = () => {

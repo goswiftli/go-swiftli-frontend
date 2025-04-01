@@ -1,7 +1,8 @@
 import '@fontsource/lato';
-import { ReactNode } from 'react';
-import { theme } from './theme';
 import { ChakraProvider } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+
+import { theme } from './theme';
 
 type ThemeProviderProps = {
   children: ReactNode;

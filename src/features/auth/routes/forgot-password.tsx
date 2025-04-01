@@ -1,4 +1,5 @@
 import { Head } from '@/components';
+
 import { ForgotPassword } from '../components';
 
 export const ForgotPasswordView = () => {

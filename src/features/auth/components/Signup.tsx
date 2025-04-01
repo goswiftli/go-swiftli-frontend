@@ -10,15 +10,13 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import PhoneInput from 'react-phone-number-input';
+import * as yup from 'yup';
 
 import logoImg from '@/assets/images/logo.png';
 import { Form, FormInput, FormInputPassword } from '@/components';
-
-import * as yup from 'yup';
-import { useFormik } from 'formik';
-
-import PhoneInput from 'react-phone-number-input';
-import { useState } from 'react';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().label('Email'),

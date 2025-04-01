@@ -10,9 +10,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { FaPlus, FaMinus } from 'react-icons/fa6';
 
 import faqImg from '@/assets/images/faq-image.jpg';
-import { FaPlus, FaMinus } from 'react-icons/fa6';
 
 export const Faq = () => {
   return (

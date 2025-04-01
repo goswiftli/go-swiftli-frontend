@@ -10,7 +10,6 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { ReactNode, useState } from 'react';
-
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
 
 export type FormInputPasswordProps = InputProps & {

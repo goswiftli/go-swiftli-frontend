@@ -1,8 +1,8 @@
 import { Box, Flex, HStack, Link as ChakraLink, Button, Text, Image } from '@chakra-ui/react';
 import { Link } from 'react-router';
-import { LINKS } from '@/constants';
 
 import logoImg from '@/assets/images/logo.png';
+import { LINKS } from '@/constants';
 
 export const Header = () => {
   return (

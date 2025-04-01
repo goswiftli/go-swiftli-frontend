@@ -1,8 +1,7 @@
 import { Box, HStack, Icon, Stack, Text } from '@chakra-ui/react';
+import { IoMdStar } from 'react-icons/io';
 
 import { ReactComponent as BlockQuotesIcon } from '@/assets/icons/blockquotes.svg';
-
-import { IoMdStar } from 'react-icons/io';
 
 type TestimonialCardProps = {
   testimonial: string;
@@ -36,13 +35,7 @@ export const TestimonialCard = ({ rating, testimonial }: TestimonialCardProps) =
     >
       <Stack spacing={8}>
         <BlockQuotesIcon />
-        <Text
-          noOfLines={3}
-          fontFamily="body"
-          fontSize="lg"
-          fontWeight="medium"
-          color="black.500"
-        >
+        <Text noOfLines={3} fontFamily="body" fontSize="lg" fontWeight="medium" color="black.500">
           {testimonial}
         </Text>
         <Rating rating={rating} />

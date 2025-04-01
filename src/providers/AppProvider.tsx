@@ -1,7 +1,9 @@
 import { ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { ThemeProvider } from './ThemeProvider';
+
 import { ErrorBoundary } from '@/components';
+
+import { ThemeProvider } from './ThemeProvider';
 
 type AppProviderProps = {
   children: ReactNode;

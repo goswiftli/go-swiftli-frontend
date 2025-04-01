@@ -10,9 +10,9 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { ReactComponent as SignVerifyIcon } from '@/assets/icons/sign-verify.svg';
 import { ReactComponent as CheckRateIcon } from '@/assets/icons/check-rate.svg';
 import { ReactComponent as MakePaymentIcon } from '@/assets/icons/make-payment.svg';
+import { ReactComponent as SignVerifyIcon } from '@/assets/icons/sign-verify.svg';
 import { ReactComponent as TrackConfirmIcon } from '@/assets/icons/track-confirm.svg';
 
 export const HowItWorks = () => {

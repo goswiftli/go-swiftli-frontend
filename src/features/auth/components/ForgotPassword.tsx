@@ -1,11 +1,10 @@
 import { Box, Button, Flex, HStack, Image, Stack, Text } from '@chakra-ui/react';
-
-import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router';
+import * as yup from 'yup';
 
 import logoImg from '@/assets/images/logo.png';
 import { FormInput } from '@/components';
-import { useNavigate } from 'react-router';
 import { LINKS } from '@/constants';
 
 const validationSchema = yup.object().shape({

@@ -42,12 +42,7 @@ export const RouteError = () => {
             {error.statusText || error.message}
           </Heading>
 
-          <Button
-            colorScheme="info"
-            variant={'outline'}
-            size={'md'}
-            borderRadius={'none'}
-          >
+          <Button colorScheme="info" variant={'outline'} size={'md'} borderRadius={'none'}>
             <ReactLink to="/">Return Home</ReactLink>
           </Button>
         </VStack>

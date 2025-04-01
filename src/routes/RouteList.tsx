@@ -1,10 +1,11 @@
-import { LogoLoader, RouteError } from '@/components';
-import { LandingPageRoutes } from '@/features/landing-page';
-import { AuthRoutes } from '@/features/auth';
-
 import { Box } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import { Outlet, RouteObject } from 'react-router';
+
+import { LogoLoader, RouteError } from '@/components';
+import { AuthRoutes } from '@/features/auth';
+import { LandingPageRoutes } from '@/features/landing-page';
+
 import { BaseApp } from './BaseApp';
 
 export const App = () => {

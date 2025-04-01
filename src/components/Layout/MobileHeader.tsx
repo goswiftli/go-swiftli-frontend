@@ -17,11 +17,10 @@ import {
   Button,
   Box,
 } from '@chakra-ui/react';
+import { MdOutlineMenu, MdClose } from 'react-icons/md';
 import { Link } from 'react-router';
 
 import logoImg from '@/assets/images/logo.png';
-
-import { MdOutlineMenu, MdClose } from 'react-icons/md';
 import { LINKS } from '@/constants';
 
 export const MobileHeader = () => {

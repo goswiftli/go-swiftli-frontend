@@ -9,12 +9,11 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router';
+import * as yup from 'yup';
 
 import logoImg from '@/assets/images/logo.png';
-import { useNavigate } from 'react-router';
-
-import * as yup from 'yup';
-import { useFormik } from 'formik';
 
 const validationSchema = yup.object().shape({
   otp: yup

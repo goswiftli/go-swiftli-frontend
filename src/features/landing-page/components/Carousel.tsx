@@ -1,7 +1,8 @@
 import { Box, HStack, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
-import { CustomerCard, CustomerCardProps } from './CustomerCard';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+
+import { CustomerCard, CustomerCardProps } from './CustomerCard';
 
 export const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
