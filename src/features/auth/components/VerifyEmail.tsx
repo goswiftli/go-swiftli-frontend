@@ -15,10 +15,12 @@ import * as yup from 'yup';
 
 import logoImg from '@/assets/images/logo.png';
 
+import { useVerifyEmail } from '../apis';
+
 const validationSchema = yup.object().shape({
   otp: yup
     .string()
-    .matches(/^\d{5}$/, 'OTP must be exactly 5 digits')
+    .matches(/^\d{6}$/, 'OTP must be exactly 6 digits')
     .required()
     .label('OTP is required'),
 });
@@ -26,13 +28,15 @@ const validationSchema = yup.object().shape({
 export const VerifyEmail = () => {
   const navigate = useNavigate();
 
+  const verifyMutation = useVerifyEmail();
+
   const formik = useFormik({
     initialValues: {
       otp: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      verifyMutation.mutate({ code: values.otp });
     },
   });
 
@@ -83,6 +87,7 @@ export const VerifyEmail = () => {
                       <PinInputField boxSize="70px" />
                       <PinInputField boxSize="70px" />
                       <PinInputField boxSize="70px" />
+                      <PinInputField boxSize="70px" />
                     </PinInput>
                   </HStack>
                   {formik.errors.otp && (
@@ -98,7 +103,12 @@ export const VerifyEmail = () => {
                     Resend
                   </Text>{' '}
                 </Text>
-                <Button borderRadius="4px" type="submit">
+                <Button
+                  borderRadius="4px"
+                  type="submit"
+                  _hover={{ bgColor: 'primary.800' }}
+                  isLoading={verifyMutation.isPending}
+                >
                   Submit
                 </Button>
                 <Button onClick={() => navigate(-1)} borderRadius="4px" variant="tertiary">

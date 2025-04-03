@@ -31,18 +31,18 @@ export const RouteError = () => {
       </Box>
 
       <Flex justifyContent={'center'} alignItems={'center'} h="full" position="relative">
-        <VStack textAlign={'center'} p="4">
-          <Text fontSize={'2xl'} fontWeight={'600'} mb="4">
+        <VStack textAlign={'center'} p="4" spacing={8}>
+          <Text fontSize={'2xl'} fontWeight={'semibold'} mb="4" fontFamily="body">
             Oops! ☹️
           </Text>
-          <Text fontSize="lg" fontWeight={'600'}>
+          <Text fontSize="lg" fontWeight={'600'} fontFamily="body">
             Sorry, an unexpected error has occurred.
           </Text>
-          <Heading fontSize="md" fontWeight={'600'}>
+          <Heading fontSize="md" fontWeight={'600'} color="error.400" fontFamily="body">
             {error.statusText || error.message}
           </Heading>
 
-          <Button colorScheme="info" variant={'outline'} size={'md'} borderRadius={'none'}>
+          <Button rounded="4px" size={'md'}>
             <ReactLink to="/">Return Home</ReactLink>
           </Button>
         </VStack>

@@ -7,18 +7,22 @@ import logoImg from '@/assets/images/logo.png';
 import { FormInput } from '@/components';
 import { LINKS } from '@/constants';
 
+import { useForgotPassword } from '../apis';
+
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().label('Email'),
 });
 export const ForgotPassword = () => {
   const navigate = useNavigate();
+
+  const forgotPasswordMutation = useForgotPassword();
   const formik = useFormik({
     initialValues: {
       email: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      forgotPasswordMutation.mutate(values.email);
     },
   });
 
@@ -65,7 +69,12 @@ export const ForgotPassword = () => {
                   </Text>
                 </Box>
 
-                <Button rounded="4px" type="submit">
+                <Button
+                  rounded="4px"
+                  type="submit"
+                  _hover={{ bgColor: 'primary.800' }}
+                  isLoading={forgotPasswordMutation.isPending}
+                >
                   Send Mail
                 </Button>
                 <Text
