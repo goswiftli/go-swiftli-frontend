@@ -28,9 +28,9 @@ const AuthRouteList: RouteObject[] = [
   },
 ];
 
-function AuthRouteOutlet() {
+const AuthRouteOutlet = () => {
   return <Outlet />;
-}
+};
 
 export const AuthRoutes: RouteObject = {
   path: '',

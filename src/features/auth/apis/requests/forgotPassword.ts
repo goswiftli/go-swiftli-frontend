@@ -11,7 +11,7 @@ import { url } from '../url-query';
 
 export const forgotPassword = async (email: string) => {
   try {
-    const response = await axios.post<ApiResponse<{ message: string }>>(
+    const response = await axios.put<ApiResponse<{ message: string }>>(
       `${url.forgotPassword}/${email}`
     );
     return response.data;
@@ -40,7 +40,7 @@ export const useForgotPassword = ({ config }: UseForgotPasswordOptions = {}) => 
       toast({
         id: 'forgot-toast-suc',
         status: 'success',
-        description: res.message ?? 'Password reset successfully!',
+        description: res.message,
       });
       navigate(LINKS.LOGIN);
     },
