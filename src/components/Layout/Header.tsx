@@ -1,10 +1,11 @@
 import { Box, Flex, HStack, Link as ChakraLink, Button, Text, Image } from '@chakra-ui/react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 import logoImg from '@/assets/images/logo.png';
 import { LINKS } from '@/constants';
 
 export const Header = () => {
+  const navigate = useNavigate();
   return (
     <header>
       <Flex justifyContent="center" alignItems="center" pt={10}>
@@ -49,10 +50,10 @@ export const Header = () => {
                 </ChakraLink>
               </HStack>
               <HStack w={{ lg: '30%' }}>
-                <Button w="40%" variant="secondary">
+                <Button w="40%" variant="secondary" onClick={() => navigate(LINKS.LOGIN)}>
                   Login
                 </Button>
-                <Button w="60%" variant="primary">
+                <Button w="60%" variant="primary" onClick={() => navigate(LINKS.CREATE_ACCOUNT)}>
                   Create Account
                 </Button>
               </HStack>

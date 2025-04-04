@@ -12,16 +12,30 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import PhoneInput from 'react-phone-number-input';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import * as yup from 'yup';
 
 import logoImg from '@/assets/images/logo.png';
 import { Form, FormInput, FormInputPassword } from '@/components';
 
+import { useSignup } from '../apis';
+
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().label('Email'),
   countryCode: yup.string().required().label('Country code'),
-  number: yup.string().required().label('Phone number'),
+  number: yup
+    .string()
+    .required()
+    .test('is-valid-phone', 'Phone number is not valid', function (value) {
+      const countryCode = this.parent.countryCode; // Access country code from the parent object
+      if (countryCode && value) {
+        const phoneNumber = `${countryCode}${value}`;
+        console.log('Phone number being validated:', phoneNumber);
+        return isValidPhoneNumber(phoneNumber);
+      }
+      return false;
+    })
+    .label('Phone number'),
   password: yup
     .string()
     .required()
@@ -48,6 +62,8 @@ const validationSchema = yup.object().shape({
 export const Signup = () => {
   const [selectedCountry, setSelectedCountry] = useState('+234');
 
+  const signupMutation = useSignup();
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -58,7 +74,12 @@ export const Signup = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      const updatedValues = {
+        email: values.email,
+        phone: values.number,
+        password: values.password,
+      };
+      signupMutation.mutate(updatedValues);
     },
   });
 
@@ -107,12 +128,12 @@ export const Signup = () => {
                         className="react-phone-number-input"
                         value={formik.values.countryCode}
                         onChange={(phone) => {
-                            console.log('phone', phone)
+                          console.log('phone', phone);
                           formik.setFieldValue('countryCode', phone);
                         }}
                         onCountryChange={(country) => {
                           if (country) {
-                            console.log(country)
+                            console.log(country);
                             setSelectedCountry(country);
                           }
                         }}
@@ -175,7 +196,12 @@ export const Signup = () => {
                     Privacy policy
                   </Text>
                 </Text>
-                <Button rounded="4px" type="submit">
+                <Button
+                  rounded="4px"
+                  type="submit"
+                  isLoading={signupMutation.isPending}
+                  _hover={{ bgColor: 'primary.800' }}
+                >
                   Create account
                 </Button>
               </Stack>

@@ -34,7 +34,7 @@ export const Button = {
         border: 'none',
       },
       _focus: {
-        bgColor: 'gray.700',
+        bgColor: 'gray.400',
         color: 'primary.800',
         border: 'none',
       },

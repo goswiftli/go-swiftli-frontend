@@ -7,6 +7,8 @@ import logoImg from '@/assets/images/logo.png';
 import { FormInput, FormInputPassword } from '@/components';
 import { LINKS } from '@/constants';
 
+import { useLogin } from '../apis';
+
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().label('Email'),
   password: yup.string().required().label('Password'),
@@ -14,6 +16,9 @@ const validationSchema = yup.object().shape({
 
 export const Login = () => {
   const navigate = useNavigate();
+
+  const loginMutation = useLogin();
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -21,7 +26,7 @@ export const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      loginMutation.mutate(values);
     },
   });
 
@@ -92,7 +97,12 @@ export const Login = () => {
                   </Text>
                 </Box>
 
-                <Button rounded="4px" type="submit">
+                <Button
+                  rounded="4px"
+                  type="submit"
+                  _hover={{ bgColor: 'primary.800' }}
+                  isLoading={loginMutation.isPending}
+                >
                   Login
                 </Button>
                 <Text

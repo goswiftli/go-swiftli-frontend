@@ -6,4 +6,5 @@ export enum LINKS {
   CREATE_ACCOUNT = '/create-account',
   VERIFY_EMAIL = '/verify-email',
   FORGOT_PASSWORD = '/forgot-password',
+  DASHBOARD = 'dashboard',
 }
