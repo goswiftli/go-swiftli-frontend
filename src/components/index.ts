@@ -4,3 +4,5 @@ export * from './Layout';
 export * from './ErrorBoundary';
 export * from './Form';
 export * from './Head';
+export * from './Layout';
+export * from './ChartTooltip';

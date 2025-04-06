@@ -27,10 +27,9 @@ const validationSchema = yup.object().shape({
     .string()
     .required()
     .test('is-valid-phone', 'Phone number is not valid', function (value) {
-      const countryCode = this.parent.countryCode; // Access country code from the parent object
+      const countryCode = this.parent.countryCode;
       if (countryCode && value) {
         const phoneNumber = `${countryCode}${value}`;
-        console.log('Phone number being validated:', phoneNumber);
         return isValidPhoneNumber(phoneNumber);
       }
       return false;
@@ -128,12 +127,10 @@ export const Signup = () => {
                         className="react-phone-number-input"
                         value={formik.values.countryCode}
                         onChange={(phone) => {
-                          console.log('phone', phone);
                           formik.setFieldValue('countryCode', phone);
                         }}
                         onCountryChange={(country) => {
                           if (country) {
-                            console.log(country);
                             setSelectedCountry(country);
                           }
                         }}

@@ -66,9 +66,15 @@ export const colors = {
   },
   warning: {
     100: '#FEF5E7',
+    300: '#FFA81D80',
     400: '#FFA81D',
   },
   blue: {
+    200: '#F7F7FC',
     300: '#007AFC',
+  },
+  success: {
+    100: '#D2FFD6',
+    400: '#3CBC49',
   },
 };

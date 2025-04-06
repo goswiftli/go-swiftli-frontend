@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { Outlet, RouteObject } from 'react-router';
 
 import { LogoLoader, RouteError } from '@/components';
+import { AdminRoutes } from '@/features/admin-flow';
 import { AuthRoutes } from '@/features/auth';
 import { LandingPageRoutes } from '@/features/landing-page';
 
@@ -29,11 +30,12 @@ export const AppRoutes: RouteObject = {
   errorElement: <RouteError />,
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const RoutesList: RouteObject[] = [
   {
     path: '',
     element: <BaseApp />,
     errorElement: <RouteError />,
-    children: [AppRoutes],
+    children: [AppRoutes, AdminRoutes],
   },
 ];
