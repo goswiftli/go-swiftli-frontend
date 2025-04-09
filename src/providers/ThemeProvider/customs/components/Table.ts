@@ -8,7 +8,7 @@ export const Table = {
     td: {
       fontFamily: 'body',
       fontWeight: 'normal',
-      fontSize: 'lg',
+      fontSize: 'md',
       color: 'black.500',
     },
   },

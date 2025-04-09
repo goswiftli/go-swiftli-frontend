@@ -12,7 +12,6 @@ import { ReactComponent as TransactionIcon } from '@/assets/icons/transactions.s
 import { ReactComponent as UserManIcon } from '@/assets/icons/user.svg';
 import { LINKS } from '@/constants';
 
-import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
@@ -20,17 +19,11 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     <Grid
       templateAreas={{
         base: `"header" "main"`,
-        lg: `"sidebar header" 
-        "sidebar main"`,
+        lg: `"sidebar main"`,
       }}
       gridTemplateColumns={{ base: '1fr', lg: '25% 1fr', xl: '20% 1fr' }}
-      gridTemplateRows="100px 1fr"
       h="100vh"
     >
-      <GridItem area="header" zIndex="1" bgColor="blue.200">
-        <Header title="Overview" />
-      </GridItem>
-
       <GridItem
         area="sidebar"
         display={{ base: 'none', lg: 'block' }}
@@ -41,7 +34,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
         <Sidebar navItems={navItems} />
       </GridItem>
 
-      <GridItem area="main" overflowY="auto" bgColor="blue.200" pt={12}>
+      <GridItem area="main" overflowY="auto" bgColor="blue.200">
         {children}
       </GridItem>
     </Grid>

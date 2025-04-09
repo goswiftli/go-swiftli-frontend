@@ -22,6 +22,7 @@ type MenuProps = {
   selectedMenuItem?: string;
   closeOnSelect?: boolean;
   isLoading?: boolean;
+  styles?: SystemCSSProperties;
 };
 
 export const Menu = ({
@@ -31,6 +32,7 @@ export const Menu = ({
   selectedMenuItem,
   closeOnSelect,
   isLoading = false,
+  styles,
 }: MenuProps) => {
   const handleSelectItem = (item: string, name: string) => {
     handleClick?.(item, name);
@@ -41,7 +43,19 @@ export const Menu = ({
       <MenuButton
         variant="unstyled"
         as={Button}
-        sx={menuButtonSx}
+        bgColor="grey.100"
+        w="100%"
+        display="flex"
+        p="0 1em"
+        textAlign="start"
+        fontSize="sm"
+        h="40px"
+        fontWeight="medium"
+        fontFamily="body"
+        border="1px solid"
+        borderRadius="64px"
+        borderColor="grey.300"
+        sx={styles}
         rightIcon={<BsChevronDown color="grey.400" />}
         isLoading={isLoading}
       >
@@ -67,18 +81,4 @@ export const Menu = ({
       </MenuList>
     </ChakraMenu>
   );
-};
-const menuButtonSx: SystemCSSProperties = {
-  bgColor: 'grey.100',
-  w: '100%',
-  display: 'flex',
-  p: '0 1em',
-  textAlign: 'start',
-  fontSize: 'sm',
-  h: '28px',
-  fontWeight: 'medium',
-  fontFamily: 'body',
-  border: '1px solid',
-  borderRadius: '64px',
-  borderColor: 'grey.300',
 };

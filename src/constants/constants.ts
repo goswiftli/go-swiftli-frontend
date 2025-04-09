@@ -16,10 +16,24 @@ export enum LINKS {
   CUSTOMER_SUPPORT = '/customer-support',
   SECURITY_COMPLIANCE = '/security-compliance',
   ROLE_MANAGEMENT = 'role-management',
+  USER_DETAILS = 'user-details',
 }
 
 export enum CONSTANTS {
   MONTHLY = 'MONTHLY',
   WEEKLY = 'WEEKLY',
   DAILY = 'DAILY',
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const kycStatus = [CONSTANTS.PENDING, CONSTANTS.APPROVED, CONSTANTS.REJECTED] as const;
+export type KycStatus = (typeof kycStatus)[number];
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const accountStatus = [CONSTANTS.ACTIVE, CONSTANTS.SUSPENDED];
+export type AccountStatus = (typeof accountStatus)[number];

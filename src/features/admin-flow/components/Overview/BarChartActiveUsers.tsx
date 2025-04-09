@@ -14,7 +14,7 @@ import {
 import { ChartTooltip, DataProps, Menu } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/redux';
 
-import { setNoOfActiveUsersFilter } from '../adminFlowSlice';
+import { setNoOfActiveUsersFilter } from '../../adminFlowSlice';
 
 export const BarChartActiveUsers = () => {
   const dispatch = useAppDispatch();
@@ -40,13 +40,14 @@ export const BarChartActiveUsers = () => {
           flexWrap={{ base: 'nowrap', md: 'wrap', lg: 'nowrap' }}
           spacing={6}
         >
-          <Box boxShadow="md" p={4} rounded="8px" w={{ base: 'full', lg: '60%' }}>
+          <Box boxShadow="md" p={4} rounded="8px" w={{ base: 'full', lg: '60%' }} bgColor="white">
             <HStack w="full" justifyContent="space-between" pb={4}>
               <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.400">
                 Number of Active Users & New Sign-ups
               </Text>
               <Box w="20%">
                 <Menu
+                  styles={{ h: '30px' }}
                   menuItems={menuItems}
                   handleClick={handleNoOfActiveUsersOptions}
                   selectedMenuItem={noOfActiveUsersFilter.name}
@@ -101,7 +102,7 @@ export const BarChartActiveUsers = () => {
               ))}
             </HStack>
           </Box>
-          <Box flex={1} boxShadow="md" p={4} rounded="8px">
+          <Box flex={1} boxShadow="md" p={4} rounded="8px" bgColor="white">
             <Stack justifyContent="space-between" h="full">
               <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.400">
                 Pending & Completed KYC Approvals:

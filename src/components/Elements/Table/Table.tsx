@@ -70,7 +70,7 @@ export const Table = <Entry extends Record<string, any>>({
     );
   }
   return (
-    <Box w="100%" overflow="auto">
+    <Box w="100%" overflow="auto" bgColor="white">
       <TableContainer sx={scrollbarSx} maxW="-moz-max-content">
         <ChakraTable>
           <Thead>
@@ -87,7 +87,6 @@ export const Table = <Entry extends Record<string, any>>({
                   {columns.map(({ field, Cell, title }, columnIndex) => (
                     <React.Fragment key={`${columnIndex}-${title}`}>
                       <Td
-                        color={'neutral.900'}
                         maxWidth="180px"
                         whiteSpace="nowrap"
                         overflow="hidden"

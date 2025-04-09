@@ -8,7 +8,7 @@ import { ReactComponent as UnitedStatesIcon } from '@/assets/icons/united-states
 import { Menu } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/redux';
 
-import { setTotalRevenueFilter, setTotalTranFilter } from '../adminFlowSlice';
+import { setTotalRevenueFilter, setTotalTranFilter } from '../../adminFlowSlice';
 
 type CustomizedLabelProps = {
   cx: number;
@@ -68,13 +68,14 @@ export const OverviewHeader = () => {
           flexWrap={{ base: 'nowrap', md: 'wrap', lg: 'nowrap' }}
           spacing={6}
         >
-          <Box boxShadow="md" p={4} rounded="8px" w="full">
+          <Box boxShadow="md" p={4} rounded="8px" w="full" bgColor="white">
             <HStack w="full" justifyContent="space-between">
               <Box w="40px" h="34px" rounded="8px" bgColor="warning.300" />
 
               <HStack w="50%">
                 <Icon as={UnitedStatesIcon} boxSize={7} />
                 <Menu
+                  styles={{ h: '30px' }}
                   menuItems={menuItems}
                   handleClick={handleTotalTranOptions}
                   selectedMenuItem={totalTranFilter.name}
@@ -103,7 +104,7 @@ export const OverviewHeader = () => {
             </HStack>
           </Box>
 
-          <Box boxShadow="md" p={4} rounded="8px" w="full">
+          <Box boxShadow="md" p={4} rounded="8px" w="full" bgColor="white">
             <HStack w="full" h="full" justifyContent="space-between" alignItems="start">
               <Stack spacing={3}>
                 <HStack spacing={4} alignItems="start">
@@ -134,6 +135,7 @@ export const OverviewHeader = () => {
                 <HStack>
                   <Icon as={UnitedStatesIcon} boxSize={7} />
                   <Menu
+                    styles={{ h: '30px' }}
                     menuItems={menuItems}
                     handleClick={handleTotalRevenue}
                     selectedMenuItem={totalRevenueFilter.name}
@@ -157,7 +159,7 @@ export const OverviewHeader = () => {
               </Stack>
             </HStack>
           </Box>
-          <Box boxShadow="md" p={4} rounded="8px" w="full">
+          <Box boxShadow="md" p={4} rounded="8px" w="full" bgColor="white">
             <Stack justifyContent="space-between" h="full">
               <HStack w="full" justifyContent="space-between">
                 <Box>

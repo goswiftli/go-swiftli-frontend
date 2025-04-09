@@ -28,13 +28,13 @@ export const Header = ({ title }: HeaderProps) => {
         pl={{ base: 6, md: 8, lg: 10, xl: 14 }}
         pr={{ base: 4, md: 6, lg: 8, xl: 12 }}
       >
-        <Flex alignItems="center" justifyContent="space-between" py={6} px={3}>
+        <Flex alignItems="center" justifyContent="space-between" py={8} px={3}>
           <HStack>
             <Box display={{ base: 'block', lg: 'none' }}>
               <Sidebar navItems={navItems} />
             </Box>
             <Box>
-              <Text fontFamily="body" fontSize={{ base: '2xl', lg: '4xl' }} fontWeight="semibold">
+              <Text fontFamily="body" fontSize={{ base: 'xl', lg: '3xl' }} fontWeight="semibold">
                 {title}
               </Text>
             </Box>

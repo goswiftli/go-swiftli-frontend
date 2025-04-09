@@ -1,0 +1,41 @@
+import { Tag, TagLabel } from '@chakra-ui/react';
+
+import { AccountStatus, CONSTANTS, KycStatus } from '@/constants';
+
+export const checkStatusType = (status: KycStatus | AccountStatus) => {
+  const statusColors = {
+    [CONSTANTS.PENDING]: {
+      bgColor: 'warning.300',
+      text: 'Pending',
+    },
+    [CONSTANTS.APPROVED]: {
+      bgColor: 'success.200',
+      text: 'Approved',
+    },
+    [CONSTANTS.REJECTED]: {
+      bgColor: 'error.200',
+      text: 'Rejected',
+    },
+    [CONSTANTS.SUSPENDED]: {
+      bgColor: 'warning.300',
+      text: 'Suspended',
+    },
+    [CONSTANTS.ACTIVE]: {
+      bgColor: 'success.200',
+      text: 'Active',
+    },
+  };
+
+  const { bgColor, text } = statusColors[status] || {
+    bgColor: 'grey.100',
+    text: 'Unknown',
+  };
+
+  return (
+    <Tag bgColor={bgColor} justifyContent="center" rounded="16px" px={3} py={1} w="100px">
+      <TagLabel fontFamily="body" fontWeight="normal" color="#000000" fontSize="md">
+        {text}
+      </TagLabel>
+    </Tag>
+  );
+};

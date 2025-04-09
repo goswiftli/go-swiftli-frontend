@@ -42,7 +42,7 @@ export const colors = {
     50: '#FFFBF9',
     100: '#FCEEEE',
     150: '#F9DEDC',
-    200: '#F2B8B5',
+    200: '#FF1D1D80',
     250: '#EC928E',
     300: '#E46962',
     400: '#DC362E',
@@ -70,11 +70,14 @@ export const colors = {
     400: '#FFA81D',
   },
   blue: {
+    50: '#DFEEFE',
+    100: '#B9D9FC73',
     200: '#F7F7FC',
     300: '#007AFC',
   },
   success: {
     100: '#D2FFD6',
+    200: '#0ADC2A80',
     400: '#3CBC49',
   },
 };
