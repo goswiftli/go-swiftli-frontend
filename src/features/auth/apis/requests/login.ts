@@ -48,7 +48,7 @@ export const useLogin = ({ config }: UseLoginOptions = {}) => {
       saveDataToSessStorage('token', res.data.token);
       dispatch(setToken(res.data.token));
       dispatch(setAuthUser(res.data.user));
-      navigate(LINKS.HOME);
+      navigate(LINKS.OVERVIEW);
     },
     mutationFn: login,
     ...config,

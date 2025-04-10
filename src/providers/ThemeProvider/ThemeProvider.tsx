@@ -1,4 +1,5 @@
 import '@fontsource/lato';
+import '@fontsource/inter';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 

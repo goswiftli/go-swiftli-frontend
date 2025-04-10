@@ -1,6 +1,7 @@
 const fonts = {
   body: `'Lato', sans-serif`,
   heading: `Blue Cashew`,
+  inter: `'Inter', sans-serif`,
 };
 
 const fontSizes = {

@@ -23,7 +23,15 @@ import { Link } from 'react-router';
 import logoImg from '@/assets/images/logo.png';
 import { LINKS } from '@/constants';
 
-export const MobileHeader = () => {
+type SidebarProps = {
+  navItems: {
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+    item: string;
+    link: LINKS;
+  }[];
+};
+
+export const Sidebar = ({ navItems }: SidebarProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -81,18 +89,3 @@ export const MobileHeader = () => {
     </>
   );
 };
-
-const navItems = [
-  {
-    item: 'Home',
-    link: LINKS.HOME,
-  },
-  {
-    item: 'How it starts',
-    link: LINKS.HOME,
-  },
-  {
-    item: 'FAQ',
-    link: LINKS.HOME,
-  },
-];

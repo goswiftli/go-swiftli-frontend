@@ -45,3 +45,33 @@ body {
 .PhoneInputInput {
   border: none;
 }
+
+.paginationBtns {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  background-color: white;
+  padding: 0.875em 0.313em;
+  width: 100%;
+}
+.paginationBtns a {
+  padding: 0.5em 0.75em;
+  width: 25px;
+  height: 25px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 0.75em;
+  font-size: 0.813em;
+  font-family: 'lato', sans-serif;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: #04366899;
+}
+.paginationDisabled a {
+  color: rgb(198, 197, 202);
+  border: 1px solid rgb(198, 197, 202);
+}

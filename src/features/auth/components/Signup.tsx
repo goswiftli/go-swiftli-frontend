@@ -16,6 +16,9 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import * as yup from 'yup';
 
 import logoImg from '@/assets/images/logo.png';
+import bgImg2 from '@/assets/images/sign-bg-2.png';
+import bgImg1 from '@/assets/images/signup-bg-1.png';
+import bgImg3 from '@/assets/images/signup-bg-3.png';
 import { Form, FormInput, FormInputPassword } from '@/components';
 
 import { useSignup } from '../apis';
@@ -27,10 +30,9 @@ const validationSchema = yup.object().shape({
     .string()
     .required()
     .test('is-valid-phone', 'Phone number is not valid', function (value) {
-      const countryCode = this.parent.countryCode; // Access country code from the parent object
+      const countryCode = this.parent.countryCode;
       if (countryCode && value) {
         const phoneNumber = `${countryCode}${value}`;
-        console.log('Phone number being validated:', phoneNumber);
         return isValidPhoneNumber(phoneNumber);
       }
       return false;
@@ -84,7 +86,38 @@ export const Signup = () => {
   });
 
   return (
-    <Flex minH="100vh" bgColor="#F7F7FC" justifyContent="center" alignItems="center" py={12}>
+    <Flex
+      minH="100vh"
+      bgColor="#F7F7FC"
+      justifyContent="center"
+      alignItems="center"
+      py={12}
+      pos="relative"
+      zIndex={1}
+      overflowX="hidden"
+    >
+      <Box boxSize={{ base: '50%', md: '40%', lg: '30%' }} pos="fixed" zIndex={-1} top={0} left={0}>
+        <Image src={bgImg1} />
+      </Box>
+      <Box
+        boxSize={{ base: '50%', md: '40%', lg: '30%' }}
+        pos="fixed"
+        zIndex={-1}
+        top="0"
+        right={{ base: '-20%', md: '-15%', lg: '-10%' }}
+      >
+        <Image src={bgImg2} />
+      </Box>
+      <Box
+        boxSize={{ base: '40%', md: '35%', lg: '30%' }}
+        pos="fixed"
+        zIndex={-1}
+        bottom={{ base: '-20%', xl: '0' }}
+        left={'0'}
+        display={{ base: 'none', md: 'block' }}
+      >
+        <Image src={bgImg3} />
+      </Box>
       <Stack spacing={6} px={{ base: 2, lg: 4 }} w="full">
         <HStack justifyContent="center">
           <Image src={logoImg} h="57px" w="36px" />
@@ -128,12 +161,10 @@ export const Signup = () => {
                         className="react-phone-number-input"
                         value={formik.values.countryCode}
                         onChange={(phone) => {
-                          console.log('phone', phone);
                           formik.setFieldValue('countryCode', phone);
                         }}
                         onCountryChange={(country) => {
                           if (country) {
-                            console.log(country);
                             setSelectedCountry(country);
                           }
                         }}
