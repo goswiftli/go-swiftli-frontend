@@ -16,12 +16,13 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { MdOutlineMenu } from 'react-icons/md';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 
 import { ReactComponent as SupportIcon } from '@/assets/icons/help-support.svg';
 import { ReactComponent as LogoutIcon } from '@/assets/icons/logout.svg';
 import logoImg from '@/assets/images/logo.png';
 import { LINKS } from '@/constants';
+import { clearStorageValues } from '@/utils';
 
 type SidebarProps = {
   navItems: {
@@ -34,6 +35,12 @@ type SidebarProps = {
 export const Sidebar = ({ navItems }: SidebarProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMobile = useBreakpointValue({ base: true, lg: false });
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    navigate(LINKS.LOGIN);
+    clearStorageValues();
+  };
 
   const SidebarContent = (
     <Stack
@@ -122,7 +129,7 @@ export const Sidebar = ({ navItems }: SidebarProps) => {
           </Text>
         </HStack>
 
-        <HStack spacing={4} _hover={{ cursor: 'pointer' }}>
+        <HStack spacing={4} _hover={{ cursor: 'pointer' }} onClick={logoutHandler}>
           <Icon
             boxSize={9}
             color="white"

@@ -9,6 +9,8 @@ import { Layout } from '../Layout';
 const { OverviewView } = lazyImport(() => import('./overview'), 'OverviewView');
 const { UserManagementView } = lazyImport(() => import('./user-management'), 'UserManagementView');
 const { UserDetailsView } = lazyImport(() => import('./user-details'), 'UserDetailsView');
+const { TransactionView } = lazyImport(() => import('./transaction'), 'TransactionView');
+const { BeneficiariesView } = lazyImport(() => import('./beneficiary'), 'BeneficiariesView');
 
 const AdminRouteList: RouteObject[] = [
   {
@@ -22,6 +24,14 @@ const AdminRouteList: RouteObject[] = [
   {
     path: LINKS.USER_MANAGEMENT + '/' + LINKS.USER_DETAILS,
     element: <UserDetailsView />,
+  },
+  {
+    path: LINKS.TRANSACTIONS,
+    element: <TransactionView />,
+  },
+  {
+    path: LINKS.BENEFICIARIES,
+    element: <BeneficiariesView />,
   },
 ];
 

@@ -28,12 +28,15 @@ export enum CONSTANTS {
   REJECTED = 'REJECTED',
   ACTIVE = 'ACTIVE',
   SUSPENDED = 'SUSPENDED',
+  SUCCESSFUL = 'SUCCESSFUL',
+  FAILED = 'FAILED',
+  REFUNDED = 'REFUNDED',
+  DECLINED = 'DECLINED',
+  BLACKLISTED = 'BLACKLISTED',
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const kycStatus = [CONSTANTS.PENDING, CONSTANTS.APPROVED, CONSTANTS.REJECTED] as const;
+export const kycStatus = [CONSTANTS.PENDING, CONSTANTS.APPROVED, CONSTANTS.REJECTED] as const;
 export type KycStatus = (typeof kycStatus)[number];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const accountStatus = [CONSTANTS.ACTIVE, CONSTANTS.SUSPENDED];
+export const accountStatus = [CONSTANTS.ACTIVE, CONSTANTS.SUSPENDED];
 export type AccountStatus = (typeof accountStatus)[number];

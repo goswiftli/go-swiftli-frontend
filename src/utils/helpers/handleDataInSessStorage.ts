@@ -18,8 +18,8 @@ export const getDataFromSessStorage = <T>(keyType: KeyType): T | null => {
     const bytes = CryptoJS.AES.decrypt(encryptedData, env.SECRET_KEY);
     const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
     return JSON.parse(decryptedData) as T;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error('Decryption error:', error);
     return null;
   }
 };

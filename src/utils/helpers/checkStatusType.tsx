@@ -24,6 +24,22 @@ export const checkStatusType = (status: KycStatus | AccountStatus) => {
       bgColor: 'success.200',
       text: 'Active',
     },
+    [CONSTANTS.SUCCESSFUL]: {
+      bgColor: 'success.200',
+      text: 'Successful',
+    },
+    [CONSTANTS.FAILED]: {
+      bgColor: 'error.200',
+      text: 'Failed',
+    },
+    [CONSTANTS.REFUNDED]: {
+      bgColor: 'primary.150',
+      text: 'Refunded',
+    },
+    [CONSTANTS.BLACKLISTED]: {
+      bgColor: 'error.200',
+      text: 'Blacklisted',
+    },
   };
 
   const { bgColor, text } = statusColors[status] || {

@@ -76,7 +76,9 @@ export const Table = <Entry extends Record<string, any>>({
           <Thead>
             <Tr>
               {columns.map(({ title, Cell2 }, index) => (
-                <Th key={`${index}-${title}`}>{Cell2 ? <Cell2 /> : title}</Th>
+                <Th fontSize="sm" key={`${index}-${title}`}>
+                  {Cell2 ? <Cell2 /> : title}
+                </Th>
               ))}
             </Tr>
           </Thead>
