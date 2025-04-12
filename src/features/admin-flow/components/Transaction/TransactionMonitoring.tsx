@@ -64,7 +64,7 @@ export const TransactionMonitoring = () => {
     },
     {
       title: 'Date',
-      Cell: ({ entry }) => <Text as="span">{formatDate(entry.date)}</Text>,
+      Cell: ({ entry }) => <Text as="span">{formatDate(entry.date).dateTime}</Text>,
     },
     {
       title: 'ACTIONS',

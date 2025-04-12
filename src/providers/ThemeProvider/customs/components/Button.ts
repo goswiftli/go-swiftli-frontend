@@ -3,12 +3,11 @@ export const Button = {
     size: 'md',
     fontFamily: 'body',
     variant: 'primary',
-    fontWeight: 'medium',
   },
   baseStyle: {
-    variant: 'primary',
     rounded: 'full',
     fontFamily: 'body',
+    fontWeight: 'normal',
   },
   variants: {
     primary: {

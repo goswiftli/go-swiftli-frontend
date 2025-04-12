@@ -6,6 +6,7 @@ import { LogoLoader, RouteError } from '@/components';
 import { AdminRoutes } from '@/features/admin-flow';
 import { AuthRoutes } from '@/features/auth';
 import { LandingPageRoutes } from '@/features/landing-page';
+import { UserRoutes } from '@/features/user-flow';
 
 import { BaseApp } from './BaseApp';
 
@@ -36,6 +37,6 @@ export const RoutesList: RouteObject[] = [
     path: '',
     element: <BaseApp />,
     errorElement: <RouteError />,
-    children: [AppRoutes, AdminRoutes],
+    children: [AppRoutes, AdminRoutes, UserRoutes],
   },
 ];

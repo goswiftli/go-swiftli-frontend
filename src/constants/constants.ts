@@ -17,6 +17,12 @@ export enum LINKS {
   SECURITY_COMPLIANCE = '/security-compliance',
   ROLE_MANAGEMENT = 'role-management',
   USER_DETAILS = 'user-details',
+  PAYMENT = '/payment',
+  COMPLETE_KYC = 'complete-kyc',
+  WITHDRAW = 'withdraw',
+  CONVERT_FUNDS = 'convert-funds',
+  DEPOSIT = 'deposit',
+  MAKE_PAYMENT = 'make-payment',
 }
 
 export enum CONSTANTS {
