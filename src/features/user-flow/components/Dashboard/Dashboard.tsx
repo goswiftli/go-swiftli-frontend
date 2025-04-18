@@ -35,7 +35,7 @@ export const Dashboard = () => {
   };
   return (
     <section>
-      <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden">
+      <Box minH="90vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden">
         <Stack py={4} spacing={10}>
           <DashboardHeader />
           <Tabs index={activeTab} onChange={(index) => setActiveTab(index)}>

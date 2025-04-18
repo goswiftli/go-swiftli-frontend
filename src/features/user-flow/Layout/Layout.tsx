@@ -9,7 +9,7 @@ import { LINKS } from '@/constants';
 import { Header, Sidebar } from '@/features/admin-flow';
 import { useAppSelector } from '@/redux';
 
-export const Layout = ({ children }: { children: ReactNode }) => {
+export const Layout = ({ children, title }: { children: ReactNode; title?: string }) => {
   const { authUser } = useAppSelector((state) => state.auth);
   return (
     <Grid
@@ -32,7 +32,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 
       <GridItem area="main" overflowY="auto" bgColor="blue.200">
         <Stack>
-          <Header title={`Welcome! ${authUser.username ?? 'Ifeanyi'}`} />
+          <Header title={title ?? `Welcome! ${authUser.username ?? 'Ifeanyi'}`} />
           {children}
         </Stack>
       </GridItem>

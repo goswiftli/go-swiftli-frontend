@@ -54,6 +54,16 @@ export const Button = {
         bgColor: 'brand.primary.500',
       },
     },
+    'outline-1': {
+      color: 'white',
+      bgColor: 'transparent',
+      border: '1px solid',
+      borderColor: 'info.100',
+      _hover: {
+        bgColor: 'transparent',
+        color: 'white',
+      },
+    },
   },
   sizes: {
     sm: {

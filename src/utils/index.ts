@@ -3,3 +3,4 @@ export * from './helpers';
 export * from './storage';
 export * from './stringUtils';
 export * from './dateUtils';
+export * from './fileUtils';
