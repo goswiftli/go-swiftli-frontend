@@ -8,6 +8,8 @@ import { Layout } from '../Layout';
 
 const { DashboardView } = lazyImport(() => import('./dashboard'), 'DashboardView');
 const { KycView } = lazyImport(() => import('./kyc'), 'KycView');
+const { WithdrawView } = lazyImport(() => import('./withdraw'), 'WithdrawView');
+const { AddBeneficiaryView } = lazyImport(() => import('./add-beneficiary'), 'AddBeneficiaryView');
 
 const UserRouteList: RouteObject[] = [
   {
@@ -17,6 +19,14 @@ const UserRouteList: RouteObject[] = [
   {
     path: LINKS.DASHBOARD + '/' + LINKS.COMPLETE_KYC,
     element: <KycView />,
+  },
+  {
+    path: LINKS.DASHBOARD + '/' + LINKS.WITHDRAW,
+    element: <WithdrawView />,
+  },
+  {
+    path: LINKS.DASHBOARD + '/' + LINKS.ADD_BENEFICIARY,
+    element: <AddBeneficiaryView />,
   },
 ];
 

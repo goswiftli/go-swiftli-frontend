@@ -144,7 +144,7 @@ export const OverviewHeader = () => {
                 </HStack>
                 <Stack>
                   {pieChartData.map((data, index) => (
-                    <HStack>
+                    <HStack key={data.name}>
                       <Icon
                         boxSize="8px"
                         as={RiCheckboxBlankCircleFill}

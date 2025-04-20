@@ -2,7 +2,7 @@
 
 const storagePrefix = 'goswiftli_web_app__';
 
-export type KeyType = 'token' | 'auth_user' | 'kyc-per-info' | 'kyc-id-info';
+export type KeyType = 'token' | 'auth_user' | 'kyc-per-info' | 'kyc-id-info' | 'beneficiary-info';
 
 const DEFAULT_EXPIRY_DURATION = 12 * 30 * 24 * 60 * 60 * 1000; //1 year
 

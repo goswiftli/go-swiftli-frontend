@@ -12,8 +12,10 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { HiOutlinePlusSmall } from 'react-icons/hi2';
+import { useNavigate } from 'react-router';
 
 import { Menu } from '@/components';
+import { LINKS } from '@/constants';
 import { useAppDispatch, useAppSelector } from '@/redux';
 
 import { setBeneficiaryStatusFilter, setTranStatusFilter } from '../../userFlowSlice';
@@ -25,6 +27,7 @@ import { Transactions } from './Transactions';
 export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { tranStatus, beneficiaryStatus } = useAppSelector((state) => state.userFlow);
 
   const handleTranStatus = (value: string, name: string) => {
@@ -66,10 +69,11 @@ export const Dashboard = () => {
                   w="full"
                   _hover={{ cursor: 'pointer' }}
                   display={activeTab === 1 ? 'flex' : 'none'}
+                  onClick={() => navigate(LINKS.ADD_BENEFICIARY)}
                 >
                   <Icon as={HiOutlinePlusSmall} />
                   <Text w="max-content" fontSize="md" color="primary.800" fontWeight="medium">
-                    Find Beneficiary
+                    Add Beneficiary
                   </Text>
                 </HStack>
                 <Box w="full">

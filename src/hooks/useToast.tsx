@@ -14,7 +14,7 @@ export const useToast = () => {
         icon: undefined,
         variant: 'left-accent',
         description: (
-          <Box fontSize="sm" fontFamily="body" textTransform="capitalize" fontWeight="medium">
+          <Box fontSize="sm" fontFamily="body" fontWeight="medium">
             {options?.description}
           </Box>
         ),

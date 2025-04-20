@@ -40,3 +40,28 @@ export type KycDTO = {
   kycStatus: CONSTANTS.PENDING | CONSTANTS.APPROVED | CONSTANTS.REJECTED;
   comment?: string;
 };
+
+export type BankingInformationDTO = {
+  currency: string;
+  accountType: string;
+  accountName: string;
+  achRoutingNumber: string;
+  bankName: string;
+  accountNumber: string;
+};
+
+export type BeneficiaryAddressDTO = {
+  country: string;
+  streetAddress: string;
+  state: string;
+  city: string;
+  postalCode: string;
+};
+
+export type BeneficiaryDTO = {
+  paymentMethod?: PaymentType;
+  bankInformation?: BankingInformationDTO;
+  beneficiaryAddress?: BeneficiaryAddressDTO;
+};
+
+export type PaymentType = CONSTANTS.CARD_PAYMENT | CONSTANTS.BANK_TRANSFER;

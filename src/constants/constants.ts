@@ -23,6 +23,7 @@ export enum LINKS {
   CONVERT_FUNDS = 'convert-funds',
   DEPOSIT = 'deposit',
   MAKE_PAYMENT = 'make-payment',
+  ADD_BENEFICIARY = 'add-beneficiary',
 }
 
 export enum CONSTANTS {
@@ -42,6 +43,8 @@ export enum CONSTANTS {
   ID_CARD = 'ID_CARD',
   DRIVING_LICENSE = 'DRIVING_LICENSE',
   PASSPORT = 'PASSPORT',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  CARD_PAYMENT = 'CARD_PAYMENT',
 }
 
 export const kycStatus = [CONSTANTS.PENDING, CONSTANTS.APPROVED, CONSTANTS.REJECTED] as const;
