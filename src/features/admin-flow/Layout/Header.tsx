@@ -2,6 +2,7 @@ import { Avatar, Box, Flex, HStack, Icon, Text } from '@chakra-ui/react';
 import { BiSolidPieChartAlt2 } from 'react-icons/bi';
 import { BsFillBellFill } from 'react-icons/bs';
 import { MdSettings } from 'react-icons/md';
+import { useNavigate } from 'react-router';
 
 import { ReactComponent as BeneficiariesIcon } from '@/assets/icons/beneficiaries.svg';
 import { ReactComponent as ExchangeIcon } from '@/assets/icons/exchange-icon.svg';
@@ -18,9 +19,19 @@ import { Sidebar } from './Sidebar';
 
 type HeaderProps = {
   title: string;
+  navItemsUser?: {
+    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+    item: string;
+    link: LINKS;
+  }[];
 };
 
-export const Header = ({ title }: HeaderProps) => {
+export const Header = ({ title, navItemsUser }: HeaderProps) => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate(LINKS.SETTINGS);
+  };
   return (
     <header>
       <Box
@@ -31,7 +42,7 @@ export const Header = ({ title }: HeaderProps) => {
         <Flex alignItems="center" justifyContent="space-between" py={8} px={3}>
           <HStack>
             <Box display={{ base: 'block', lg: 'none' }}>
-              <Sidebar navItems={navItems} />
+              <Sidebar navItems={navItemsUser || navItems} />
             </Box>
             <Box>
               <Text fontFamily="body" fontSize={{ base: 'xl', lg: '3xl' }} fontWeight="semibold">
@@ -41,7 +52,10 @@ export const Header = ({ title }: HeaderProps) => {
           </HStack>
 
           <HStack spacing={4} alignItems="center">
-            <Icon as={MdSettings} color="grey.400" boxSize="32px" _hover={{ cursor: 'pointer' }} />
+            <Box _hover={{ cursor: 'pointer' }} onClick={handleNavigate}>
+              <Icon as={MdSettings} color="grey.400" boxSize="32px" />
+            </Box>
+
             <Icon
               as={BsFillBellFill}
               color="grey.400"

@@ -63,11 +63,11 @@ export const UserDetails = () => {
         </Box>
 
         <Stack flex={1} spacing={4}>
-          <UserInfo headerName="Personal details" column={personalDetails} />
-          <UserInfo headerName="Business details" column={businessDetails} />
-          <UserInfo headerName="Social media profile" column={socialMedia} />
-          <UserInfo headerName="Account Information" column={accountInfo} />
-          <UserInfo headerName="KYC Details" column={kycDetails} />
+          <UserInfo headerName="Personal details" column={personalDetails} hasEditBtn />
+          <UserInfo headerName="Business details" column={businessDetails} hasEditBtn />
+          <UserInfo headerName="Social media profile" column={socialMedia} hasEditBtn />
+          <UserInfo headerName="Account Information" column={accountInfo} hasEditBtn />
+          <UserInfo headerName="KYC Details" column={kycDetails} hasEditBtn />
         </Stack>
       </Stack>
     </Box>

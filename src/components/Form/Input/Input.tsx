@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  FormHelperText,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
@@ -18,6 +19,7 @@ export type FormInputProps = InputProps & {
   formControlProps?: FormControlProps;
   leftElement?: React.ReactNode;
   rightElement?: React.ReactNode;
+  helperText?: ReactNode;
 };
 
 export function FormInput({
@@ -26,6 +28,7 @@ export function FormInput({
   formControlProps,
   leftElement,
   rightElement,
+  helperText,
   ...rest
 }: FormInputProps) {
   return (
@@ -54,6 +57,11 @@ export function FormInput({
       <FormErrorMessage mt="2px" fontSize="xs" fontFamily="body">
         {errorMessage}
       </FormErrorMessage>
+      {helperText && (
+        <FormHelperText mt="2px" fontSize="xs" fontFamily="body">
+          {helperText}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 }

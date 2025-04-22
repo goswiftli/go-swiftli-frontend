@@ -8,6 +8,7 @@ const { SignupView } = lazyImport(() => import('./sign-up'), 'SignupView');
 const { VerifyEmailView } = lazyImport(() => import('./verify-email'), 'VerifyEmailView');
 const { LoginView } = lazyImport(() => import('./login'), 'LoginView');
 const { ForgotPasswordView } = lazyImport(() => import('./forgot-password'), 'ForgotPasswordView');
+const { ChangePasswordView } = lazyImport(() => import('./change-password'), 'ChangePasswordView');
 
 const AuthRouteList: RouteObject[] = [
   {
@@ -25,6 +26,10 @@ const AuthRouteList: RouteObject[] = [
   {
     path: LINKS.FORGOT_PASSWORD,
     element: <ForgotPasswordView />,
+  },
+  {
+    path: LINKS.CHANGE_PASSWORD,
+    element: <ChangePasswordView />,
   },
 ];
 

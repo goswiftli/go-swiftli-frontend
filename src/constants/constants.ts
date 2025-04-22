@@ -6,6 +6,7 @@ export enum LINKS {
   CREATE_ACCOUNT = '/create-account',
   VERIFY_EMAIL = '/verify-email',
   FORGOT_PASSWORD = '/forgot-password',
+  CHANGE_PASSWORD = '/change-password',
   DASHBOARD = 'dashboard',
   OVERVIEW = '/overview',
   USER_MANAGEMENT = '/user-management',
@@ -24,6 +25,7 @@ export enum LINKS {
   DEPOSIT = 'deposit',
   MAKE_PAYMENT = 'make-payment',
   ADD_BENEFICIARY = 'add-beneficiary',
+  SETTINGS = 'settings',
 }
 
 export enum CONSTANTS {

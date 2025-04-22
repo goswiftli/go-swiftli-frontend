@@ -64,6 +64,11 @@ export const Button = {
         color: 'white',
       },
     },
+    'outline-2': {
+      color: 'blue.300',
+      border: '1px solid',
+      borderColor: 'blue.300',
+    },
   },
   sizes: {
     sm: {
