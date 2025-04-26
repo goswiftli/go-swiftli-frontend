@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { logout } from '@/features/auth';
 import { getDataFromSessStorage } from '@/utils';
 
 import { BeneficiaryDTO, IdentificationInfo, PersonalInfo } from '../types';
@@ -24,7 +25,7 @@ const initialState: State = {
   beneficiaryStatus: { value: '', name: '' },
   tranStatus: { value: '', name: '' },
   personalInfo: getDataFromSessStorage('kyc-per-info') || ({} as PersonalInfo),
-  identification: {} as IdentificationInfo,
+  identification: getDataFromSessStorage('identification-details') || ({} as IdentificationInfo),
   profilePicture: null,
   beneficiaryInformation: getDataFromSessStorage('beneficiary-info') || ({} as BeneficiaryDTO),
 };
@@ -57,6 +58,11 @@ const userFlowSlice = createSlice({
         ...action.payload,
       };
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logout, (state) => {
+      state.identification = {} as IdentificationInfo;
+    });
   },
 });
 

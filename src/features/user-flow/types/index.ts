@@ -21,14 +21,16 @@ export type PersonalInfo = {
   email: string;
 };
 
+export type FileDetails = {
+  type: IdType;
+  name: string;
+  size: number;
+  file: File;
+};
 export type IdType = CONSTANTS.ID_CARD | CONSTANTS.DECLINED | CONSTANTS.PASSPORT;
 export type IdentificationInfo = {
   country: string;
-  fileDetails: {
-    type: IdType;
-    name: string;
-    size: number;
-  };
+  fileDetails: FileDetails;
 };
 
 export type KycDTO = {
@@ -37,9 +39,15 @@ export type KycDTO = {
   email: string;
   idVerification: IdentificationInfo;
   profilePicture: File;
-  kycStatus: CONSTANTS.PENDING | CONSTANTS.APPROVED | CONSTANTS.REJECTED;
+  kycStatus?: CONSTANTS.PENDING | CONSTANTS.APPROVED | CONSTANTS.REJECTED;
   comment?: string;
 };
+
+export type KycInfo = {
+  comment: string;
+  idVerificationCountry: string;
+  idVerificationType: IdType;
+} & PersonalInfo;
 
 export type BankingInformationDTO = {
   currency: string;

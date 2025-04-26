@@ -28,11 +28,12 @@ import {
   convertUnderscoreToSpace,
   deleteFileFromIdb,
   getFileFromIdb,
+  saveDataToSessStorage,
   saveFileToIdb,
   transformDataToOptions,
 } from '@/utils';
 
-import { IdentificationInfo, IdType } from '../../types';
+import { FileDetails, IdentificationInfo, IdType } from '../../types';
 import { setIdentificationInfo } from '../../userFlowSlice';
 
 const validationSchema = yup.object().shape({
@@ -52,7 +53,7 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
   const countryOptions = transformDataToOptions(
     countries,
     (item) => item.name.common,
-    (item) => item.name.common
+    (item) => item.cca2
   );
 
   const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
@@ -113,9 +114,20 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
           dispatch(
             setIdentificationInfo({
               country: data.country,
-              fileDetails: { type: data.id, name: data.file.name, size: data.file.size },
+              fileDetails: {
+                type: data.id,
+                name: data.file.name,
+                size: data.file.size,
+              } as FileDetails,
             })
           );
+          saveDataToSessStorage('identification-details', {
+            fileDetails: {
+              type: data.id,
+              name: data.file.name,
+              size: data.file.size,
+            } as FileDetails,
+          });
           setSelectedFile({ file: data.file, type: data.id });
           break;
         }

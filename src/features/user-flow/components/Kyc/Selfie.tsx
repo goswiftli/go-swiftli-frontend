@@ -80,7 +80,7 @@ export const Selfie = ({ handleNext, handlePrevious }: SelfieProps) => {
     const returnProfilePhoto = async () => {
       const data = (await getFileFromIdb('uploaded-photo')) as { file: File };
 
-      if (data.file) {
+      if (data?.file) {
         const base64 = await fileToBase64(data.file);
         setImageSrc(base64);
       }

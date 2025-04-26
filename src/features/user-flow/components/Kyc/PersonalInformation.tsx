@@ -27,11 +27,13 @@ export const PersonalInformation = ({
 }: PersonalInformationProps) => {
   const dispatch = useAppDispatch();
   const { personalInfo } = useAppSelector((state) => state.userFlow);
+  const { authUser } = useAppSelector((state) => state.auth);
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       firstName: personalInfo.firstName ?? '',
       lastName: personalInfo.lastName ?? '',
-      email: personalInfo.email ?? '',
+      email: authUser.username ?? '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {

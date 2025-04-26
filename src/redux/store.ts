@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { adminFlowReducer } from '@/features/admin-flow';
+import { adminFlowReducer } from '@/features/admin-flow/adminFlowSlice';
 import { authReducer } from '@/features/auth';
 import { userFlowReducer } from '@/features/user-flow/userFlowSlice';
 

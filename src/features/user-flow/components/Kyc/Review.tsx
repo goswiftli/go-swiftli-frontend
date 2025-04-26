@@ -13,16 +13,21 @@ import {
 import { useEffect, useState } from 'react';
 import { BsHourglassSplit } from 'react-icons/bs';
 import { IoDocumentText } from 'react-icons/io5';
+import { useNavigate } from 'react-router';
 
 import { Modal } from '@/components';
 import { UserInfo } from '@/features/admin-flow';
 import { useAppSelector } from '@/redux';
 import { convertUnderscoreToSpace, fileToBase64, getFileFromIdb } from '@/utils';
 
+import { useSetupKyc } from '../../apis';
+import { FileDetails, IdType, KycDTO } from '../../types';
+
 type ReviewProps = {
   handlePrevious: () => void;
 };
 export const Review = ({ handlePrevious }: ReviewProps) => {
+  const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { personalInfo, identification } = useAppSelector((state) => state.userFlow);
 
@@ -41,14 +46,13 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
     const returnProfilePhoto = async () => {
       const data = (await getFileFromIdb('uploaded-photo')) as { file: File };
 
-      if (data.file) {
+      if (data?.file) {
         const base64 = await fileToBase64(data.file);
         setImageSrc(base64);
       }
     };
-
     const returnIdentityDocument = async () => {
-      if (!identification.fileDetails.type) return;
+      if (!identification?.fileDetails) return;
       const data = (await getFileFromIdb(identification.fileDetails.type)) as {
         file: File;
         fileType: string;
@@ -62,7 +66,7 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
     };
     returnProfilePhoto();
     returnIdentityDocument();
-  }, []);
+  }, [identification.fileDetails?.type]);
 
   const userDetails = [
     {
@@ -79,8 +83,38 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
     },
   ];
 
-  const handleComplete = () => {
-    onOpen();
+  const setupKycMutation = useSetupKyc();
+  const handleComplete = async () => {
+    const profileFile = (await getFileFromIdb('uploaded-photo')) as { file: File };
+    const idData = (await getFileFromIdb(identification.fileDetails.type)) as {
+      file: File;
+      fileType: IdType;
+      country: string;
+    };
+    const kycData: KycDTO = {
+      firstName: personalInfo.firstName,
+      lastName: personalInfo.lastName,
+      email: personalInfo.email,
+      idVerification: {
+        country: idData.country,
+        fileDetails: {
+          type: idData.fileType,
+          file: idData.file,
+        } as FileDetails,
+      },
+      profilePicture: profileFile.file,
+      comment: 'Initial Submission',
+    };
+    setupKycMutation.mutate(kycData, {
+      onSuccess() {
+        onOpen();
+      },
+    });
+  };
+
+  const handleClose = () => {
+    navigate(-1);
+    onClose();
   };
   return (
     <Box>
@@ -99,12 +133,17 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
               textAlign="center"
               fontWeight="semibold"
               fontSize={{ base: '2xl', md: '3xl', xl: '4xl' }}
+              pb={12}
             >
               Verification being processed
             </Text>
+            <Button w="30%" rounded="8px" onClick={handleClose}>
+              Go to dashboard
+            </Button>
           </Stack>
         }
       />
+
       <Stack spacing={6}>
         <Box>
           <Text fontFamily="lato" fontSize="md" color="black.400">
@@ -145,7 +184,13 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
             <Button variant="ghost" rounded="6px" onClick={handlePrevious}>
               Back
             </Button>
-            <Button rounded="6px" w="full" type="submit" onClick={handleComplete}>
+            <Button
+              isLoading={setupKycMutation.isPending}
+              rounded="6px"
+              w="full"
+              type="submit"
+              onClick={handleComplete}
+            >
               Complete
             </Button>
           </HStack>

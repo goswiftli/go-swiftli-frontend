@@ -11,6 +11,7 @@ import { useAppSelector } from '@/redux';
 
 export const Layout = ({ children, title }: { children: ReactNode; title?: string }) => {
   const { authUser } = useAppSelector((state) => state.auth);
+
   return (
     <Grid
       templateAreas={{
@@ -33,6 +34,7 @@ export const Layout = ({ children, title }: { children: ReactNode; title?: strin
       <GridItem area="main" overflowY="auto" bgColor="blue.200">
         <Stack>
           <Header
+            isUser
             navItemsUser={navItems}
             title={title ?? `Welcome! ${authUser.username ?? 'Ifeanyi'}`}
           />

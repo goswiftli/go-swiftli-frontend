@@ -12,6 +12,7 @@ const { WithdrawView } = lazyImport(() => import('./withdraw'), 'WithdrawView');
 const { AddBeneficiaryView } = lazyImport(() => import('./add-beneficiary'), 'AddBeneficiaryView');
 const { ConvertFundView } = lazyImport(() => import('./convert-funds'), 'ConvertFundView');
 const { SettingsView } = lazyImport(() => import('./settings'), 'SettingsView');
+const { ProfileView } = lazyImport(() => import('./profile'), 'ProfileView');
 
 const UserRouteList: RouteObject[] = [
   {
@@ -37,6 +38,10 @@ const UserRouteList: RouteObject[] = [
   {
     path: LINKS.SETTINGS,
     element: <SettingsView />,
+  },
+  {
+    path: LINKS.PROFILE,
+    element: <ProfileView />,
   },
 ];
 

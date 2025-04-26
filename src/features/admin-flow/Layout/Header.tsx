@@ -1,8 +1,19 @@
-import { Avatar, Box, Flex, HStack, Icon, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Flex,
+  HStack,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from '@chakra-ui/react';
 import { BiSolidPieChartAlt2 } from 'react-icons/bi';
 import { BsFillBellFill } from 'react-icons/bs';
 import { MdSettings } from 'react-icons/md';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 import { ReactComponent as BeneficiariesIcon } from '@/assets/icons/beneficiaries.svg';
 import { ReactComponent as ExchangeIcon } from '@/assets/icons/exchange-icon.svg';
@@ -14,6 +25,8 @@ import { ReactComponent as TransactionIcon } from '@/assets/icons/transactions.s
 import { ReactComponent as UserManIcon } from '@/assets/icons/user.svg';
 import picture from '@/assets/images/user1.png';
 import { LINKS } from '@/constants';
+import { logout } from '@/features/auth';
+import { useAppDispatch } from '@/redux';
 
 import { Sidebar } from './Sidebar';
 
@@ -24,14 +37,46 @@ type HeaderProps = {
     item: string;
     link: LINKS;
   }[];
+  isUser: boolean;
 };
 
-export const Header = ({ title, navItemsUser }: HeaderProps) => {
+export const Header = ({ title, navItemsUser, isUser }: HeaderProps) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate(LINKS.SETTINGS);
   };
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const adminMenuItems = [
+    {
+      item: 'Profile',
+      link: LINKS.PROFILE,
+    },
+    {
+      item: 'Logout',
+      action: handleLogout,
+    },
+  ];
+
+  const userMenuItems = [
+    {
+      item: 'Profile',
+      link: `/user/${LINKS.PROFILE}`,
+    },
+    {
+      item: 'Logout',
+      action: handleLogout,
+    },
+  ];
+
+  const menuItems = isUser ? userMenuItems : adminMenuItems;
+
   return (
     <header>
       <Box
@@ -62,7 +107,26 @@ export const Header = ({ title, navItemsUser }: HeaderProps) => {
               boxSize="32px"
               _hover={{ cursor: 'pointer' }}
             />
-            <Avatar boxSize="42px" src={picture} />
+            {menuItems && (
+              <Menu>
+                <MenuButton>
+                  <Avatar boxSize="42px" src={picture} />
+                </MenuButton>
+                <MenuList px={2} color="black.500">
+                  {menuItems?.map((item) => (
+                    <MenuItem
+                      fontSize="md"
+                      as={Link}
+                      to={item.link}
+                      key={item.item}
+                      onClick={item?.action}
+                    >
+                      {item.item}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </Menu>
+            )}
           </HStack>
         </Flex>
       </Box>

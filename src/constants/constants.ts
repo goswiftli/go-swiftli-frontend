@@ -26,6 +26,7 @@ export enum LINKS {
   MAKE_PAYMENT = 'make-payment',
   ADD_BENEFICIARY = 'add-beneficiary',
   SETTINGS = 'settings',
+  PROFILE = 'profile',
 }
 
 export enum CONSTANTS {
