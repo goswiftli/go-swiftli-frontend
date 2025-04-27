@@ -48,7 +48,7 @@ export const DashboardHeader = () => {
       </HStack>
       <Stack direction={{ base: 'column', md: 'row' }} spacing={6}>
         {dashboardItems.map((item) => (
-          <Box key={item.name} boxShadow="sm" p={4} rounded="8px" w="full" bgColor="white" p={4}>
+          <Box key={item.name} boxShadow="sm" p={4} rounded="8px" w="full" bgColor="white">
             <Stack h="full" justifyContent="space-between">
               <HStack spacing={4}>
                 <Icon as={item.icon} boxSize={6} />

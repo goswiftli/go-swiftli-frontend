@@ -5,6 +5,7 @@ import {
   Fade,
   ModalBody,
   SystemStyleObject,
+  ModalCloseButton,
 } from '@chakra-ui/react';
 
 interface ModalProps {
@@ -26,9 +27,11 @@ export const Modal = (props: ModalProps) => {
           isOpen={isOpen}
           onClose={onClose}
           motionPreset="none"
+          closeOnOverlayClick={false}
         >
           <ModalOverlay />
           <ModalContent py={10} sx={styles}>
+            <ModalCloseButton />
             <ModalBody>{body}</ModalBody>
           </ModalContent>
         </ChakraModal>

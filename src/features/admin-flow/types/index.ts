@@ -1,4 +1,5 @@
-import { AccountStatus, CONSTANTS, KycStatus } from '@/constants';
+import { AccountStatus, CONSTANTS } from '@/constants';
+import { KycInfo } from '@/features/user-flow';
 
 export const transactionStatus = [
   CONSTANTS.SUCCESSFUL,
@@ -15,11 +16,12 @@ export const beneficiaryStatus = [CONSTANTS.ACTIVE, CONSTANTS.BLACKLISTED] as co
 export type BeneficiaryStatus = (typeof beneficiaryStatus)[number];
 
 export type UserDTO = {
-  name: string;
+  id: number;
+  username: string;
   email: string;
   phoneNumber: string;
-  kycStatus: KycStatus;
-  accountStatus: AccountStatus;
+  kyc: KycInfo;
+  // accountStatus: AccountStatus;
 };
 
 export type TransactionDTO = {

@@ -49,6 +49,45 @@ export const fileToBase64 = (file: File | Blob): Promise<string> => {
   });
 };
 
+export const base64ToFile = (base64String: string, fileName: string, mimeType: string): File => {
+  let rawBase64 = base64String;
+
+  if (base64String.startsWith('data:')) {
+    rawBase64 = base64String.split(',')[1];
+  }
+
+  const byteString = atob(rawBase64);
+  const byteNumbers = new Array(byteString.length);
+
+  for (let i = 0; i < byteString.length; i++) {
+    byteNumbers[i] = byteString.charCodeAt(i);
+  }
+
+  const byteArray = new Uint8Array(byteNumbers);
+
+  return new File([byteArray], fileName, { type: mimeType });
+};
+
+export const downloadFile = (base64String: string) => {
+  if (!base64String) return;
+
+  const base64 = base64String.startsWith('data:') ? base64String.split(',')[1] : base64String;
+
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length)
+    .fill(0)
+    .map((_, i) => byteCharacters.charCodeAt(i));
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'document.pdf';
+  link.click();
+
+  URL.revokeObjectURL(link.href);
+};
+
 export const getFileFromIdb = async (key: string) => {
   const db = await initDB();
   return db.get(STORE_NAME, key);

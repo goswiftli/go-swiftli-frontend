@@ -22,6 +22,7 @@ import { convertUnderscoreToSpace, fileToBase64, getFileFromIdb } from '@/utils'
 
 import { useSetupKyc } from '../../apis';
 import { FileDetails, IdType, KycDTO } from '../../types';
+import { clearKycData } from '../../utils';
 
 type ReviewProps = {
   handlePrevious: () => void;
@@ -108,6 +109,7 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
     setupKycMutation.mutate(kycData, {
       onSuccess() {
         onOpen();
+        clearKycData();
       },
     });
   };

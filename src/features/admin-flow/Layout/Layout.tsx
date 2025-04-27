@@ -12,6 +12,8 @@ import { ReactComponent as TransactionIcon } from '@/assets/icons/transactions.s
 import { ReactComponent as UserManIcon } from '@/assets/icons/user.svg';
 import { LINKS } from '@/constants';
 
+import { prefetchUsers } from '../apis';
+
 import { Sidebar } from './Sidebar';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
@@ -51,6 +53,7 @@ const navItems = [
     icon: UserManIcon,
     item: 'User Management',
     link: LINKS.USER_MANAGEMENT,
+    action: prefetchUsers,
   },
   {
     icon: TransactionIcon,

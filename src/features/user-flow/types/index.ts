@@ -28,6 +28,7 @@ export type FileDetails = {
   file: File;
 };
 export type IdType = CONSTANTS.ID_CARD | CONSTANTS.DECLINED | CONSTANTS.PASSPORT;
+export type KycStatus = CONSTANTS.PENDING | CONSTANTS.APPROVED | CONSTANTS.REJECTED;
 export type IdentificationInfo = {
   country: string;
   fileDetails: FileDetails;
@@ -39,7 +40,7 @@ export type KycDTO = {
   email: string;
   idVerification: IdentificationInfo;
   profilePicture: File;
-  kycStatus?: CONSTANTS.PENDING | CONSTANTS.APPROVED | CONSTANTS.REJECTED;
+  kycStatus?: KycStatus;
   comment?: string;
 };
 
@@ -47,6 +48,9 @@ export type KycInfo = {
   comment: string;
   idVerificationCountry: string;
   idVerificationType: IdType;
+  profilePicture?: string;
+  kycStatus?: KycStatus;
+  idVerificationFile?: string;
 } & PersonalInfo;
 
 export type BankingInformationDTO = {
