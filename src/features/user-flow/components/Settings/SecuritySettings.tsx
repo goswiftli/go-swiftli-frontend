@@ -1,18 +1,19 @@
 import { Box, Button, Image, Stack, Text, useDisclosure } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import * as yup from 'yup';
 
 import qrImg from '@/assets/images/qrCode.png';
 import { FormInput } from '@/components';
-import { useAppSelector } from '@/redux';
+import { LINKS } from '@/constants';
 
 const validationSchema = yup.object().shape({
   authCode: yup.string().min(6).max(6).required().label('Authentication code'),
 });
 
 export const useSecuritySettings = () => {
-  const { authUser } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   const { isOpen: isOpenReset, onClose: onCloseReset, onOpen: onOpenReset } = useDisclosure();
 
   const qrKey = '4QQMQLKSZKY5LH5TLQ54VMGKX5L5LPXQ';
@@ -23,13 +24,8 @@ export const useSecuritySettings = () => {
     setTwoFactorStep(step);
   };
 
-  const [passwordText, setPasswordText] = useState(
-    'Reset your password regularly to keep your account secure'
-  );
-  const handleResetPassword = async () => {
-    setPasswordText(
-      `We've sent a password reset link to ${authUser.username ?? 'reynnolds@gmail.com'} `
-    );
+  const handleChangePassword = async () => {
+    navigate(LINKS.CHANGE_PASSWORD);
   };
 
   const formik = useFormik({
@@ -179,7 +175,7 @@ export const useSecuritySettings = () => {
           <Text color="black.300" fontWeight="light">
             Change Password
           </Text>
-          <Text color="black.800">{passwordText}</Text>
+          <Text color="black.800">Reset your password regularly to keep your account secure</Text>
         </Box>
       ),
       value: isOpenReset ? (
@@ -187,8 +183,8 @@ export const useSecuritySettings = () => {
           <Text color="blue.300" _hover={{ cursor: 'pointer' }} onClick={onCloseReset}>
             Cancel
           </Text>
-          <Button bgColor="blue.300" rounded="4px" size="sm" onClick={handleResetPassword}>
-            Send email
+          <Button bgColor="blue.300" rounded="4px" size="sm" onClick={handleChangePassword}>
+            Change password
           </Button>
         </Stack>
       ) : (

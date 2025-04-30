@@ -26,7 +26,9 @@ import { ReactComponent as UserManIcon } from '@/assets/icons/user.svg';
 import picture from '@/assets/images/user1.png';
 import { LINKS } from '@/constants';
 import { logout } from '@/features/auth';
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
+
+import { prefetchUserDetails } from '../apis';
 
 import { Sidebar } from './Sidebar';
 
@@ -42,9 +44,10 @@ type HeaderProps = {
 
 export const Header = ({ title, navItemsUser, isUser }: HeaderProps) => {
   const navigate = useNavigate();
+  const { authUser } = useAppSelector((state) => state.auth);
 
   const handleNavigate = () => {
-    navigate(LINKS.SETTINGS);
+    navigate('/user' + '/' + LINKS.SETTINGS);
   };
 
   const dispatch = useAppDispatch();
@@ -53,10 +56,14 @@ export const Header = ({ title, navItemsUser, isUser }: HeaderProps) => {
     dispatch(logout());
   };
 
+  const prefetchUser = () => {
+    prefetchUserDetails(authUser.id);
+  };
   const adminMenuItems = [
     {
       item: 'Profile',
       link: LINKS.PROFILE,
+      action: prefetchUser,
     },
     {
       item: 'Logout',

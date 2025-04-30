@@ -32,8 +32,7 @@ export function FormTextarea({
         {...rest}
         px={4}
         py={3}
-        bgColor="white"
-        borderColor="#858080A8"
+        bgColor="grey.100"
         _placeholder={{
           color: 'black.200',
           fontSize: 'sm',

@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   CardBody,
+  Flex,
   HStack,
   Icon,
   Progress,
@@ -15,7 +16,7 @@ import { HiOutlineDocumentDownload } from 'react-icons/hi';
 import { IoDocumentText } from 'react-icons/io5';
 import { useLocation } from 'react-router';
 
-import { Modal, PDFViewer, Skeleton } from '@/components';
+import { Approve, Modal, PDFViewer, RejectRequest, Skeleton } from '@/components';
 import { useErrorNotification } from '@/hooks';
 import { decryptUrlParams, downloadFile } from '@/utils';
 
@@ -121,10 +122,6 @@ export const UserDetails = () => {
                   }
                   styles={{ width: '60%' }}
                 />
-
-                {/* <Button onClick={downloadPdf} mt={4}>
-                  Download PDF
-                </Button> */}
               </>
             )}
           </Box>
@@ -148,6 +145,12 @@ export const UserDetails = () => {
                 </Text>
               </Box>
             </Stack>
+            <Flex justifyContent="center">
+              <HStack pt={10} w="50%">
+                <Approve text="Are you sure you wan to approve this KYC request?" />
+                <RejectRequest />
+              </HStack>
+            </Flex>
           </Stack>
         </Stack>
       </Skeleton>

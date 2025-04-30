@@ -3,6 +3,7 @@ import {
   HStack,
   Icon,
   Table,
+  TableCaption,
   TableContainer,
   Tbody,
   Td,
@@ -19,13 +20,17 @@ type UserInfoProps = {
     name: React.ReactNode;
     value: React.ReactNode;
   }[];
-  hasEditBtn?: boolean;
+  hasEditBtn?: {
+    editBtnAction: () => void;
+  };
+  actionItem?: React.ReactNode;
 };
 
-export const UserInfo = ({ headerName, column, hasEditBtn }: UserInfoProps) => {
+export const UserInfo = ({ headerName, column, hasEditBtn, actionItem }: UserInfoProps) => {
   return (
     <TableContainer bgColor="white" rounded="18px 18px 0 0">
       <Table variant="simple" size="md">
+        {actionItem && <TableCaption>{actionItem}</TableCaption>}
         <Thead bgColor="blue.50">
           <Tr>
             <Th
@@ -42,6 +47,7 @@ export const UserInfo = ({ headerName, column, hasEditBtn }: UserInfoProps) => {
                 _hover={{ cursor: 'pointer' }}
                 justifyContent="flex-end"
                 display={hasEditBtn ? 'flex' : 'none'}
+                onClick={hasEditBtn?.editBtnAction}
               >
                 <Icon as={FiEdit3} color="blue.300" boxSize="16px" />
                 <Text fontFamily="body" fontSize="md" color="blue.300">

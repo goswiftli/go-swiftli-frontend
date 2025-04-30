@@ -5,4 +5,5 @@ export const url = {
   login: env.API_BASE_URL + '/auth/login',
   verifyEmail: env.API_BASE_URL + '/auth/confirm-account',
   forgotPassword: env.API_BASE_URL + '/auth/request-password-reset',
+  changePassword: env.API_BASE_URL + '/auth/change-password',
 };

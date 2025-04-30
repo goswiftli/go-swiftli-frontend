@@ -69,6 +69,30 @@ export const Button = {
       border: '1px solid',
       borderColor: 'blue.300',
     },
+    'error-button': {
+      color: 'white',
+      bgColor: 'error.400',
+      _focus: {
+        bgColor: 'error.400',
+        color: 'white',
+      },
+      _hover: {
+        bgColor: 'error.400',
+        color: 'white',
+      },
+    },
+    'success-button': {
+      color: 'white',
+      bgColor: 'success.400',
+      _focus: {
+        bgColor: 'success.400',
+        color: 'white',
+      },
+      _hover: {
+        bgColor: 'success.400',
+        color: 'white',
+      },
+    },
   },
   sizes: {
     sm: {

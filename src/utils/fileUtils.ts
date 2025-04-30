@@ -23,19 +23,34 @@ export const saveFileToIdb = async <T>({ key, data }: SaveToIdbParams<T>) => {
   await db.put(STORE_NAME, { id: key, ...data });
 };
 
-export const dataURLtoBlob = (dataUrl: string): Blob => {
-  const arr = dataUrl.split(',');
-  const mimeMatch = arr[0].match(/:(.*?);/);
-  const mime = mimeMatch ? mimeMatch[1] : '';
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
+export const dataURLtoBlob = (base64: string, mime = 'application/octet-stream'): Blob => {
+  try {
+    // Check if it's a data URL
+    if (base64.startsWith('data:')) {
+      const parts = base64.split(',');
+      if (parts.length !== 2) throw new Error('Malformed base64 data');
 
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
+      const mimeMatch = parts[0].match(/:(.*?);/);
+      mime = mimeMatch ? mimeMatch[1] : mime;
+      base64 = parts[1];
+    }
+
+    // Sanitize base64 (remove whitespace, if any)
+    base64 = base64.replace(/\s/g, '');
+
+    // Decode base64 to binary string
+    const binaryStr = atob(base64);
+    const len = binaryStr.length;
+    const u8arr = new Uint8Array(len);
+
+    for (let i = 0; i < len; i++) {
+      u8arr[i] = binaryStr.charCodeAt(i);
+    }
+
+    return new Blob([u8arr], { type: mime });
+  } catch (err) {
+    throw err;
   }
-
-  return new Blob([u8arr], { type: mime });
 };
 
 export const fileToBase64 = (file: File | Blob): Promise<string> => {
@@ -86,6 +101,11 @@ export const downloadFile = (base64String: string) => {
   link.click();
 
   URL.revokeObjectURL(link.href);
+};
+
+export const convertToValidBase64 = (base64String: string) => {
+  if (!base64String) return;
+  return base64String.startsWith('data:') ? base64String.split(',')[1] : base64String;
 };
 
 export const getFileFromIdb = async (key: string) => {
