@@ -10,8 +10,8 @@ export enum LINKS {
   DASHBOARD = 'dashboard',
   OVERVIEW = '/overview',
   USER_MANAGEMENT = '/user-management',
-  TRANSACTIONS = '/transactions',
-  BENEFICIARIES = '/beneficiaries',
+  TRANSACTIONS = 'transactions',
+  BENEFICIARIES = 'beneficiaries',
   EXCHANGE_MANAGEMENT = '/exchange-management',
   REPORT_ANALYSIS = '/report-analysis',
   CUSTOMER_SUPPORT = '/customer-support',
@@ -25,8 +25,8 @@ export enum LINKS {
   DEPOSIT = 'deposit',
   MAKE_PAYMENT = 'make-payment',
   ADD_BENEFICIARY = 'add-beneficiary',
-  SETTINGS = 'settings',
-  PROFILE = 'profile',
+  SETTINGS = '/settings',
+  PROFILE = '/profile',
 }
 
 export enum CONSTANTS {

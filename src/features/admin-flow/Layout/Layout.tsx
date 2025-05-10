@@ -58,12 +58,12 @@ const navItems = [
   {
     icon: TransactionIcon,
     item: 'Transactions',
-    link: LINKS.TRANSACTIONS,
+    link: ('/' + LINKS.TRANSACTIONS) as LINKS,
   },
   {
     icon: BeneficiariesIcon,
     item: 'Beneficiaries',
-    link: LINKS.BENEFICIARIES,
+    link: ('/' + LINKS.BENEFICIARIES) as LINKS,
   },
   {
     icon: ExchangeIcon,

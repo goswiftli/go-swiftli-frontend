@@ -13,6 +13,8 @@ import { storage } from '@/utils';
 
 import { BaseApp } from './BaseApp';
 
+import { SharedRoutes } from '@/features/shared';
+
 export const App = () => {
   const location = useLocation();
   const { token } = useAppSelector((state) => state.auth);
@@ -41,7 +43,7 @@ export const App = () => {
 export const AppRoutes: RouteObject = {
   path: '',
   element: <App />,
-  children: [AdminRoutes, UserRoutes],
+  children: [AdminRoutes, UserRoutes, SharedRoutes],
   errorElement: <RouteError />,
 };
 

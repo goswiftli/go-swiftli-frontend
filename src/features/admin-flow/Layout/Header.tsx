@@ -47,7 +47,7 @@ export const Header = ({ title, navItemsUser, isUser }: HeaderProps) => {
   const { authUser } = useAppSelector((state) => state.auth);
 
   const handleNavigate = () => {
-    navigate('/user' + '/' + LINKS.SETTINGS);
+    navigate(LINKS.SETTINGS);
   };
 
   const dispatch = useAppDispatch();
@@ -74,7 +74,7 @@ export const Header = ({ title, navItemsUser, isUser }: HeaderProps) => {
   const userMenuItems = [
     {
       item: 'Profile',
-      link: `/user/${LINKS.PROFILE}`,
+      link: LINKS.PROFILE,
     },
     {
       item: 'Logout',
@@ -155,12 +155,12 @@ const navItems = [
   {
     icon: TransactionIcon,
     item: 'Transactions',
-    link: LINKS.TRANSACTIONS,
+    link: ('/' + LINKS.TRANSACTIONS) as LINKS,
   },
   {
     icon: BeneficiariesIcon,
     item: 'Beneficiaries',
-    link: LINKS.BENEFICIARIES,
+    link: ('/' + LINKS.BENEFICIARIES) as LINKS,
   },
   {
     icon: ExchangeIcon,

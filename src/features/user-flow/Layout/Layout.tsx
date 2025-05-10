@@ -7,11 +7,8 @@ import { ReactComponent as PaymentIcon } from '@/assets/icons/payment-icon.svg';
 import { ReactComponent as TransactionIcon } from '@/assets/icons/transactions.svg';
 import { LINKS } from '@/constants';
 import { Header, Sidebar } from '@/features/admin-flow';
-import { useAppSelector } from '@/redux';
 
 export const Layout = ({ children, title }: { children: ReactNode; title?: string }) => {
-  const { authUser } = useAppSelector((state) => state.auth);
-
   return (
     <Grid
       templateAreas={{
@@ -33,11 +30,7 @@ export const Layout = ({ children, title }: { children: ReactNode; title?: strin
 
       <GridItem area="main" overflowY="auto" bgColor="blue.200">
         <Stack>
-          <Header
-            isUser
-            navItemsUser={navItems}
-            title={title ?? `Welcome! ${authUser.username ?? 'Ifeanyi'}`}
-          />
+          <Header isUser navItemsUser={navItems} title={title ?? ''} />
           {children}
         </Stack>
       </GridItem>
@@ -49,7 +42,7 @@ const navItems = [
   {
     icon: DashboardIcon,
     item: 'Dashboard',
-    link: LINKS.DASHBOARD,
+    link: ('/user' + '/' + LINKS.DASHBOARD) as LINKS,
   },
   {
     icon: PaymentIcon,
@@ -59,11 +52,11 @@ const navItems = [
   {
     icon: TransactionIcon,
     item: 'Transactions',
-    link: LINKS.TRANSACTIONS,
+    link: ('/user' + '/' + LINKS.TRANSACTIONS) as LINKS,
   },
   {
     icon: BeneficiariesIcon,
     item: 'Beneficiaries',
-    link: LINKS.BENEFICIARIES,
+    link: ('/user' + '/' + LINKS.BENEFICIARIES) as LINKS,
   },
 ];

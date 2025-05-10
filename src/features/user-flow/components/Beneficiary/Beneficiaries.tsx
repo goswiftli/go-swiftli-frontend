@@ -1,16 +1,28 @@
-import { Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Table, TableColumn } from '@/components';
+import { Menu, Table, TableColumn } from '@/components';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import { formatDate } from '@/utils';
 
 import { UserBeneficiaryDTO } from '../../types';
+import { setBeneficiaryStatusFilter, setCurrencyFilter } from '../../userFlowSlice';
 
 export const Beneficiaries = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const handlePage = ({ selected }: { selected: number }) => {
     setCurrentPage(selected);
+  };
+
+  const { beneficiaryStatus, currency } = useAppSelector((state) => state.userFlow);
+  const dispatch = useAppDispatch();
+  const handleBeneficiaryStatus = (value: string, name: string) => {
+    dispatch(setBeneficiaryStatusFilter({ value, name }));
+  };
+
+  const handleCurrencyFilter = (value: string, name: string) => {
+    dispatch(setCurrencyFilter({ value, name }));
   };
   const tableColumns: TableColumn<UserBeneficiaryDTO>[] = [
     {
@@ -35,20 +47,62 @@ export const Beneficiaries = () => {
     },
   ];
   return (
-    <Table
-      columns={tableColumns}
-      data={userBeneficiaries}
-      currentPage={currentPage}
-      handlePage={handlePage}
-      emptyData={{
-        title: 'No Beneficiary found',
-        body: 'All Beneficiaries available will appear here',
-      }}
-      totalPages={1}
-      uniqueKey="accountNumber"
-    />
+    <Box minH="90vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden">
+      <Flex justifyContent="end" pt={10}>
+        <HStack w="30%" pb={4}>
+          <Menu
+            styles={{ bgColor: 'primary.50', borderColor: 'primary.800' }}
+            menuItems={currencyFilter}
+            handleClick={handleCurrencyFilter}
+            selectedMenuItem={currency.name}
+            placement="bottom"
+          />
+          <Menu
+            styles={{ bgColor: 'primary.50', borderColor: 'primary.800' }}
+            menuItems={beneficiaryStatusItems}
+            handleClick={handleBeneficiaryStatus}
+            selectedMenuItem={beneficiaryStatus.name}
+            placement="left"
+          />
+        </HStack>
+      </Flex>
+
+      <Table
+        columns={tableColumns}
+        data={userBeneficiaries}
+        currentPage={currentPage}
+        handlePage={handlePage}
+        emptyData={{
+          title: 'No Beneficiary found',
+          body: 'All Beneficiaries available will appear here',
+        }}
+        totalPages={1}
+        uniqueKey="accountNumber"
+      />
+    </Box>
   );
 };
+
+const currencyFilter = [
+  {
+    label: 'Naira',
+    value: 'NGN',
+  },
+  {
+    label: 'Dollar',
+    value: 'USD',
+  },
+];
+const beneficiaryStatusItems = [
+  {
+    label: 'Active',
+    value: 'ACTIVE',
+  },
+  {
+    label: 'Blacklisted',
+    value: 'BLACKLISTED',
+  },
+];
 
 const userBeneficiaries: UserBeneficiaryDTO[] = [
   {
