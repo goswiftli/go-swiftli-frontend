@@ -44,6 +44,11 @@ export type KycDTO = {
   comment?: string;
 };
 
+export type ApproveKyc = {
+  id: number;
+  comment: string;
+  APPROVAL_TYPE: 'REJECT' | 'APPROVE';
+};
 export type KycInfo = {
   comment: string;
   idVerificationCountry: string;

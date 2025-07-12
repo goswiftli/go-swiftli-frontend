@@ -39,10 +39,10 @@ type HeaderProps = {
     item: string;
     link: LINKS;
   }[];
-  isUser: boolean;
+  isUser?: boolean;
 };
 
-export const Header = ({ title, navItemsUser, isUser }: HeaderProps) => {
+export const Header = ({ title, navItemsUser, isUser = false }: HeaderProps) => {
   const navigate = useNavigate();
   const { authUser } = useAppSelector((state) => state.auth);
 

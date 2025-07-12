@@ -32,7 +32,5 @@ export interface Paginate<T> {
   size: number;
   number: number;
   empty: boolean;
-  data: {
-    content: T[];
-  };
+  content: T[];
 }

@@ -80,6 +80,9 @@ export const TransactionMonitoring = () => {
       ),
     },
   ];
+
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <Stack alignItems="end" py={4}>
       <Stack
@@ -90,7 +93,12 @@ export const TransactionMonitoring = () => {
         pb={4}
       >
         <Box w={{ base: 'full', lg: '50%' }}>
-          <SearchBox placeholder="Search by transaction ID, Name" />
+          <SearchBox
+            inputValue={searchTerm}
+            setInputValue={setSearchTerm}
+            placeholder="Search by transaction ID, Name"
+            name="tranMonitoring"
+          />
         </Box>
         <HStack flex={1}>
           <Box w="full">

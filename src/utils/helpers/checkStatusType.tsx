@@ -1,8 +1,19 @@
 import { Tag, TagLabel } from '@chakra-ui/react';
 
-import { AccountStatus, CONSTANTS, KycStatus } from '@/constants';
+import { CONSTANTS } from '@/constants';
 
-export const checkStatusType = (status: KycStatus | AccountStatus) => {
+type StatusType =
+  | CONSTANTS.PENDING
+  | CONSTANTS.APPROVED
+  | CONSTANTS.REJECTED
+  | CONSTANTS.SUSPENDED
+  | CONSTANTS.ACTIVE
+  | CONSTANTS.SUCCESSFUL
+  | CONSTANTS.FAILED
+  | CONSTANTS.REFUNDED
+  | CONSTANTS.BLACKLISTED
+  | CONSTANTS.DECLINED;
+export const checkStatusType = (status: StatusType) => {
   const statusColors = {
     [CONSTANTS.PENDING]: {
       bgColor: 'warning.300',
@@ -39,6 +50,10 @@ export const checkStatusType = (status: KycStatus | AccountStatus) => {
     [CONSTANTS.BLACKLISTED]: {
       bgColor: 'error.200',
       text: 'Blacklisted',
+    },
+    [CONSTANTS.DECLINED]: {
+      bgColor: 'error.200',
+      text: 'Failed',
     },
   };
 

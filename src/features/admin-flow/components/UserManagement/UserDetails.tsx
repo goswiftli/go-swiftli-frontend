@@ -20,7 +20,7 @@ import { Approve, Modal, PDFViewer, RejectRequest, Skeleton } from '@/components
 import { useErrorNotification } from '@/hooks';
 import { decryptUrlParams, downloadFile } from '@/utils';
 
-import { useGetUserDetails } from '../../apis';
+import { useGetUsers } from '../../apis';
 
 export const UserDetails = () => {
   const location = useLocation();
@@ -29,30 +29,32 @@ export const UserDetails = () => {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const urlParameters = decryptUrlParams(location.search) as { userId: string };
-  const { data: user, isError, isPending, error } = useGetUserDetails(Number(urlParameters.userId));
+  const urlParameters = decryptUrlParams(location.search) as { username: string };
+  const { data: user, isError, isPending, error } = useGetUsers(urlParameters.username);
+
+  const firstUser = user?.content[0];
 
   const userDetails = [
     {
       name: 'Email',
-      value: user?.data.kyc?.email,
+      value: firstUser?.kyc?.email,
     },
     {
       name: 'Phone number',
-      value: user?.data.phoneNumber,
+      value: firstUser?.phoneNumber,
     },
     {
       name: 'Country',
-      value: user?.data.kyc?.idVerificationCountry,
+      value: firstUser?.kyc?.idVerificationCountry,
     },
   ];
 
   useEffect(() => {
-    if (user && user?.data.kyc?.profilePicture) {
-      setImageSrc(user?.data.kyc?.profilePicture);
+    if (user && firstUser?.kyc?.profilePicture) {
+      setImageSrc(firstUser?.kyc?.profilePicture);
     }
-    if (user?.data.kyc?.idVerificationFile) {
-      setDocument(user?.data.kyc?.idVerificationFile);
+    if (firstUser?.kyc?.idVerificationFile) {
+      setDocument(firstUser?.kyc?.idVerificationFile);
     }
   });
 
@@ -71,7 +73,7 @@ export const UserDetails = () => {
                 <Stack alignItems="center" w="full" spacing={4}>
                   <Avatar src={`data:image/jpeg;base64,${imageSrc}`} boxSize="120px" />
                   <Text fontFamily="body" color="black.800" fontSize="md">
-                    {`${user?.data.kyc?.firstName}-${user?.data.kyc?.lastName}`}
+                    {`${firstUser?.kyc?.firstName}-${firstUser?.kyc?.lastName}`}
                   </Text>
                   <Box rounded="4px" p={3} bgColor="blue.100" w="full">
                     <Text fontFamily="body" fontSize="sm" pb={2}>

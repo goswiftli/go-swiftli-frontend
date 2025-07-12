@@ -240,7 +240,9 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
                   <Input
                     type="file"
                     accept="image/*,application/pdf"
-                    ref={(el) => (inputRefs.current[item.name] = el)}
+                    ref={(el) => {
+                      inputRefs.current[item.name] = el;
+                    }}
                     onChange={(e) => handleChange(e, item.value)}
                     display="none"
                   />

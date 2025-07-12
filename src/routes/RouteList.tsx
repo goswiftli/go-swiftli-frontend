@@ -7,13 +7,12 @@ import { LINKS } from '@/constants';
 import { AdminRoutes } from '@/features/admin-flow';
 import { AuthRoutes } from '@/features/auth';
 import { LandingPageRoutes } from '@/features/landing-page';
+import { SharedRoutes } from '@/features/shared';
 import { UserRoutes } from '@/features/user-flow';
 import { useAppSelector } from '@/redux';
 import { storage } from '@/utils';
 
 import { BaseApp } from './BaseApp';
-
-import { SharedRoutes } from '@/features/shared';
 
 export const App = () => {
   const location = useLocation();

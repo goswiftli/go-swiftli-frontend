@@ -1,7 +1,7 @@
 import { env } from '@/config';
 
 export const url = {
-  getUsers: env.API_BASE_URL + '/admin/admin-user',
+  getUsers: env.API_BASE_URL + '/users/list',
   getUserDetails: env.API_BASE_URL + '/admin/user',
 };
 

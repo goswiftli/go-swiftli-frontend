@@ -9,7 +9,6 @@ import { AxiosError } from 'axios';
 
 const queryConfig: DefaultOptions = {
   queries: {
-    useErrorBoundary: false,
     refetchOnWindowFocus: false,
     retry(failureCount, error: any) {
       if (error.status === 404) return false;

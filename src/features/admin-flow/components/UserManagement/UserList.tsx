@@ -15,17 +15,19 @@ type UserListProps = {
   users: UserDTO[];
   currentPage: number;
   handlePage: ({ selected }: { selected: number }) => void;
+  totalPages: number;
 };
 
-export const UserList = ({ currentPage, handlePage, users }: UserListProps) => {
+export const UserList = ({ currentPage, handlePage, users, totalPages }: UserListProps) => {
   const navigate = useNavigate();
-  const handleViewUser = (userId: number) => {
+  const handleViewUser = (username: string) => {
     const queryParams = {
-      userId: userId,
+      username: username,
     };
     const encryptedParams = createEncryptedUrlParams(queryParams);
     navigate(LINKS.USER_DETAILS + encryptedParams);
   };
+
   const handleDeleteUser = (userId: number) => {
     console.log(userId);
   };
@@ -33,12 +35,12 @@ export const UserList = ({ currentPage, handlePage, users }: UserListProps) => {
     {
       title: 'Name',
       Cell: ({ entry }) => (
-        <Text as="span">{`${entry.kyc?.firstName} ${entry.kyc?.lastName}`}</Text>
+        <Text as="span">{`${entry.kyc?.firstName ?? 'N/A'} ${entry.kyc?.lastName ?? 'N/A'}`}</Text>
       ),
     },
     {
       title: 'Email',
-      field: 'email',
+      field: 'username',
     },
     {
       title: 'Phone Number',
@@ -56,7 +58,7 @@ export const UserList = ({ currentPage, handlePage, users }: UserListProps) => {
         <HStack>
           <Box
             onMouseEnter={() => prefetchUserDetails(entry.id)}
-            onClick={() => handleViewUser(entry.id)}
+            onClick={() => handleViewUser(entry.username)}
             _hover={{ cursor: 'pointer' }}
           >
             <Icon color="black.700" as={FaEye} boxSize={8} />
@@ -73,7 +75,7 @@ export const UserList = ({ currentPage, handlePage, users }: UserListProps) => {
       columns={tableColumns}
       currentPage={currentPage}
       data={users}
-      totalPages={1}
+      totalPages={totalPages}
       uniqueKey="email"
       handlePage={handlePage}
       emptyData={{ title: 'No Users found', body: 'All users created will be added here' }}

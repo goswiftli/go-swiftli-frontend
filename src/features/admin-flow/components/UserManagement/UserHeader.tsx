@@ -5,7 +5,12 @@ import { useAppDispatch, useAppSelector } from '@/redux';
 
 import { setAccountStatusFilter, setKycStatusFilter } from '../../adminFlowSlice';
 
-export const UserHeader = () => {
+type UserHeaderProps = {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export const UserHeader = ({ searchTerm, setSearchTerm }: UserHeaderProps) => {
   const dispatch = useAppDispatch();
   const { kycStatus, accountStatus } = useAppSelector((state) => state.adminFlow);
 
@@ -16,6 +21,7 @@ export const UserHeader = () => {
   const handleAccountStatusOptions = (value: string, name: string) => {
     dispatch(setAccountStatusFilter({ value, name }));
   };
+
   return (
     <Stack alignItems="end" py={4}>
       <Stack
@@ -25,7 +31,12 @@ export const UserHeader = () => {
         spacing={{ base: 4, lg: 2 }}
       >
         <Box w={{ base: 'full', lg: '50%' }}>
-          <SearchBox placeholder="Search by Name, Email, Phone.." />
+          <SearchBox
+            inputValue={searchTerm}
+            setInputValue={setSearchTerm}
+            placeholder="Search by Name, Email, Phone.."
+            name="searchTerm"
+          />
         </Box>
         <HStack flex={1}>
           <Box w="full">
@@ -35,6 +46,7 @@ export const UserHeader = () => {
               handleClick={handleKycStatusOptions}
               selectedMenuItem={kycStatus.name}
               placement="bottom"
+              menuTitle="KYC Status"
             />
           </Box>
           <Box w="full">
@@ -44,6 +56,7 @@ export const UserHeader = () => {
               handleClick={handleAccountStatusOptions}
               selectedMenuItem={accountStatus.name}
               placement="left-start"
+              menuTitle="User Status"
             />
           </Box>
         </HStack>

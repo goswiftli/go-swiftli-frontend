@@ -17,7 +17,7 @@ export const useErrorNotification = ({ isError, description, name }: ErrorProps)
         id: `toast-${name}`,
         status: 'error',
         description,
-        duration: 3000,
+        duration: 2000,
       });
     }
   }, [description, isError, name, toast]);

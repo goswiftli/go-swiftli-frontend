@@ -10,9 +10,9 @@ export const useCommunicationPref = () => {
   const { isPending, isError, data } = useGetSettings();
 
   const [settings, setSettings] = useState<SettingsDTO>({
-    emailNotification: data?.data.emailNotification ?? false,
-    smsNotification: data?.data.smsNotification ?? false,
-    websiteNotification: data?.data.websiteNotification ?? false,
+    emailNotification: data?.data?.emailNotification ?? false,
+    smsNotification: data?.data?.smsNotification ?? false,
+    websiteNotification: data?.data?.websiteNotification ?? false,
   });
 
   useEffect(() => {

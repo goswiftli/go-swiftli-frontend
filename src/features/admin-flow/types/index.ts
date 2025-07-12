@@ -1,4 +1,4 @@
-import { AccountStatus, CONSTANTS } from '@/constants';
+import { CONSTANTS } from '@/constants';
 import { KycInfo } from '@/features/user-flow';
 
 export const transactionStatus = [
