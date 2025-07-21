@@ -1,15 +1,17 @@
 import { useToast } from '@/hooks';
 import { MutationConfig, useMutation } from '@/lib';
 import { axios } from '@/lib/axios';
+import { useAppDispatch } from '@/redux';
 import { ApiResponse } from '@/types';
-import { formatError } from '@/utils';
+import { clearDataFromSessStorage, formatError } from '@/utils';
 
-import { BeneficiaryDTO } from '../../types';
+import { CreateBeneficiaryDTO } from '../../types';
+import { setBeneficiaryInformation } from '../../userFlowSlice';
 import { url } from '../url-query';
 
-export const createBeneficiary = async (data: BeneficiaryDTO) => {
+export const createBeneficiary = async (data: CreateBeneficiaryDTO) => {
   try {
-    const response = await axios.post<ApiResponse<BeneficiaryDTO>>(
+    const response = await axios.post<ApiResponse<CreateBeneficiaryDTO>>(
       `${url.beneficiary}/create`,
       data
     );
@@ -25,7 +27,7 @@ type UseCreateBeneficiary = {
 
 export const useCreateBeneficiary = ({ config }: UseCreateBeneficiary = {}) => {
   const toast = useToast();
-
+  const dispatch = useAppDispatch();
   return useMutation({
     onError: (err: any) => {
       toast({
@@ -34,12 +36,9 @@ export const useCreateBeneficiary = ({ config }: UseCreateBeneficiary = {}) => {
         description: err.message,
       });
     },
-    onSuccess: (res) => {
-      toast({
-        id: 'beneficiary-toast-suc',
-        status: 'success',
-        description: res.message ?? 'Beneficiary created successful!',
-      });
+    onSuccess: () => {
+      clearDataFromSessStorage('beneficiary-info');
+      dispatch(setBeneficiaryInformation({}));
     },
     mutationFn: createBeneficiary,
     ...config,

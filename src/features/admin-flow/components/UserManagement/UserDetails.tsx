@@ -17,10 +17,12 @@ import { IoDocumentText } from 'react-icons/io5';
 import { useLocation } from 'react-router';
 
 import { Approve, Modal, PDFViewer, RejectRequest, Skeleton } from '@/components';
+import { CONSTANTS } from '@/constants';
+import { ApproveKyc, useApproveKyc } from '@/features/user-flow';
 import { useErrorNotification } from '@/hooks';
 import { decryptUrlParams, downloadFile } from '@/utils';
 
-import { useGetUsers } from '../../apis';
+import { useGetUserDetails } from '../../apis';
 
 export const UserDetails = () => {
   const location = useLocation();
@@ -29,32 +31,31 @@ export const UserDetails = () => {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const urlParameters = decryptUrlParams(location.search) as { username: string };
-  const { data: user, isError, isPending, error } = useGetUsers(urlParameters.username);
-
-  const firstUser = user?.content[0];
-
+  const urlParameters = decryptUrlParams(location.search) as { userId: number };
+  const userId = Number(urlParameters.userId);
+  const { data: user, isError, isPending, error } = useGetUserDetails(userId);
+  const isKycStatus = user?.data?.kyc?.kycStatus === CONSTANTS.PENDING;
   const userDetails = [
     {
       name: 'Email',
-      value: firstUser?.kyc?.email,
+      value: user?.data?.kyc?.email,
     },
     {
       name: 'Phone number',
-      value: firstUser?.phoneNumber,
+      value: user?.data?.phoneNumber,
     },
     {
       name: 'Country',
-      value: firstUser?.kyc?.idVerificationCountry,
+      value: user?.data?.kyc?.idVerificationCountry,
     },
   ];
 
   useEffect(() => {
-    if (user && firstUser?.kyc?.profilePicture) {
-      setImageSrc(firstUser?.kyc?.profilePicture);
+    if (user && user?.data?.kyc?.profilePicture) {
+      setImageSrc(user?.data?.kyc?.profilePicture);
     }
-    if (firstUser?.kyc?.idVerificationFile) {
-      setDocument(firstUser?.kyc?.idVerificationFile);
+    if (user?.data?.kyc?.idVerificationFile) {
+      setDocument(user?.data?.kyc?.idVerificationFile);
     }
   });
 
@@ -63,6 +64,22 @@ export const UserDetails = () => {
     description: error?.message ?? 'Error retrieving user',
     isError,
   });
+
+  const { isOpen: isOpenApr, onClose: onCloseApr, onOpen: onOpenApr } = useDisclosure();
+
+  const approveKycMutation = useApproveKyc();
+  const approveRequestHandler = async () => {
+    const approveRequestBody: ApproveKyc = {
+      userId: userId,
+      comment: 'Approved',
+      approved: true,
+    };
+    approveKycMutation.mutate(approveRequestBody, {
+      onSuccess() {
+        onCloseApr();
+      },
+    });
+  };
   return (
     <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} pb={12}>
       <Skeleton isError={isError} isLoading={isPending}>
@@ -73,7 +90,7 @@ export const UserDetails = () => {
                 <Stack alignItems="center" w="full" spacing={4}>
                   <Avatar src={`data:image/jpeg;base64,${imageSrc}`} boxSize="120px" />
                   <Text fontFamily="body" color="black.800" fontSize="md">
-                    {`${firstUser?.kyc?.firstName}-${firstUser?.kyc?.lastName}`}
+                    {`${user?.data?.kyc?.firstName}-${user?.data?.kyc?.lastName}`}
                   </Text>
                   <Box rounded="4px" p={3} bgColor="blue.100" w="full">
                     <Text fontFamily="body" fontSize="sm" pb={2}>
@@ -105,54 +122,61 @@ export const UserDetails = () => {
                 ))}
               </CardBody>
             </Card>
-            {document && (
-              <>
-                <Modal
-                  id="pdf-viewer"
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  body={
-                    <Stack>
-                      <HStack _hover={{ cursor: 'pointer' }} onClick={() => downloadFile(document)}>
-                        <Icon boxSize={7} as={HiOutlineDocumentDownload} />
-                        <Text fontSize="lg" fontFamily="body" color="primary.800">
-                          Download File
-                        </Text>
-                      </HStack>
-                      <PDFViewer base64String={document} />
-                    </Stack>
-                  }
-                  styles={{ width: '60%' }}
-                />
-              </>
-            )}
+
+            <Modal
+              id="pdf-viewer"
+              isOpen={isOpen}
+              onClose={onClose}
+              body={
+                <Stack>
+                  <HStack _hover={{ cursor: 'pointer' }} onClick={() => downloadFile(document)}>
+                    <Icon boxSize={7} as={HiOutlineDocumentDownload} />
+                    <Text fontSize="lg" fontFamily="body" color="primary.800">
+                      Download File
+                    </Text>
+                  </HStack>
+                  <PDFViewer base64String={document} />
+                </Stack>
+              }
+              styles={{ width: '60%' }}
+            />
           </Box>
 
           <Stack flex={1} spacing={4}>
-            <Stack spacing={4}>
-              <Text fontSize="xl" color="black.500" fontFamily="body" fontWeight="semibold">
-                ID Document details
-              </Text>
-              <Box p={3} bgColor="blue.50" borderRadius="8px">
-                <Icon as={IoDocumentText} boxSize={10} color="primary.800" />
-                <Text
-                  fontFamily="body"
-                  fontSize="lg"
-                  color="black.500"
-                  pt={2}
-                  _hover={{ cursor: 'pointer' }}
-                  onClick={onOpen}
-                >
-                  View Document
+            {document && (
+              <Stack spacing={4}>
+                <Text fontSize="xl" color="black.500" fontFamily="body" fontWeight="semibold">
+                  ID Document details
                 </Text>
-              </Box>
-            </Stack>
-            <Flex justifyContent="center">
-              <HStack pt={10} w="50%">
-                <Approve text="Are you sure you wan to approve this KYC request?" />
-                <RejectRequest />
-              </HStack>
-            </Flex>
+                <Box p={3} bgColor="blue.50" borderRadius="8px">
+                  <Icon as={IoDocumentText} boxSize={10} color="primary.800" />
+                  <Text
+                    fontFamily="body"
+                    fontSize="lg"
+                    color="black.500"
+                    pt={2}
+                    _hover={{ cursor: 'pointer' }}
+                    onClick={onOpen}
+                  >
+                    View Document
+                  </Text>
+                </Box>
+              </Stack>
+            )}
+
+            {isKycStatus && (
+              <Flex justifyContent="center">
+                <HStack pt={10} w="50%">
+                  <Approve
+                    actionHandler={approveRequestHandler}
+                    text="Are you sure you wan to approve this KYC request?"
+                    isLoading={approveKycMutation.isPending}
+                    modalOptions={{ isOpen: isOpenApr, onClose: onCloseApr, onOpen: onOpenApr }}
+                  />
+                  <RejectRequest userId={userId} />
+                </HStack>
+              </Flex>
+            )}
           </Stack>
         </Stack>
       </Skeleton>

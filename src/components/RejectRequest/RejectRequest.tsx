@@ -2,6 +2,8 @@ import { Button, Stack, useDisclosure } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { ApproveKyc, useApproveKyc } from '@/features/user-flow';
+
 import { FormTextarea } from '../Form';
 import { Modal } from '../Modal';
 
@@ -9,8 +11,13 @@ const validationSchema = yup.object().shape({
   comment: yup.string().required().label('Comment'),
 });
 
-export const RejectRequest = () => {
+type RejectRequestProps = {
+  userId: number;
+};
+
+export const RejectRequest = ({ userId }: RejectRequestProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const approveKycMutation = useApproveKyc();
 
   const formik = useFormik({
     initialValues: {
@@ -18,7 +25,16 @@ export const RejectRequest = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      const rejectRequestBody: ApproveKyc = {
+        userId,
+        approved: false,
+        comment: values.comment,
+      };
+      approveKycMutation.mutate(rejectRequestBody, {
+        onSuccess() {
+          onClose();
+        },
+      });
     },
   });
   return (

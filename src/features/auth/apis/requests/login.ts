@@ -48,7 +48,12 @@ export const useLogin = ({ config }: UseLoginOptions = {}) => {
       saveDataToSessStorage('token', res.data.token);
       dispatch(setToken(res.data.token));
       dispatch(setAuthUser(res.data.user));
-      navigate('/user' + '/' + LINKS.DASHBOARD);
+
+      if (res.data.user.username === 'admin@gmail.com') {
+        navigate(LINKS.USER_MANAGEMENT);
+      } else {
+        navigate('/user' + '/' + LINKS.DASHBOARD);
+      }
     },
     mutationFn: login,
     ...config,

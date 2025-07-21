@@ -8,7 +8,7 @@ import { queryKey, url } from '../url-query';
 
 export const getUserDetails = async (userId: number) => {
   try {
-    const response = await axios.get<ApiResponse<UserDTO>>(`${url.getUsers}/${userId}`);
+    const response = await axios.get<ApiResponse<UserDTO>>(`${url.getUserDetails}/${userId}`);
     return response.data;
   } catch (err) {
     throw Error(formatError(err));

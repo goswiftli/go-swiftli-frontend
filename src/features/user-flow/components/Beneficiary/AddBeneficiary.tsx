@@ -15,14 +15,9 @@ import {
 
 import { BankingInformation } from './BankingInformation';
 import { BeneficiaryAddress } from './BeneficiaryAddress';
-import { PaymentMethod } from './PaymentMethod';
 
 export const AddBeneficiary = () => {
-  const steps = [
-    { title: 'Payment Method' },
-    { title: 'Banking Information' },
-    { title: 'Beneficiary Address ' },
-  ];
+  const steps = [{ title: 'Banking Information' }, { title: 'Beneficiary Address ' }];
 
   const { activeStep, setActiveStep } = useSteps({
     index: 0,
@@ -63,7 +58,6 @@ export const AddBeneficiary = () => {
   };
 
   const stepComponents = [
-    <PaymentMethod handleNext={handleNext} />,
     <BankingInformation handleNext={handleNext} handlePrevious={handlePrevious} />,
     <BeneficiaryAddress handlePrevious={handlePrevious} />,
   ];

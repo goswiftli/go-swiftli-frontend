@@ -1,22 +1,27 @@
-import { Box, Button, HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 
 import { Modal } from '../Modal';
 
 type ApproveProps = {
   text: string;
-  actionHandler?: () => void;
+  actionHandler: () => void;
+  isLoading: boolean;
+  modalOptions: {
+    isOpen: boolean;
+    onOpen: () => void;
+    onClose: () => void;
+  };
 };
 
-export const Approve = ({ text, actionHandler }: ApproveProps) => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+export const Approve = ({ text, actionHandler, isLoading, modalOptions }: ApproveProps) => {
   return (
     <Modal
       id="approve"
-      isOpen={isOpen}
+      isOpen={modalOptions.isOpen}
       styles={{ w: { base: 'full', lg: '50%', xl: '40%' } }}
-      onClose={onClose}
+      onClose={modalOptions.onClose}
       trigger={
-        <Button w="full" rounded="8px" variant="success-button" onClick={onOpen}>
+        <Button w="full" rounded="8px" variant="success-button" onClick={modalOptions.onOpen}>
           Approve
         </Button>
       }
@@ -32,10 +37,16 @@ export const Approve = ({ text, actionHandler }: ApproveProps) => {
           </Box>
 
           <HStack w="full" justifyContent="center">
-            <Button w="30%" rounded="8px" variant="secondary" onClick={onClose}>
+            <Button w="30%" rounded="8px" variant="secondary" onClick={modalOptions.onClose}>
               Cancel
             </Button>
-            <Button w="30%" rounded="8px" variant="success-button" onClick={actionHandler}>
+            <Button
+              w="30%"
+              rounded="8px"
+              variant="success-button"
+              onClick={actionHandler}
+              isLoading={isLoading}
+            >
               Approve
             </Button>
           </HStack>

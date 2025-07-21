@@ -18,7 +18,14 @@ const validationSchema = yup.object().shape({
   currency: yup.string().required().label('Currency'),
   accountType: yup.string().required().label('Account Type'),
   accountName: yup.string().required().label('Account Name'),
-  achRoutingNumber: yup.string().required().label('ACH Routing number'),
+  achRoutingNumber: yup
+    .string()
+    .label('ACH Routing number')
+    .when('paymentMethod', {
+      is: 'ACH',
+      then: (schema) => schema.required(),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   bankName: yup.string().required().label('Bank Name'),
   accountNumber: yup.string().required().label('Account Number'),
 });
@@ -35,6 +42,7 @@ export const BankingInformation = ({ handleNext, handlePrevious }: BankingInform
       achRoutingNumber: beneficiaryInformation.bankInformation?.achRoutingNumber ?? '',
       bankName: beneficiaryInformation.bankInformation?.bankName ?? '',
       accountNumber: beneficiaryInformation.bankInformation?.accountNumber ?? '',
+      paymentMethod: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -52,10 +60,14 @@ export const BankingInformation = ({ handleNext, handlePrevious }: BankingInform
     },
   });
 
-  const [selectedBtn, setSelectedBtn] = useState('');
+  const [selectedBtn, setSelectedBtn] = useState('DOMESTIC_WIRE');
   const handleClick = (btnName: string) => {
     setSelectedBtn(btnName);
+    formik.setFieldValue('paymentMethod', btnName);
   };
+
+  const isSelectedAch = selectedBtn === 'ACH';
+
   return (
     <Box>
       <form onSubmit={formik.handleSubmit}>
@@ -69,7 +81,7 @@ export const BankingInformation = ({ handleNext, handlePrevious }: BankingInform
               <Box w="full">
                 <FormSelect
                   label="Currency"
-                  placeholder="US Dollar ($)"
+                  placeholder="Select currency"
                   name="currency"
                   options={currencyOptions}
                   value={formik.values.currency}
@@ -80,32 +92,35 @@ export const BankingInformation = ({ handleNext, handlePrevious }: BankingInform
                 <HStack pt={6} spacing={4}>
                   <Button
                     w="50%"
-                    variant={selectedBtn === 'ACH' ? 'primary' : 'tertiary'}
+                    variant={isSelectedAch ? 'primary' : 'tertiary'}
                     onClick={() => handleClick('ACH')}
                   >
                     ACH
                   </Button>
                   <Button
                     w="50%"
-                    variant={selectedBtn === 'Domestic wire' ? 'primary' : 'tertiary'}
-                    onClick={() => handleClick('Domestic wire')}
+                    variant={selectedBtn === 'DOMESTIC_WIRE' ? 'primary' : 'tertiary'}
+                    onClick={() => handleClick('DOMESTIC_WIRE')}
                   >
                     Domestic wire
                   </Button>
                 </HStack>
               </Box>
 
-              <FormInput
-                label="ACH routing number"
-                placeholder="Enter routing number"
-                name="achRoutingNumber"
-                value={formik.values.achRoutingNumber}
-                isInvalid={
-                  formik.touched.achRoutingNumber && Boolean(formik.errors.achRoutingNumber)
-                }
-                onChange={formik.handleChange}
-                errorMessage={formik.touched.achRoutingNumber && formik.errors.achRoutingNumber}
-              />
+              {isSelectedAch && (
+                <FormInput
+                  label="ACH routing number"
+                  placeholder="Enter routing number"
+                  name="achRoutingNumber"
+                  value={formik.values.achRoutingNumber}
+                  isInvalid={
+                    formik.touched.achRoutingNumber && Boolean(formik.errors.achRoutingNumber)
+                  }
+                  onChange={formik.handleChange}
+                  errorMessage={formik.touched.achRoutingNumber && formik.errors.achRoutingNumber}
+                />
+              )}
+
               <FormInput
                 label="Bank Name"
                 placeholder="Enter Bank Name"

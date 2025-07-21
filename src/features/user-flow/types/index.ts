@@ -45,9 +45,9 @@ export type KycDTO = {
 };
 
 export type ApproveKyc = {
-  id: number;
+  userId: number;
   comment: string;
-  APPROVAL_TYPE: 'REJECT' | 'APPROVE';
+  approved: boolean;
 };
 export type KycInfo = {
   comment: string;
@@ -81,4 +81,14 @@ export type BeneficiaryDTO = {
   beneficiaryAddress?: BeneficiaryAddressDTO;
 };
 
+export type CreateBeneficiaryDTO = {
+  name: string;
+  accountNumber: string;
+  bankName: string;
+};
+
+export type BeneficiaryListDTO = {
+  userId: number;
+  beneficiaries: CreateBeneficiaryDTO[];
+};
 export type PaymentType = CONSTANTS.CARD_PAYMENT | CONSTANTS.BANK_TRANSFER;

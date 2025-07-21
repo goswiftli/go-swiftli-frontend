@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router';
 
 import { ReactComponent as NigeriaIcon } from '@/assets/icons/nigeria-flag.svg';
 import { ReactComponent as UnitedStatesIcon } from '@/assets/icons/united-states.svg';
-import { LINKS } from '@/constants';
+import { CONSTANTS, LINKS } from '@/constants';
+import { useGetUserDetails } from '@/features/admin-flow';
+import { useAppSelector } from '@/redux';
 import { formatCurrency } from '@/utils';
 
 export const DashboardHeader = () => {
@@ -32,10 +34,21 @@ export const DashboardHeader = () => {
     },
   ];
   const navigate = useNavigate();
+
+  const { authUser } = useAppSelector((state) => state.auth);
+  const { data: user } = useGetUserDetails(authUser.id);
+
+  const isKycStatus = user?.data.kyc.kycStatus === CONSTANTS.APPROVED;
+  const filteredHeaderBtns = () => {
+    if (isKycStatus) {
+      return headerButtons.filter((btn) => btn.name !== 'Complete KYC');
+    }
+    return headerButtons;
+  };
   return (
     <Stack spacing={10}>
       <HStack width="full" justifyContent="end" flexWrap="wrap">
-        {headerButtons.map((button) => (
+        {filteredHeaderBtns().map((button) => (
           <Button
             key={button.name}
             color="primary.800"

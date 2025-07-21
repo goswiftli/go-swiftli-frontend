@@ -34,7 +34,7 @@ export const Menu = ({
   closeOnSelect,
   isLoading = false,
   styles,
-  menuTitle,
+  menuTitle = '',
 }: MenuProps) => {
   const handleSelectItem = (item: string, name: string) => {
     handleClick?.(item, name);

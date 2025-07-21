@@ -8,6 +8,8 @@ import { FormInput, FormSelect, Modal } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { saveDataToSessStorage, transformDataToOptions } from '@/utils';
 
+import { useCreateBeneficiary } from '../../apis';
+import { CreateBeneficiaryDTO } from '../../types';
 import { setBeneficiaryInformation } from '../../userFlowSlice';
 
 type BeneficiaryAddressProps = {
@@ -36,6 +38,7 @@ export const BeneficiaryAddress = ({ handlePrevious }: BeneficiaryAddressProps) 
     (item) => item.name.common
   );
 
+  const createBeneficiaryMutation = useCreateBeneficiary();
   const formik = useFormik({
     initialValues: {
       country: beneficiaryInformation.beneficiaryAddress?.country ?? '',
@@ -56,7 +59,16 @@ export const BeneficiaryAddress = ({ handlePrevious }: BeneficiaryAddressProps) 
           beneficiaryAddress: { ...values },
         })
       );
-      onOpen();
+      const beneficiaryData = {
+        name: beneficiaryInformation.bankInformation?.accountName,
+        bankName: beneficiaryInformation.bankInformation?.bankName,
+        accountNumber: beneficiaryInformation.bankInformation?.accountNumber,
+      };
+      createBeneficiaryMutation.mutate(beneficiaryData as CreateBeneficiaryDTO, {
+        onSuccess() {
+          onOpen();
+        },
+      });
     },
   });
   const handleNavigate = () => {
@@ -140,7 +152,12 @@ export const BeneficiaryAddress = ({ handlePrevious }: BeneficiaryAddressProps) 
               <Button rounded="6px" variant="ghost" onClick={handlePrevious}>
                 Back
               </Button>
-              <Button w="full" type="submit">
+              <Button
+                _hover={{ bgColor: 'primary.800' }}
+                w="full"
+                type="submit"
+                isLoading={createBeneficiaryMutation.isPending}
+              >
                 Save
               </Button>
             </HStack>

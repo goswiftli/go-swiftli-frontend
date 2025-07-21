@@ -18,7 +18,7 @@ type Country = {
 
 export const getCountries = async () => {
   try {
-    const response = await axios.get<Country[]>(url.getCountries);
+    const response = await axios.get<Country[]>(`${url.getCountries}?fields=name,cca2`);
 
     return response.data;
   } catch (err) {

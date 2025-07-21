@@ -20,9 +20,9 @@ type UserListProps = {
 
 export const UserList = ({ currentPage, handlePage, users, totalPages }: UserListProps) => {
   const navigate = useNavigate();
-  const handleViewUser = (username: string) => {
+  const handleViewUser = (userId: number) => {
     const queryParams = {
-      username: username,
+      userId: userId,
     };
     const encryptedParams = createEncryptedUrlParams(queryParams);
     navigate(LINKS.USER_DETAILS + encryptedParams);
@@ -58,7 +58,7 @@ export const UserList = ({ currentPage, handlePage, users, totalPages }: UserLis
         <HStack>
           <Box
             onMouseEnter={() => prefetchUserDetails(entry.id)}
-            onClick={() => handleViewUser(entry.username)}
+            onClick={() => handleViewUser(entry.id)}
             _hover={{ cursor: 'pointer' }}
           >
             <Icon color="black.700" as={FaEye} boxSize={8} />

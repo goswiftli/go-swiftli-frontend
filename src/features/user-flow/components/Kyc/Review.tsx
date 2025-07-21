@@ -53,21 +53,22 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
       }
     };
     const returnIdentityDocument = async () => {
-      if (!identification?.fileDetails) return;
-      const data = (await getFileFromIdb(identification.fileDetails.type)) as {
-        file: File;
-        fileType: string;
-      };
-      if (data) {
-        setDocumentDetails({
-          file: data.file,
-          fileType: data.fileType,
-        });
+      if (identification.fileDetails?.type) {
+        const data = (await getFileFromIdb(identification.fileDetails.type ?? 'default_value')) as {
+          file: File;
+          fileType: string;
+        };
+        if (data?.file && data?.fileType) {
+          setDocumentDetails({
+            file: data.file,
+            fileType: data.fileType,
+          });
+        }
       }
     };
     returnProfilePhoto();
     returnIdentityDocument();
-  }, [identification.fileDetails?.type]);
+  }, [identification]);
 
   const userDetails = [
     {

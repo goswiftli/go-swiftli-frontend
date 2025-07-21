@@ -4,6 +4,7 @@ export const url = {
   kycSetup: env.API_BASE_URL + '/kyc/create',
   getKyc: env.API_BASE_URL + '/kyc',
   beneficiary: env.API_BASE_URL + '/beneficiary',
+  approveKyc: env.API_BASE_URL + '/admin/user/approve-kyc',
 };
 
 export const queryKey = {
