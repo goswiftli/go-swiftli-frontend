@@ -29,3 +29,9 @@ export type User = {
     id: number;
   }[];
 };
+
+export type ChangePasswordDTO = {
+  oldPassword: string;
+  newPassword: string;
+  email: string;
+};

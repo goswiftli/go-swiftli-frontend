@@ -32,7 +32,18 @@ export interface Paginate<T> {
   size: number;
   number: number;
   empty: boolean;
-  data: {
-    content: T[];
-  };
+  content: T[];
 }
+
+export type PaymentRequestDTO = {
+  amount: number;
+  currencyCode: string;
+  narration: string;
+  email: string;
+};
+
+export type PaymentResponseDTO = {
+  authorizationUrl: string;
+  accessCode: string;
+  reference: StringConstructor;
+};

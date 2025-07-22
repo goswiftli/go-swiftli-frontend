@@ -1,7 +1,9 @@
 import {
+  Flex,
   HStack,
   Icon,
   Table,
+  TableCaption,
   TableContainer,
   Tbody,
   Td,
@@ -15,15 +17,20 @@ import { FiEdit3 } from 'react-icons/fi';
 type UserInfoProps = {
   headerName: string;
   column: {
-    name: string;
-    value: string;
+    name: React.ReactNode;
+    value: React.ReactNode;
   }[];
+  hasEditBtn?: {
+    editBtnAction: () => void;
+  };
+  actionItem?: React.ReactNode;
 };
 
-export const UserInfo = ({ headerName, column }: UserInfoProps) => {
+export const UserInfo = ({ headerName, column, hasEditBtn, actionItem }: UserInfoProps) => {
   return (
     <TableContainer bgColor="white" rounded="18px 18px 0 0">
       <Table variant="simple" size="md">
+        {actionItem && <TableCaption>{actionItem}</TableCaption>}
         <Thead bgColor="blue.50">
           <Tr>
             <Th
@@ -36,7 +43,12 @@ export const UserInfo = ({ headerName, column }: UserInfoProps) => {
               {headerName}
             </Th>
             <Th textTransform="capitalize" letterSpacing="0">
-              <HStack _hover={{ cursor: 'pointer' }} justifyContent="flex-end">
+              <HStack
+                _hover={{ cursor: 'pointer' }}
+                justifyContent="flex-end"
+                display={hasEditBtn ? 'flex' : 'none'}
+                onClick={hasEditBtn?.editBtnAction}
+              >
                 <Icon as={FiEdit3} color="blue.300" boxSize="16px" />
                 <Text fontFamily="body" fontSize="md" color="blue.300">
                   Edit
@@ -46,11 +58,13 @@ export const UserInfo = ({ headerName, column }: UserInfoProps) => {
           </Tr>
         </Thead>
         <Tbody>
-          {column.map((data) => (
-            <Tr key={data.name}>
-              <Td>{data.name}</Td>
-              <Td display="flex" justifyContent="flex-end">
-                {data.value}
+          {column.map((data, index) => (
+            <Tr key={index}>
+              <Td whiteSpace="normal" maxW="60%">
+                {data.name}
+              </Td>
+              <Td>
+                <Flex justifyContent="flex-end">{data.value}</Flex>
               </Td>
             </Tr>
           ))}

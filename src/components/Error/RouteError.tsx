@@ -4,6 +4,10 @@ import { Link as ReactLink, useRouteError } from 'react-router';
 export const RouteError = () => {
   const error: any = useRouteError();
 
+  const hasError = ((error.statusText as string) || (error.message as string)).includes(
+    'Failed to fetch dynamically'
+  );
+
   return (
     <Box h="100vh" w="full" overflow="hidden" position="relative">
       <Box
@@ -39,7 +43,7 @@ export const RouteError = () => {
             Sorry, an unexpected error has occurred.
           </Text>
           <Heading fontSize="md" fontWeight={'600'} color="error.400" fontFamily="body">
-            {error.statusText || error.message}
+            {hasError ? 'Network Issues' : error.statusText || error.message}
           </Heading>
 
           <Button rounded="4px" size={'md'}>

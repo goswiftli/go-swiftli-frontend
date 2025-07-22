@@ -1,15 +1,31 @@
 import { Box } from '@chakra-ui/react';
-import { Suspense } from 'react';
-import { Outlet, RouteObject } from 'react-router';
+import { Suspense, useCallback } from 'react';
+import { Navigate, Outlet, RouteObject, useLocation } from 'react-router';
 
 import { LogoLoader, RouteError } from '@/components';
+import { LINKS } from '@/constants';
 import { AdminRoutes } from '@/features/admin-flow';
 import { AuthRoutes } from '@/features/auth';
 import { LandingPageRoutes } from '@/features/landing-page';
+import { SharedRoutes } from '@/features/shared';
+import { UserRoutes } from '@/features/user-flow';
+import { useAppSelector } from '@/redux';
+import { storage } from '@/utils';
 
 import { BaseApp } from './BaseApp';
 
 export const App = () => {
+  const location = useLocation();
+  const { token } = useAppSelector((state) => state.auth);
+
+  const saveRoute = useCallback(() => {
+    storage.session.setValue('redirect-path', location.pathname);
+  }, [location]);
+
+  if (!token) {
+    saveRoute();
+    return <Navigate to={LINKS.LOGIN} replace />;
+  }
   return (
     <Suspense
       fallback={
@@ -26,7 +42,7 @@ export const App = () => {
 export const AppRoutes: RouteObject = {
   path: '',
   element: <App />,
-  children: [LandingPageRoutes, AuthRoutes],
+  children: [AdminRoutes, UserRoutes, SharedRoutes],
   errorElement: <RouteError />,
 };
 
@@ -36,6 +52,6 @@ export const RoutesList: RouteObject[] = [
     path: '',
     element: <BaseApp />,
     errorElement: <RouteError />,
-    children: [AppRoutes, AdminRoutes],
+    children: [LandingPageRoutes, AuthRoutes, AppRoutes],
   },
 ];

@@ -6,17 +6,27 @@ export enum LINKS {
   CREATE_ACCOUNT = '/create-account',
   VERIFY_EMAIL = '/verify-email',
   FORGOT_PASSWORD = '/forgot-password',
+  CHANGE_PASSWORD = '/change-password',
   DASHBOARD = 'dashboard',
   OVERVIEW = '/overview',
   USER_MANAGEMENT = '/user-management',
-  TRANSACTIONS = '/transactions',
-  BENEFICIARIES = '/beneficiaries',
+  TRANSACTIONS = 'transactions',
+  BENEFICIARIES = 'beneficiaries',
   EXCHANGE_MANAGEMENT = '/exchange-management',
   REPORT_ANALYSIS = '/report-analysis',
   CUSTOMER_SUPPORT = '/customer-support',
   SECURITY_COMPLIANCE = '/security-compliance',
   ROLE_MANAGEMENT = 'role-management',
   USER_DETAILS = 'user-details',
+  PAYMENT = '/payment',
+  COMPLETE_KYC = 'complete-kyc',
+  WITHDRAW = 'withdraw',
+  CONVERT_FUNDS = 'convert-funds',
+  DEPOSIT = 'deposit',
+  MAKE_PAYMENT = 'make-payment',
+  ADD_BENEFICIARY = 'add-beneficiary',
+  SETTINGS = '/settings',
+  PROFILE = '/profile',
 }
 
 export enum CONSTANTS {
@@ -33,6 +43,11 @@ export enum CONSTANTS {
   REFUNDED = 'REFUNDED',
   DECLINED = 'DECLINED',
   BLACKLISTED = 'BLACKLISTED',
+  ID_CARD = 'ID_CARD',
+  DRIVING_LICENSE = 'DRIVING_LICENSE',
+  PASSPORT = 'PASSPORT',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  CARD_PAYMENT = 'CARD_PAYMENT',
 }
 
 export const kycStatus = [CONSTANTS.PENDING, CONSTANTS.APPROVED, CONSTANTS.REJECTED] as const;

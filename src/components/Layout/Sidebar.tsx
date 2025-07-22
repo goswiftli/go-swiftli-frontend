@@ -25,7 +25,7 @@ import { LINKS } from '@/constants';
 
 type SidebarProps = {
   navItems: {
-    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+    icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
     item: string;
     link: LINKS;
   }[];

@@ -44,7 +44,7 @@ const config = [
       'no-restricted-imports': [
         'error',
         {
-          patterns: ['@/features/*/*', '!@/features/*/api', '!@/features/apps/*'],
+          patterns: ['@/features/*/*/*', '!@/features/*/api', '!@/features/apps/*'],
         },
       ],
       'linebreak-style': ['error', 'unix'],

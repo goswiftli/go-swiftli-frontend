@@ -26,11 +26,11 @@ const AdminRouteList: RouteObject[] = [
     element: <UserDetailsView />,
   },
   {
-    path: LINKS.TRANSACTIONS,
+    path: '/' + LINKS.TRANSACTIONS,
     element: <TransactionView />,
   },
   {
-    path: LINKS.BENEFICIARIES,
+    path: '/' + LINKS.BENEFICIARIES,
     element: <BeneficiariesView />,
   },
 ];

@@ -40,6 +40,7 @@ type TableProps<Entry> = {
     isFirstPage: boolean;
     isLastPage: boolean;
   };
+  variant?: string;
 };
 
 export const Table = <Entry extends Record<string, any>>({
@@ -51,6 +52,7 @@ export const Table = <Entry extends Record<string, any>>({
   uniqueKey,
   emptyData,
   pageNext,
+  variant,
 }: TableProps<Entry>) => {
   if (!data?.length) {
     return (
@@ -72,7 +74,7 @@ export const Table = <Entry extends Record<string, any>>({
   return (
     <Box w="100%" overflow="auto" bgColor="white">
       <TableContainer sx={scrollbarSx} maxW="-moz-max-content">
-        <ChakraTable>
+        <ChakraTable variant={variant ?? 'unstyled'}>
           <Thead>
             <Tr>
               {columns.map(({ title, Cell2 }, index) => (

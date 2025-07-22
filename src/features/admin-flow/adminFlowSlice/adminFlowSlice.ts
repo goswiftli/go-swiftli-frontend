@@ -16,6 +16,10 @@ interface State {
   refundStatus: SelectedFilter;
   beneficiaryStatus: SelectedFilter;
   beneficiaryDateRange: SelectedFilter;
+  userFilter: {
+    userStatus: string;
+    kycStatus: string;
+  };
 }
 
 const initialState: State = {
@@ -30,6 +34,7 @@ const initialState: State = {
   refundStatus: { value: '', name: '' },
   beneficiaryStatus: { value: '', name: '' },
   beneficiaryDateRange: { value: '', name: '' },
+  userFilter: { userStatus: '', kycStatus: '' },
 };
 
 export const adminFlowSlice = createSlice({
@@ -47,9 +52,13 @@ export const adminFlowSlice = createSlice({
     },
     setKycStatusFilter: (state, action: PayloadAction<SelectedFilter>) => {
       state.kycStatus = action.payload;
+
+      state.userFilter.kycStatus = action.payload.value;
     },
     setAccountStatusFilter: (state, action: PayloadAction<SelectedFilter>) => {
       state.accountStatus = action.payload;
+
+      state.userFilter.userStatus = action.payload.value;
     },
     setPaymentType: (state, action: PayloadAction<SelectedFilter>) => {
       state.paymentType = action.payload;

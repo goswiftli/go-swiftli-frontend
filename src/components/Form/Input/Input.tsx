@@ -5,6 +5,10 @@ import {
   FormErrorMessage,
   Input,
   type InputProps,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  FormHelperText,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
@@ -13,9 +17,20 @@ export type FormInputProps = InputProps & {
   errorMessage?: string | boolean | string[];
   name: string;
   formControlProps?: FormControlProps;
+  leftElement?: React.ReactNode;
+  rightElement?: React.ReactNode;
+  helperText?: ReactNode;
 };
 
-export function FormInput({ label, errorMessage, formControlProps, ...rest }: FormInputProps) {
+export function FormInput({
+  label,
+  errorMessage,
+  formControlProps,
+  leftElement,
+  rightElement,
+  helperText,
+  ...rest
+}: FormInputProps) {
   return (
     <FormControl {...formControlProps} isInvalid={!!errorMessage}>
       {label && (
@@ -23,21 +38,30 @@ export function FormInput({ label, errorMessage, formControlProps, ...rest }: Fo
           {label}
         </FormLabel>
       )}
-      <Input
-        {...rest}
-        data-testid={rest.name}
-        px={4}
-        py={3}
-        _placeholder={{
-          color: 'black.200',
-          fontSize: 'sm',
-          fontFamily: 'body',
-          fontWeight: 'normal',
-        }}
-      />
-      <FormErrorMessage mt="2px" fontSize={'xs'} fontFamily="body">
+      <InputGroup>
+        {leftElement && <InputLeftElement>{leftElement}</InputLeftElement>}
+        <Input
+          {...rest}
+          data-testid={rest.name}
+          px={4}
+          py={3}
+          _placeholder={{
+            color: 'black.200',
+            fontSize: 'sm',
+            fontFamily: 'body',
+            fontWeight: 'normal',
+          }}
+        />
+        {rightElement && <InputRightElement>{rightElement}</InputRightElement>}
+      </InputGroup>
+      <FormErrorMessage mt="2px" fontSize="xs" fontFamily="body">
         {errorMessage}
       </FormErrorMessage>
+      {helperText && (
+        <FormHelperText mt="2px" fontSize="xs" fontFamily="body">
+          {helperText}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 }

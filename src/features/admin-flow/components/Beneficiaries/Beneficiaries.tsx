@@ -56,7 +56,7 @@ export const Beneficiaries = () => {
     },
     {
       title: 'Date',
-      Cell: ({ entry }) => <Text as="span">{formatDate(entry.date)}</Text>,
+      Cell: ({ entry }) => <Text as="span">{formatDate(entry.date).dateTime}</Text>,
     },
     {
       title: 'ACTIONS',
@@ -78,6 +78,8 @@ export const Beneficiaries = () => {
       ),
     },
   ];
+
+  const [searchTerm, setSearchTerm] = useState('');
   return (
     <section>
       <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden">
@@ -90,7 +92,12 @@ export const Beneficiaries = () => {
             pb={4}
           >
             <Box w={{ base: 'full', lg: '60%' }}>
-              <SearchBox placeholder="Search by transaction ID, Name" />
+              <SearchBox
+                inputValue={searchTerm}
+                setInputValue={setSearchTerm}
+                placeholder="Search by transaction ID, Name"
+                name="beneficiary"
+              />
             </Box>
             <HStack flex={1}>
               <Box w="full">

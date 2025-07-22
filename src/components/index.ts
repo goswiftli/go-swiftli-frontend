@@ -6,3 +6,6 @@ export * from './Form';
 export * from './Head';
 export * from './Layout';
 export * from './ChartTooltip';
+export * from './Modal';
+export * from './RejectRequest';
+export * from './Approve';

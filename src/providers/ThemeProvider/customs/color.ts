@@ -80,4 +80,7 @@ export const colors = {
     200: '#0ADC2A80',
     400: '#3CBC49',
   },
+  info: {
+    100: '#60E7FF',
+  },
 };

@@ -93,7 +93,7 @@ export const BarChartActiveUsers = () => {
             </ResponsiveContainer>
             <HStack w="full" justifyContent="end" pt={5}>
               {tooltipData.map((data) => (
-                <HStack>
+                <HStack key={data.title}>
                   <Icon boxSize="12px" color={data.color} as={RiCheckboxBlankCircleFill} />
                   <Text fontFamily="inter" fontSize="md" color="black.400">
                     {data.title}

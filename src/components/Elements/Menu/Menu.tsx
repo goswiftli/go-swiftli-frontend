@@ -23,6 +23,7 @@ type MenuProps = {
   closeOnSelect?: boolean;
   isLoading?: boolean;
   styles?: SystemCSSProperties;
+  menuTitle?: string;
 };
 
 export const Menu = ({
@@ -33,6 +34,7 @@ export const Menu = ({
   closeOnSelect,
   isLoading = false,
   styles,
+  menuTitle = '',
 }: MenuProps) => {
   const handleSelectItem = (item: string, name: string) => {
     handleClick?.(item, name);
@@ -59,7 +61,7 @@ export const Menu = ({
         rightIcon={<BsChevronDown color="grey.400" />}
         isLoading={isLoading}
       >
-        {convertUnderscoreToSpace(selectedMenuItem) || selectedMenuItem}
+        {convertUnderscoreToSpace(selectedMenuItem) || `Filter by ${menuTitle}`}
       </MenuButton>
 
       <MenuList w="full" maxHeight="200px" overflowY="auto" fontSize="sm" px={2}>

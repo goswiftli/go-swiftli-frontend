@@ -29,6 +29,7 @@ type SidebarProps = {
     icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
     item: string;
     link: LINKS;
+    action?: () => void;
   }[];
 };
 
@@ -64,6 +65,7 @@ export const Sidebar = ({ navItems }: SidebarProps) => {
         <Box
           key={item.item}
           to={item.link}
+          onMouseEnter={item.action}
           _hover={{
             bgColor: 'primary.800',
             borderRightRadius: 'full',

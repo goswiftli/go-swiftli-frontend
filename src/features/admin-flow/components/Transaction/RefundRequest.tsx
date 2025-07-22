@@ -74,6 +74,8 @@ export const RefundRequests = () => {
       ),
     },
   ];
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <Stack alignItems="end" py={4}>
       <HStack
@@ -83,7 +85,12 @@ export const RefundRequests = () => {
         pb={4}
       >
         <Box w={{ base: '60%', lg: '70%' }}>
-          <SearchBox placeholder="Search by transaction ID, Name" />
+          <SearchBox
+            inputValue={searchTerm}
+            setInputValue={setSearchTerm}
+            placeholder="Search by transaction ID, Name"
+            name="refundRequest"
+          />
         </Box>
         <HStack flex={1}>
           <Box w="full">

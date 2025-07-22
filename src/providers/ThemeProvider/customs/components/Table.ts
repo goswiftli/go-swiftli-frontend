@@ -4,6 +4,7 @@ export const Table = {
       fontFamily: 'body',
       fontWeight: 'normal',
       fontSize: 'lg',
+      textTransform: 'capitalize',
     },
     td: {
       fontFamily: 'body',
