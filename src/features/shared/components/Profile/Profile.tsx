@@ -27,7 +27,7 @@ export const Profile = () => {
 
   const { isPending, isError, data: user } = useGetUserDetails(authUser.id);
 
-  const blob = dataURLtoBlob(user?.data.kyc.profilePicture ?? '');
+  const blob = dataURLtoBlob(user?.data?.kyc?.profilePicture ?? '');
   const objectUrl = URL.createObjectURL(blob);
 
   const userDetails = [
@@ -41,7 +41,7 @@ export const Profile = () => {
     },
     {
       name: 'Location',
-      value: user?.data.kyc.idVerificationCountry,
+      value: user?.data?.kyc?.idVerificationCountry ?? 'N/A',
     },
   ];
 
@@ -112,7 +112,7 @@ export const Profile = () => {
                 <Stack alignItems="center" w="full" spacing={4}>
                   <Avatar src={objectUrl} boxSize="120px" />
                   <Text fontFamily="body" color="black.800" fontSize="md">
-                    {`${user?.data.kyc.firstName ?? 'N/A'} ${user?.data.kyc.lastName ?? 'N/A'}`}
+                    {`${user?.data?.kyc?.firstName ?? 'N/A'} ${user?.data?.kyc?.lastName ?? 'N/A'}`}
                   </Text>
                   <Box rounded="4px" p={3} bgColor="blue.100" w="full">
                     <Text fontFamily="body" fontSize="sm" pb={2}>

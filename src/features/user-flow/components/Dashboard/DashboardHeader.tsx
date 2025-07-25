@@ -38,7 +38,7 @@ export const DashboardHeader = () => {
   const { authUser } = useAppSelector((state) => state.auth);
   const { data: user } = useGetUserDetails(authUser.id);
 
-  const isKycStatus = user?.data.kyc.kycStatus === CONSTANTS.APPROVED;
+  const isKycStatus = user?.data?.kyc?.kycStatus === CONSTANTS.APPROVED;
   const filteredHeaderBtns = () => {
     if (isKycStatus) {
       return headerButtons.filter((btn) => btn.name !== 'Complete KYC');
