@@ -27,7 +27,7 @@ export const useAccountInfo = () => {
       name: 'Personal KYC status',
       value: (
         <Skeleton isLoading={isPending} isError={isError} display="flex" justifyContent="flex-end">
-          <Text as="span">{convertUnderscoreToSpace(user?.data.kyc.kycStatus)}</Text>
+          <Text as="span">{convertUnderscoreToSpace(user?.data.kyc?.kycStatus)}</Text>
         </Skeleton>
       ),
     },
