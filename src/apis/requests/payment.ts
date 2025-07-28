@@ -30,13 +30,6 @@ export const useMakePayment = ({ config }: useMakePaymentOptions = {}) => {
         description: err.message,
       });
     },
-    onSuccess: (res) => {
-      toast({
-        id: 'payment-toast-suc',
-        status: 'success',
-        description: res.message,
-      });
-    },
     mutationFn: makePayment,
     ...config,
   });

@@ -47,7 +47,7 @@ const navItems = [
   {
     icon: PaymentIcon,
     item: 'Payment',
-    link: LINKS.PAYMENT,
+    link: ('/user' + '/' + LINKS.MAKE_PAYMENT) as LINKS,
   },
   {
     icon: TransactionIcon,
