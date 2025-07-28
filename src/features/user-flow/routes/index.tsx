@@ -13,6 +13,7 @@ const { AddBeneficiaryView } = lazyImport(() => import('./add-beneficiary'), 'Ad
 const { ConvertFundView } = lazyImport(() => import('./convert-funds'), 'ConvertFundView');
 const { TransactionsView } = lazyImport(() => import('./transactions'), 'TransactionsView');
 const { BeneficiariesView } = lazyImport(() => import('./beneficiaries'), 'BeneficiariesView');
+const { PaymentView } = lazyImport(() => import('./payment'), 'PaymentView');
 
 const UserRouteList: RouteObject[] = [
   {
@@ -42,6 +43,10 @@ const UserRouteList: RouteObject[] = [
   {
     path: LINKS.BENEFICIARIES,
     element: <BeneficiariesView />,
+  },
+  {
+    path: LINKS.MAKE_PAYMENT,
+    element: <PaymentView />,
   },
 ];
 

@@ -192,6 +192,6 @@ const headerButtons = [
   },
   {
     name: 'Make Payment',
-    link: LINKS.MAKE_PAYMENT,
+    link: '/user' + '/' + LINKS.MAKE_PAYMENT,
   },
 ];
