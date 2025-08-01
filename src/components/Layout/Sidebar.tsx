@@ -18,7 +18,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { MdOutlineMenu, MdClose } from 'react-icons/md';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 import logoImg from '@/assets/images/logo.png';
 import { LINKS } from '@/constants';
@@ -32,6 +32,7 @@ type SidebarProps = {
 };
 
 export const Sidebar = ({ navItems }: SidebarProps) => {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -76,10 +77,10 @@ export const Sidebar = ({ navItems }: SidebarProps) => {
             ))}
             <Divider borderWidth="1px" borderColor="black.800" />
             <HStack>
-              <Button w="40%" variant="secondary">
+              <Button w="40%" variant="secondary" onClick={() => navigate(LINKS.LOGIN)}>
                 Login
               </Button>
-              <Button w="60%" variant="primary">
+              <Button w="60%" variant="primary" onClick={() => navigate(LINKS.CREATE_ACCOUNT)}>
                 Create Account
               </Button>
             </HStack>
