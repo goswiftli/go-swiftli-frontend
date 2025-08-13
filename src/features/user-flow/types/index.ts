@@ -1,13 +1,5 @@
 import { CONSTANTS } from '@/constants';
 
-export type UserTransactionDTO = {
-  amount: number;
-  transactionId: number;
-  method: string;
-  date: string;
-  status: string;
-};
-
 export type UserBeneficiaryDTO = {
   name: string;
   accountNumber: string;
@@ -90,5 +82,13 @@ export type CreateBeneficiaryDTO = {
 export type BeneficiaryListDTO = {
   userId: number;
   beneficiaries: CreateBeneficiaryDTO[];
+};
+
+export type TransactionsDTO = {
+  amount: number;
+  reference: string;
+  paymentMethod: string;
+  date: string;
+  transactionStatus: string;
 };
 export type PaymentType = CONSTANTS.CARD_PAYMENT | CONSTANTS.BANK_TRANSFER;

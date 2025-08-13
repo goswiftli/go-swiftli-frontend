@@ -7,7 +7,9 @@ export interface GenericResponse {
 export interface ApiResponse<TData> extends GenericResponse {
   data: TData;
 }
-
+export interface PaginatedResponse<T> extends GenericResponse {
+  data: T;
+}
 type Sort = {
   sorted: boolean;
   unsorted: boolean;
@@ -45,5 +47,6 @@ export type PaymentRequestDTO = {
 export type PaymentResponseDTO = {
   authorizationUrl: string;
   accessCode: string;
-  reference: StringConstructor;
+  reference: string;
+  status: string;
 };

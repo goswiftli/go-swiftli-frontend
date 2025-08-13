@@ -11,33 +11,11 @@ type Props = {
     isLastPage: boolean;
   };
 };
-const Pagination: FC<Props> = ({
-  handlePage,
-  totalPages,
-  currentPage,
-  prefetchNextPage,
-  pageNext,
-}) => {
+const Pagination: FC<Props> = ({ handlePage, totalPages, currentPage }) => {
   return (
     <ReactPaginate
-      previousLabel={
-        !pageNext?.isFirstPage && (
-          <button disabled={currentPage === 0} style={{ width: '100px' }}>
-            Previous
-          </button>
-        )
-      }
-      nextLabel={
-        !pageNext?.isLastPage && (
-          <button
-            onMouseEnter={prefetchNextPage}
-            disabled={currentPage === totalPages - 1}
-            style={{ width: '100px' }}
-          >
-            Next
-          </button>
-        )
-      }
+      previousLabel={null}
+      nextLabel={null}
       breakLabel={'...'}
       pageRangeDisplayed={3}
       pageCount={totalPages}

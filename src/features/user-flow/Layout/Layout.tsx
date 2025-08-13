@@ -1,4 +1,4 @@
-import { Grid, GridItem, Stack } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Stack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { ReactComponent as BeneficiariesIcon } from '@/assets/icons/beneficiaries.svg';
@@ -28,10 +28,12 @@ export const Layout = ({ children, title }: { children: ReactNode; title?: strin
         <Sidebar navItems={navItems} />
       </GridItem>
 
-      <GridItem area="main" overflowY="auto" bgColor="blue.200">
+      <GridItem area="main" bgColor="blue.200">
         <Stack>
-          <Header isUser navItemsUser={navItems} title={title ?? ''} />
-          {children}
+          <Header isUser navItemsUser={navItems} title={title} />
+          <Box h="90vh" as="main" className="scrollable-element" overflowY="auto">
+            {children}
+          </Box>
         </Stack>
       </GridItem>
     </Grid>

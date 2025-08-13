@@ -5,6 +5,7 @@ export const url = {
   getKyc: env.API_BASE_URL + '/kyc',
   beneficiary: env.API_BASE_URL + '/beneficiary',
   approveKyc: env.API_BASE_URL + '/admin/user/approve-kyc',
+  getTransactions: env.API_BASE_URL + '/transactions',
 };
 
 export const queryKey = {
@@ -12,4 +13,5 @@ export const queryKey = {
   getKyc: () => [...queryKey.all, 'get-kyc'],
   getBeneficiary: () => [...queryKey.all, 'beneficiary'],
   getBeneficiaryDetails: () => [...queryKey.all, 'beneficiary-details'],
+  getTransactions: () => [...queryKey.all, 'transactions'],
 };

@@ -20,7 +20,7 @@ export const getCountries = async () => {
   try {
     const response = await axios.get<Country[]>(`${url.getCountries}?fields=name,cca2`);
 
-    return response.data;
+    return response.data.sort((a, b) => a.name.common.localeCompare(b.name.common));
   } catch (err) {
     throw new Error(formatError(err));
   }

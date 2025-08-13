@@ -46,22 +46,22 @@ export const Profile = () => {
   ];
 
   const {
-    handleSubmit,
     personalDetails,
     setShowForm,
     showForm,
-    isLoadingProfile,
     formik: formikPersonal,
+    handleSubmit,
   } = usePersonalDetails();
   const {
-    handleSubmitBusiness,
     businessDetails,
     setShowBusinessForm,
     showBusinessForm,
     formik: formikBusiness,
-    isLoadingBusiness,
+    handleSubmitBusiness,
   } = useBusinessDetails();
+
   const { accountInfo } = useAccountInfo();
+
   const showPersonalDetailsForm = () => {
     setShowForm(true);
   };
@@ -73,6 +73,7 @@ export const Profile = () => {
   const setupProfileMutation = useSetupProfile();
 
   const [showAllForm, setShowAllForm] = useState(false);
+
   const handleSubmitAll = async () => {
     showBusinessDetailsForm();
     showPersonalDetailsForm();
@@ -95,10 +96,17 @@ export const Profile = () => {
     ]);
 
     if (personalValid && businessValid) {
-      setupProfileMutation.mutate({
-        ...formikPersonal.values,
-        ...formikBusiness.values,
-      });
+      setupProfileMutation.mutate(
+        {
+          ...formikPersonal.values,
+          ...formikBusiness.values,
+        },
+        {
+          onSuccess() {
+            formikBusiness.resetForm(), formikPersonal.resetForm();
+          },
+        }
+      );
     }
   };
 
@@ -174,7 +182,6 @@ export const Profile = () => {
                     onClick={handleSubmit}
                     display={showForm ? 'block' : 'false'}
                     _hover={{ bgColor: 'primary.800' }}
-                    isLoading={isLoadingProfile}
                   >
                     Save
                   </Button>
@@ -208,7 +215,6 @@ export const Profile = () => {
                     onClick={handleSubmitBusiness}
                     display={showBusinessForm ? 'block' : 'false'}
                     _hover={{ bgColor: 'primary.800' }}
-                    isLoading={isLoadingBusiness}
                   >
                     Save
                   </Button>
@@ -219,7 +225,13 @@ export const Profile = () => {
           <UserInfo headerName="Account Information" column={accountInfo} />
 
           <Box pt={6}>
-            <Button type="button" w="50%" onClick={handleSubmitAll}>
+            <Button
+              type="button"
+              w="50%"
+              onClick={handleSubmitAll}
+              _hover={{ bgColor: 'primary.800' }}
+              isLoading={setupProfileMutation.isPending}
+            >
               Save
             </Button>
           </Box>

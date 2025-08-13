@@ -113,9 +113,6 @@ export const getFileFromIdb = async (key: string) => {
   return db.get(STORE_NAME, key);
 };
 
-/**
- * Delete a file by key.
- */
 export const deleteFileFromIdb = async (key: string) => {
   const db = await initDB();
   await db.delete(STORE_NAME, key);
