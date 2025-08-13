@@ -13,7 +13,7 @@ import {
 import { BiSolidPieChartAlt2 } from 'react-icons/bi';
 import { BsFillBellFill } from 'react-icons/bs';
 import { MdSettings } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import { ReactComponent as BeneficiariesIcon } from '@/assets/icons/beneficiaries.svg';
 import { ReactComponent as ExchangeIcon } from '@/assets/icons/exchange-icon.svg';
@@ -27,13 +27,14 @@ import picture from '@/assets/images/user1.png';
 import { LINKS } from '@/constants';
 import { logout } from '@/features/auth';
 import { useAppDispatch, useAppSelector } from '@/redux';
+import { convertUnderscoreToSpace } from '@/utils';
 
 import { prefetchUserDetails } from '../apis';
 
 import { Sidebar } from './Sidebar';
 
 type HeaderProps = {
-  title: string;
+  title?: string;
   navItemsUser?: {
     icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
     item: string;
@@ -42,7 +43,7 @@ type HeaderProps = {
   isUser?: boolean;
 };
 
-export const Header = ({ title, navItemsUser, isUser = false }: HeaderProps) => {
+export const Header = ({ navItemsUser, isUser = false, title: headerTitle }: HeaderProps) => {
   const navigate = useNavigate();
   const { authUser } = useAppSelector((state) => state.auth);
 
@@ -84,6 +85,8 @@ export const Header = ({ title, navItemsUser, isUser = false }: HeaderProps) => 
 
   const menuItems = isUser ? userMenuItems : adminMenuItems;
 
+  const location = useLocation();
+  const title = convertUnderscoreToSpace(location.pathname.split('/')[1]);
   return (
     <header>
       <Box
@@ -98,7 +101,7 @@ export const Header = ({ title, navItemsUser, isUser = false }: HeaderProps) => 
             </Box>
             <Box>
               <Text fontFamily="body" fontSize={{ base: 'xl', lg: '3xl' }} fontWeight="semibold">
-                {title}
+                {headerTitle ?? title}
               </Text>
             </Box>
           </HStack>

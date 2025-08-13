@@ -1,4 +1,4 @@
-import { Stack, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Stack, useBreakpointValue } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { LINKS } from '@/constants';
@@ -28,7 +28,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     <Stack bgColor="#F7F7FC">
       {isMobileSize ? <Sidebar navItems={navItems} /> : <Header />}
 
-      {children}
+      <Box overflowY="auto" h="90vh" className="scrollable-element">
+        {children}
+      </Box>
 
       <Footer />
     </Stack>

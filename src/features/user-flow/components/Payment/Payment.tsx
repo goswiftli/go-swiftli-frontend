@@ -1,11 +1,16 @@
 import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import PaystackPop from '@paystack/inline-js';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router';
 import * as yup from 'yup';
 
-import { useMakePayment } from '@/apis';
+import { useGetPaymentReference, useMakePayment } from '@/apis';
 import { FormInput, FormSelect } from '@/components';
+import { LINKS } from '@/constants';
+import { queryClient } from '@/lib';
 import { useAppSelector } from '@/redux';
+
+import { queryKey } from '../../apis/url-query';
 
 const validationSchema = yup.object().shape({
   amount: yup
@@ -20,10 +25,23 @@ const validationSchema = yup.object().shape({
 
 export const Payment = () => {
   const { authUser } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  const initializePayment = (accessCode: string) => {
+  const paymentReferenceMutation = useGetPaymentReference();
+  const initializePayment = (accessCode: string, reference: string) => {
     const popup = new PaystackPop();
-    popup.resumeTransaction(accessCode);
+    popup.resumeTransaction(accessCode, {
+      onSuccess() {
+        paymentReferenceMutation.mutate(reference, {
+          onSuccess() {
+            queryClient.invalidateQueries({
+              queryKey: queryKey.getTransactions(),
+            });
+            navigate(`/user/${LINKS.TRANSACTIONS}`);
+          },
+        });
+      },
+    });
   };
 
   const paymentMutation = useMakePayment();
@@ -43,7 +61,7 @@ export const Payment = () => {
         },
         {
           onSuccess(res) {
-            initializePayment(res.data.accessCode);
+            initializePayment(res.data.accessCode, res.data.reference);
           },
         }
       );
@@ -97,7 +115,11 @@ export const Payment = () => {
                     errorMessage={formik.touched.narration && formik.errors.narration}
                   />
 
-                  <Button isLoading={paymentMutation.isPending} type="submit">
+                  <Button
+                    isLoading={paymentMutation.isPending}
+                    _hover={{ bgColor: 'primary.800' }}
+                    type="submit"
+                  >
                     Make Payment
                   </Button>
                 </Stack>

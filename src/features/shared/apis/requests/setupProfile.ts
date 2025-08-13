@@ -9,7 +9,7 @@ import { url } from '../url-query';
 
 export const setupProfile = async (data: ProfileDTO) => {
   try {
-    const response = await axios.post<ApiResponse<ProfileDTO>>(url.setupProfile, data);
+    const response = await axios.put<ApiResponse<ProfileDTO>>(url.profile, data);
     return response.data;
   } catch (err) {
     throw Error(formatError(err));
@@ -46,7 +46,7 @@ export const useSetupProfile = ({ config }: UseSetupProfile = {}) => {
 export const setupProfilePatch = async (data: PersonalDetailsDTO | BusinessDetailsDTO) => {
   try {
     const response = await axios.patch<ApiResponse<PersonalDetailsDTO | BusinessDetailsDTO>>(
-      url.setupProfile,
+      url.profile,
       data
     );
     return response.data;

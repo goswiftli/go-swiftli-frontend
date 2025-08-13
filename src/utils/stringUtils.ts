@@ -11,6 +11,11 @@ export const convertUnderscoreToSpace = (word: string = '') => {
       .split('_')
       .map((word) => capitalizeWord(word))
       .join(' ');
+  } else if (word.includes('-')) {
+    return word
+      .split('-')
+      .map((word) => capitalizeWord(word))
+      .join(' ');
   }
   return capitalizeWord(word);
 };
@@ -31,4 +36,16 @@ export const formatNumber = (number: number) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(number);
+};
+
+export const getPageSizeRange = (totalItems: number): number[] => {
+  let pageSizeOptions: number[];
+  if (totalItems >= 10) {
+    const arrayItems = Array.from({ length: Math.ceil(totalItems / 10) }, (_, i) => (i + 1) * 10);
+    pageSizeOptions = arrayItems;
+  } else {
+    pageSizeOptions = [totalItems];
+  }
+
+  return pageSizeOptions;
 };

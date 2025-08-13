@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Icon, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Icon, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { useNavigate } from 'react-router';
@@ -47,18 +47,26 @@ export const DashboardHeader = () => {
   };
   return (
     <Stack spacing={10}>
-      <HStack width="full" justifyContent="end" flexWrap="wrap">
-        {filteredHeaderBtns().map((button) => (
-          <Button
-            key={button.name}
-            color="primary.800"
-            variant="secondary"
-            onClick={() => navigate(button.link)}
-          >
-            {button.name}
-          </Button>
-        ))}
-      </HStack>
+      <Flex justifyContent={{ base: 'center', md: 'end' }}>
+        <SimpleGrid
+          columns={{ base: 2, md: 3, lg: 5 }}
+          width={{ base: 'full', lg: '60%' }}
+          justifyContent={{ base: 'start', lg: 'end' }}
+          spacing={{ base: 4, md: 2 }}
+          flexWrap="wrap"
+        >
+          {filteredHeaderBtns().map((button) => (
+            <Button
+              key={button.name}
+              color="primary.800"
+              variant="secondary"
+              onClick={() => navigate(button.link)}
+            >
+              {button.name}
+            </Button>
+          ))}
+        </SimpleGrid>
+      </Flex>
       <Stack direction={{ base: 'column', md: 'row' }} spacing={6}>
         {dashboardItems.map((item) => (
           <Box key={item.name} boxShadow="sm" p={4} rounded="8px" w="full" bgColor="white">

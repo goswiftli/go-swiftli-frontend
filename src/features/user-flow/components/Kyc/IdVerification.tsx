@@ -11,7 +11,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { IoDocumentText } from 'react-icons/io5';
 import * as yup from 'yup';
@@ -57,7 +57,7 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
   );
 
   const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
-  const [selectedFile, setSelectedFile] = useState<{ type: string; file: File } | null>(null);
+  // const [selectedFile, setSelectedFile] = useState<{ type: string; file: File } | null>(null);
   const handleFile = (fileType: string) => {
     const input = inputRefs.current[fileType];
     if (input) {
@@ -91,14 +91,20 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
       });
       e.target.value = '';
     } else {
-      setSelectedFile({ type: fileType, file: file });
+      dispatch(
+        setIdentificationInfo({
+          country: '',
+          fileDetails: { file: file, name: file.name, size: file.size, type: fileType as IdType },
+        })
+      );
     }
   };
   const removeSelectedFile = async () => {
-    await deleteFileFromIdb(selectedFile?.type ?? '');
-    setSelectedFile(null);
+    await deleteFileFromIdb(identification.fileDetails.type ?? '');
+    // setSelectedFile(null);
     dispatch(setIdentificationInfo({} as IdentificationInfo));
   };
+  console.log('coint', identification);
   useEffect(() => {
     const fetchData = async () => {
       const keysToCheck = [CONSTANTS.ID_CARD, CONSTANTS.PASSPORT, CONSTANTS.DRIVING_LICENSE];
@@ -128,14 +134,14 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
               size: data.file.size,
             } as FileDetails,
           });
-          setSelectedFile({ file: data.file, type: data.id });
+          // setSelectedFile({ file: data.file, type: data.id });
           break;
         }
       }
     };
 
     fetchData();
-  }, []);
+  }, [identification.fileDetails]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -144,7 +150,7 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      if (selectedFile === null) {
+      if (identification.fileDetails === null) {
         toast({
           id: 'no-file',
           description: 'Please add an identification document',
@@ -153,13 +159,13 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
         });
       } else {
         await saveFileToIdb({
-          key: selectedFile.type,
+          key: identification.fileDetails.type,
           data: {
             country: values.country,
-            file: selectedFile.file,
-            fileType: selectedFile.type,
-            name: selectedFile.file.name,
-            size: selectedFile.file.size,
+            file: identification.fileDetails.file,
+            fileType: identification.fileDetails.type,
+            name: identification.fileDetails.file.name,
+            size: identification.fileDetails.file.size,
             updatedAt: new Date(),
           },
         });
@@ -195,7 +201,7 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
               onChange={formik.handleChange}
               errorMessage={formik.touched.country && formik.errors.country}
             />
-            {selectedFile && (
+            {identification.fileDetails && (
               <HStack
                 p={2}
                 bgColor="grey.100"
@@ -210,8 +216,10 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
                 <Box as={HStack}>
                   <Icon as={IoDocumentText} color="primary.800" boxSize="30px" />
                   <Box fontFamily="body" fontSize="md">
-                    <Text fontWeight="semibold">{convertUnderscoreToSpace(selectedFile.type)}</Text>
-                    <Text color="black.400">{selectedFile.file?.name}</Text>
+                    <Text fontWeight="semibold">
+                      {convertUnderscoreToSpace(identification.fileDetails.type)}
+                    </Text>
+                    <Text color="black.400">{identification.fileDetails.file?.name}</Text>
                   </Box>
                 </Box>
                 <Box

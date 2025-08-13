@@ -64,7 +64,7 @@ export const AddBeneficiary = () => {
 
   return (
     <section>
-      <Box minH="90vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden">
+      <Box minH="90vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden" pb={10}>
         <Stack spacing={4}>
           <Flex justifyContent="center" bgColor="white" rounded="16px">
             <Stepper

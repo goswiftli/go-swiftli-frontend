@@ -1,7 +1,8 @@
 import { Box, Flex, HStack } from '@chakra-ui/react';
+import { ColumnDef, createColumnHelper, PaginationState } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { Menu, Skeleton, Table, TableColumn } from '@/components';
+import { AppTable, Menu, Skeleton } from '@/components';
 import { useErrorNotification } from '@/hooks';
 import { useAppDispatch, useAppSelector } from '@/redux';
 
@@ -10,11 +11,10 @@ import { CreateBeneficiaryDTO } from '../../types';
 import { setBeneficiaryStatusFilter, setCurrencyFilter } from '../../userFlowSlice';
 
 export const Beneficiaries = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const handlePage = ({ selected }: { selected: number }) => {
-    setCurrentPage(selected);
-  };
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
   const { beneficiaryStatus, currency } = useAppSelector((state) => state.userFlow);
   const dispatch = useAppDispatch();
@@ -26,20 +26,26 @@ export const Beneficiaries = () => {
     dispatch(setCurrencyFilter({ value, name }));
   };
 
-  const { isPending, isError, data: beneficiaries, error } = useGetBeneficiary(currentPage);
-  const tableColumns: TableColumn<CreateBeneficiaryDTO>[] = [
-    {
-      title: 'Name',
-      field: 'name',
-    },
-    {
-      title: 'Account Number',
-      field: 'accountNumber',
-    },
-    {
-      title: 'Bank Name',
-      field: 'bankName',
-    },
+  const { isPending, isError, data: beneficiaries, error } = useGetBeneficiary(pagination);
+
+  const tableColumnHelper = createColumnHelper<CreateBeneficiaryDTO>();
+
+  const tableColumns: ColumnDef<CreateBeneficiaryDTO, any>[] = [
+    tableColumnHelper.accessor('name', {
+      id: 'name',
+      cell: (info) => info.getValue(),
+      header: () => <Box as="span">Name</Box>,
+    }),
+    tableColumnHelper.accessor('accountNumber', {
+      id: 'accountNumber',
+      cell: (info) => info.getValue(),
+      header: () => <Box as="span">Account Number</Box>,
+    }),
+    tableColumnHelper.accessor('bankName', {
+      id: 'bankName',
+      cell: (info) => info.getValue(),
+      header: () => <Box as="span">Bank Name</Box>,
+    }),
   ];
 
   useErrorNotification({
@@ -69,18 +75,15 @@ export const Beneficiaries = () => {
       </Flex>
 
       <Skeleton isLoading={isPending} isError={isError}>
-        <Table
-          columns={tableColumns}
-          data={beneficiaries?.data.beneficiaries}
-          currentPage={currentPage}
-          handlePage={handlePage}
-          emptyData={{
-            title: 'No Beneficiary found',
-            body: 'All Beneficiaries available will appear here',
-          }}
-          totalPages={1}
-          uniqueKey="accountNumber"
-        />
+        <Box bgColor="white">
+          <AppTable
+            pagination={pagination}
+            setPagination={setPagination}
+            columns={tableColumns}
+            data={beneficiaries?.data.beneficiaries || []}
+            pageCount={0}
+          />
+        </Box>
       </Skeleton>
     </Box>
   );

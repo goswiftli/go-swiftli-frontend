@@ -42,7 +42,23 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
       fileType: string;
     }
   );
-
+  useEffect(() => {
+    const returnIdentityDocument = async () => {
+      if (identification.fileDetails.name) {
+        const data = (await getFileFromIdb(identification.fileDetails.type ?? 'default_value')) as {
+          file: File;
+          fileType: string;
+        };
+        if (data && data.file && data.fileType) {
+          setDocumentDetails({
+            file: data.file,
+            fileType: data.fileType,
+          });
+        }
+      }
+    };
+    returnIdentityDocument();
+  }, [documentDetails.file]);
   useEffect(() => {
     const returnProfilePhoto = async () => {
       const data = (await getFileFromIdb('uploaded-photo')) as { file: File };
@@ -52,22 +68,8 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
         setImageSrc(base64);
       }
     };
-    const returnIdentityDocument = async () => {
-      if (identification.fileDetails?.type) {
-        const data = (await getFileFromIdb(identification.fileDetails.type ?? 'default_value')) as {
-          file: File;
-          fileType: string;
-        };
-        if (data?.file && data?.fileType) {
-          setDocumentDetails({
-            file: data.file,
-            fileType: data.fileType,
-          });
-        }
-      }
-    };
+
     returnProfilePhoto();
-    returnIdentityDocument();
   }, [identification]);
 
   const userDetails = [

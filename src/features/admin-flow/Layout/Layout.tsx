@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Stack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { BiSolidPieChartAlt2 } from 'react-icons/bi';
 
@@ -14,6 +14,7 @@ import { LINKS } from '@/constants';
 
 import { prefetchUsers } from '../apis';
 
+import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
@@ -26,18 +27,17 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       gridTemplateColumns={{ base: '1fr', lg: '25% 1fr', xl: '20% 1fr' }}
       h="100vh"
     >
-      <GridItem
-        area="sidebar"
-        display={{ base: 'none', lg: 'block' }}
-        h="100vh"
-        overflowY="auto"
-        zIndex="1"
-      >
+      <GridItem area="sidebar" display={{ base: 'none', lg: 'block' }} zIndex="1">
         <Sidebar navItems={navItems} />
       </GridItem>
 
-      <GridItem area="main" overflowY="auto" bgColor="blue.200">
-        {children}
+      <GridItem area="main" bgColor="blue.200">
+        <Stack>
+          <Header />
+          <Box h="90vh" className="scrollable-element" overflowY="auto">
+            {children}
+          </Box>
+        </Stack>
       </GridItem>
     </Grid>
   );
