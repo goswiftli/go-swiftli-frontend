@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from 'react';
 import { HiOutlineDocumentDownload } from 'react-icons/hi';
 import { IoDocumentText } from 'react-icons/io5';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { Approve, Modal, PDFViewer, RejectRequest, Skeleton } from '@/components';
 import { CONSTANTS } from '@/constants';
@@ -26,6 +26,7 @@ import { useGetUserDetails } from '../../apis';
 
 export const UserDetails = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState('');
   const [document, setDocument] = useState('');
 
@@ -77,6 +78,7 @@ export const UserDetails = () => {
     approveKycMutation.mutate(approveRequestBody, {
       onSuccess() {
         onCloseApr();
+        navigate(-1);
       },
     });
   };

@@ -19,7 +19,7 @@ export const useAccountInfo = () => {
       name: 'Account Email',
       value: (
         <Skeleton isLoading={isPending} isError={isError} display="flex" justifyContent="flex-end">
-          <Text as="span">{user?.data.username}</Text>
+          <Text as="span">{user?.data?.username}</Text>
         </Skeleton>
       ),
     },

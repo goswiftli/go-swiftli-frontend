@@ -16,6 +16,7 @@ interface ModalProps {
   styles?: SystemStyleObject | undefined;
   trigger?: React.ReactNode;
   closeOnOverlayClick?: boolean;
+  size?: string;
 }
 
 export const Modal = (props: ModalProps) => {
@@ -25,7 +26,7 @@ export const Modal = (props: ModalProps) => {
       {trigger}
       <Fade in={isOpen}>
         <ChakraModal
-          size={{ base: 'xs', md: '2xl', lg: '4xl' }}
+          size={props.size || { base: 'xs', md: '2xl', lg: '4xl' }}
           id={id}
           isOpen={isOpen}
           onClose={onClose}

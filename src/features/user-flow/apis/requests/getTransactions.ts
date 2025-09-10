@@ -8,7 +8,8 @@ import { formatError, retryQuery } from '@/utils';
 import { TransactionsDTO } from '../../types';
 import { queryKey, url } from '../url-query';
 
-export const getTransactions = async (pagination: PaginationState) => {
+export const getTransactions = async (pagination: PaginationState, isAdmin?: boolean) => {
+  let adminUrl = url.getAdminTransactions;
   try {
     const response = await axios.get<
       PaginatedResponse<{
@@ -16,7 +17,9 @@ export const getTransactions = async (pagination: PaginationState) => {
         totalPages: number;
         totalElements: number;
       }>
-    >(`${url.getTransactions}?page=${pagination.pageIndex}&size=${pagination.pageSize}`);
+    >(
+      `${isAdmin ? adminUrl : url.getTransactions}?page=${pagination.pageIndex}&size=${pagination.pageSize}`
+    );
     return response.data;
   } catch (err) {
     throw Error(formatError(err));
@@ -31,20 +34,21 @@ type UseGetTransactionsOptions = QueryConfig<QueryFnType>;
 
 export const useGetTransactions = (
   pagination: PaginationState,
+  isAdmin?: boolean,
   config: UseGetTransactionsOptions = {}
 ) => {
   return useQuery<ExtractFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: [queryKey.getTransactions(), pagination],
-    queryFn: () => getTransactions(pagination),
+    queryKey: [queryKey.getTransactions(), pagination, isAdmin],
+    queryFn: () => getTransactions(pagination, isAdmin),
     retry: (failureCount, error: any) => retryQuery(failureCount, error),
   });
 };
 
-export const prefetchTransactions = (pagination: PaginationState) => {
+export const prefetchTransactions = (pagination: PaginationState, isAdmin?: boolean) => {
   return queryClient.prefetchQuery({
-    queryKey: [queryKey.getTransactions(), pagination],
-    queryFn: () => getTransactions(pagination),
+    queryKey: [queryKey.getTransactions(), pagination, isAdmin],
+    queryFn: () => getTransactions(pagination, isAdmin),
     staleTime: 60 * 1000,
   });
 };

@@ -2,8 +2,10 @@ import { Outlet, RouteObject } from 'react-router';
 
 import { RouteError } from '@/components/Error';
 import { LINKS } from '@/constants';
-import { Layout } from '@/features/user-flow';
-import { lazyImport } from '@/utils';
+import { Layout as AdminLayout } from '@/features/admin-flow';
+import { Layout as UserLayout } from '@/features/user-flow';
+import { useAppSelector } from '@/redux';
+import { lazyImport, permissionGuard } from '@/utils';
 
 const { SettingsView } = lazyImport(() => import('./settings'), 'SettingsView');
 const { ProfileView } = lazyImport(() => import('./profile'), 'ProfileView');
@@ -20,6 +22,10 @@ const SharedRouteList: RouteObject[] = [
 ];
 
 const SharedRouteOutlet = () => {
+  const { authUser } = useAppSelector((state) => state.auth);
+  const isAdminLayout = permissionGuard(authUser.roles);
+
+  const Layout = isAdminLayout ? AdminLayout : UserLayout;
   return (
     <Layout>
       <Outlet />

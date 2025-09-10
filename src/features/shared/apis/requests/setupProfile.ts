@@ -1,11 +1,11 @@
 import { useToast } from '@/hooks';
-import { MutationConfig, useMutation } from '@/lib';
+import { MutationConfig, queryClient, useMutation } from '@/lib';
 import { axios } from '@/lib/axios';
 import { ApiResponse } from '@/types';
 import { formatError } from '@/utils';
 
 import { BusinessDetailsDTO, PersonalDetailsDTO, ProfileDTO } from '../../types';
-import { url } from '../url-query';
+import { queryKey, url } from '../url-query';
 
 export const setupProfile = async (data: ProfileDTO) => {
   try {
@@ -76,6 +76,7 @@ export const useSetupProfilePatch = ({ config }: UseSetupProfilePatch = {}) => {
         status: 'success',
         description: res.message ?? 'Profile updated successful!',
       });
+      queryClient.invalidateQueries({ queryKey: queryKey.getProfile(), exact: false });
     },
     mutationFn: setupProfilePatch,
     ...config,

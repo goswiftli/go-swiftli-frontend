@@ -24,10 +24,11 @@ export type User = {
   username: string;
   phoneNumber: string;
   id: number;
-  roles: {
-    name: string;
-    id: number;
-  }[];
+  roles: Role[];
+};
+export type Role = {
+  name: string;
+  id: string;
 };
 
 export type ChangePasswordDTO = {

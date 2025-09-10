@@ -1,10 +1,11 @@
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { lazy, ReactNode, Suspense, useEffect, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 
 import { ErrorBoundary } from '@/components';
+import { queryClient } from '@/lib';
 import { store } from '@/redux';
 
 import { ThemeProvider } from './ThemeProvider';
@@ -26,13 +27,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     window.toggleDevtools = () => setShowDevtools((old) => !old);
   }, []);
 
-  const queryClient = new QueryClient();
+  const handleQueryClient = queryClient;
+
   return (
     <Provider store={store}>
       <ThemeProvider>
         <HelmetProvider>
           <ErrorBoundary>
-            <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={handleQueryClient}>
               <ReactQueryDevtools initialIsOpen={false} />
               {children}
               <ReactQueryDevtools initialIsOpen={false} />

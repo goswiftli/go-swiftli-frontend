@@ -23,13 +23,12 @@ import { ReactComponent as SecurityIcon } from '@/assets/icons/security.svg';
 import { ReactComponent as SupportIcon } from '@/assets/icons/support-icon.svg';
 import { ReactComponent as TransactionIcon } from '@/assets/icons/transactions.svg';
 import { ReactComponent as UserManIcon } from '@/assets/icons/user.svg';
-import picture from '@/assets/images/user1.png';
 import { LINKS } from '@/constants';
 import { logout } from '@/features/auth';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import { convertUnderscoreToSpace } from '@/utils';
 
-import { prefetchUserDetails } from '../apis';
+import { prefetchUserDetails, useGetUserDetails } from '../apis';
 
 import { Sidebar } from './Sidebar';
 
@@ -47,6 +46,9 @@ export const Header = ({ navItemsUser, isUser = false, title: headerTitle }: Hea
   const navigate = useNavigate();
   const { authUser } = useAppSelector((state) => state.auth);
 
+  const { data: user } = useGetUserDetails(authUser.id);
+  const profilePicture = user?.data?.kyc?.profilePicture;
+  const fullName = user?.data?.kyc?.firstName + ' ' + user?.data?.kyc?.lastName;
   const handleNavigate = () => {
     navigate(LINKS.SETTINGS);
   };
@@ -120,7 +122,11 @@ export const Header = ({ navItemsUser, isUser = false, title: headerTitle }: Hea
             {menuItems && (
               <Menu>
                 <MenuButton>
-                  <Avatar boxSize="42px" src={picture} />
+                  <Avatar
+                    boxSize="42px"
+                    src={`data:image/jpeg;base64,${profilePicture}`}
+                    name={fullName}
+                  />
                 </MenuButton>
                 <MenuList px={2} color="black.500">
                   {menuItems?.map((item) => (

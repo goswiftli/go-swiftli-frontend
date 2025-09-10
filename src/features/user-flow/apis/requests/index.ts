@@ -5,3 +5,5 @@ export * from './getBeneficiaryDetails';
 export * from './createBeneficiary';
 export * from './approveKyc';
 export * from './getTransactions';
+export * from './convertFund';
+export * from './getAccountBalance';

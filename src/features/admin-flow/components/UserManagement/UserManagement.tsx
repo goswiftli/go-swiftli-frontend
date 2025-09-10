@@ -35,15 +35,17 @@ export const UserManagement = () => {
   });
   return (
     <section>
-      <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }}>
+      <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} pb={10}>
         <UserHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <Skeleton isError={isError} isLoading={isPending}>
-          <UserList
-            users={users?.content || []}
-            currentPage={currentPage}
-            handlePage={handlePage}
-            totalPages={totalPages}
-          />
+          <Box pb={10}>
+            <UserList
+              users={users?.content || []}
+              currentPage={currentPage}
+              handlePage={handlePage}
+              totalPages={totalPages}
+            />
+          </Box>
         </Skeleton>
       </Box>
     </section>

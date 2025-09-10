@@ -43,6 +43,7 @@ export const Beneficiaries = () => {
           columns={tableColumns}
           data={beneficiaries?.data.beneficiaries || []}
           pageCount={0}
+          isServerSide
         />
       </Box>
     </Skeleton>

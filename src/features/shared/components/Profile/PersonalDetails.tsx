@@ -23,9 +23,9 @@ export const usePersonalDetails = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      dateOfBirth: profile?.data.dateOfBirth ?? '',
-      gender: profile?.data.gender ?? '',
-      maritalStatus: profile?.data.maritalStatus ?? '',
+      dateOfBirth: profile?.data?.dateOfBirth ?? '',
+      gender: profile?.data?.gender ?? '',
+      maritalStatus: profile?.data?.maritalStatus ?? '',
     },
     validationSchema: validationSchema,
     onSubmit: () => {

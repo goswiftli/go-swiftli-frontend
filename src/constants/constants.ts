@@ -48,8 +48,13 @@ export enum CONSTANTS {
   PASSPORT = 'PASSPORT',
   BANK_TRANSFER = 'BANK_TRANSFER',
   CARD_PAYMENT = 'CARD_PAYMENT',
+  COMPLETED = 'COMPLETED',
 }
 
+export enum CURRENCY {
+  NGN = 'NGN',
+  USD = 'USD',
+}
 export const kycStatus = [CONSTANTS.PENDING, CONSTANTS.APPROVED, CONSTANTS.REJECTED] as const;
 export type KycStatus = (typeof kycStatus)[number];
 

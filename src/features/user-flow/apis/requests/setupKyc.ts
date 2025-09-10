@@ -50,9 +50,10 @@ export const useSetupKyc = ({ config }: UseSetupKycOptions = {}) => {
         description: err.message,
       });
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({
-        queryKey: queryKey.getKyc(),
+        queryKey: [queryKey.getKyc(), res.data.email],
+        exact: false,
       });
     },
     mutationFn: setupKyc,

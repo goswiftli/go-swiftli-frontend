@@ -11,6 +11,7 @@ const { UserManagementView } = lazyImport(() => import('./user-management'), 'Us
 const { UserDetailsView } = lazyImport(() => import('./user-details'), 'UserDetailsView');
 const { TransactionView } = lazyImport(() => import('./transaction'), 'TransactionView');
 const { BeneficiariesView } = lazyImport(() => import('./beneficiary'), 'BeneficiariesView');
+const { ExchangeView } = lazyImport(() => import('./exchange-management'), 'ExchangeView');
 
 const AdminRouteList: RouteObject[] = [
   {
@@ -32,6 +33,10 @@ const AdminRouteList: RouteObject[] = [
   {
     path: '/' + LINKS.BENEFICIARIES,
     element: <BeneficiariesView />,
+  },
+  {
+    path: '/' + LINKS.EXCHANGE_MANAGEMENT,
+    element: <ExchangeView />,
   },
 ];
 

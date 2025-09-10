@@ -6,7 +6,7 @@ import { TransactionMonitoring } from './TransactionMonitoring';
 export const Transaction = () => {
   return (
     <section>
-      <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden">
+      <Box minH="100vh" px={{ base: 4, md: 6, lg: 8, xl: 12 }} overflowX="hidden" pb={10}>
         <Tabs>
           <TabList>
             <Tab

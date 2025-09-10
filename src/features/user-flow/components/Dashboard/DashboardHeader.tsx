@@ -1,14 +1,17 @@
-import { Box, Button, Flex, HStack, Icon, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Icon, Stack, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { useNavigate } from 'react-router';
 
 import { ReactComponent as NigeriaIcon } from '@/assets/icons/nigeria-flag.svg';
 import { ReactComponent as UnitedStatesIcon } from '@/assets/icons/united-states.svg';
-import { CONSTANTS, LINKS } from '@/constants';
+import { Skeleton } from '@/components';
+import { CONSTANTS, CURRENCY, LINKS } from '@/constants';
 import { useGetUserDetails } from '@/features/admin-flow';
 import { useAppSelector } from '@/redux';
 import { formatCurrency } from '@/utils';
+
+import { useGetAccountBalance } from '../../apis';
 
 export const DashboardHeader = () => {
   const [showBalance, setShowBalance] = useState(true);
@@ -17,26 +20,19 @@ export const DashboardHeader = () => {
     setShowBalance(!showBalance);
   };
 
-  const dashboardItems = [
-    {
-      name: 'NGN Account',
-      icon: NigeriaIcon,
-      amount: 0,
-      currency: 'NGN',
-      locale: 'en-NG',
-    },
-    {
-      name: 'USD Account',
-      icon: UnitedStatesIcon,
-      amount: 0,
-      currency: 'USD',
-      locale: 'en-US',
-    },
-  ];
+  const returnIcon = (currency: string) => {
+    if (currency === CURRENCY.NGN) {
+      return NigeriaIcon;
+    } else if (currency === CURRENCY.USD) {
+      return UnitedStatesIcon;
+    }
+  };
   const navigate = useNavigate();
 
   const { authUser } = useAppSelector((state) => state.auth);
   const { data: user } = useGetUserDetails(authUser.id);
+
+  const { data: accountBalance, isPending, isError } = useGetAccountBalance();
 
   const isKycStatus = user?.data?.kyc?.kycStatus === CONSTANTS.APPROVED;
   const filteredHeaderBtns = () => {
@@ -48,9 +44,7 @@ export const DashboardHeader = () => {
   return (
     <Stack spacing={10}>
       <Flex justifyContent={{ base: 'center', md: 'end' }}>
-        <SimpleGrid
-          columns={{ base: 2, md: 3, lg: 5 }}
-          width={{ base: 'full', lg: '60%' }}
+        <HStack
           justifyContent={{ base: 'start', lg: 'end' }}
           spacing={{ base: 4, md: 2 }}
           flexWrap="wrap"
@@ -65,39 +59,41 @@ export const DashboardHeader = () => {
               {button.name}
             </Button>
           ))}
-        </SimpleGrid>
+        </HStack>
       </Flex>
       <Stack direction={{ base: 'column', md: 'row' }} spacing={6}>
-        {dashboardItems.map((item) => (
-          <Box key={item.name} boxShadow="sm" p={4} rounded="8px" w="full" bgColor="white">
-            <Stack h="full" justifyContent="space-between">
-              <HStack spacing={4}>
-                <Icon as={item.icon} boxSize={6} />
-                <Text fontFamily="body" fontSize="md" fontWeight="medium" color="black.300">
-                  {item.name}
-                </Text>
-              </HStack>
-              <HStack spacing={4}>
-                <Text fontFamily="body" fontSize="2xl" fontWeight="medium">
-                  {showBalance ? (
-                    formatCurrency(item.amount, item.currency, item.locale)
-                  ) : (
-                    <Text as="span">*******</Text>
-                  )}
-                  {'   '}
-                  <Text as="span" fontSize="xs" color="black" fontWeight="light">
-                    ( Available Balance)
+        {accountBalance?.data.accountBalance?.map((balance) => (
+          <Box key={balance.currency} boxShadow="sm" p={4} rounded="8px" w="full" bgColor="white">
+            <Skeleton isLoading={isPending} isError={isError}>
+              <Stack h="full" justifyContent="space-between">
+                <HStack spacing={4}>
+                  <Icon as={returnIcon(balance.currency)} boxSize={6} />
+                  <Text fontFamily="body" fontSize="md" fontWeight="medium" color="black.300">
+                    {`${balance.currency} Account`}
                   </Text>
-                </Text>
-                <Box _hover={{ cursor: 'pointer' }} onClick={toggleBalanceVisibility}>
-                  <Icon
-                    color="black.300"
-                    as={showBalance ? IoMdEye : IoMdEyeOff}
-                    aria-label={showBalance ? 'Hide balance' : 'Show balance'}
-                  />
-                </Box>
-              </HStack>
-            </Stack>
+                </HStack>
+                <HStack spacing={4}>
+                  <Text fontFamily="body" fontSize="xl" fontWeight="medium">
+                    {showBalance ? (
+                      formatCurrency(balance.accountBalance, balance.currency)
+                    ) : (
+                      <Text as="span">*******</Text>
+                    )}
+                    {'   '}
+                    <Text as="span" fontSize="xs" color="black" fontWeight="light">
+                      ( Available Balance)
+                    </Text>
+                  </Text>
+                  <Box _hover={{ cursor: 'pointer' }} onClick={toggleBalanceVisibility}>
+                    <Icon
+                      color="black.300"
+                      as={showBalance ? IoMdEye : IoMdEyeOff}
+                      aria-label={showBalance ? 'Hide balance' : 'Show balance'}
+                    />
+                  </Box>
+                </HStack>
+              </Stack>
+            </Skeleton>
           </Box>
         ))}
         <Box boxShadow="sm" p={4} rounded="8px" w="full" bgColor="white">
