@@ -92,3 +92,10 @@ export type TransactionsDTO = {
   transactionStatus: string;
 };
 export type PaymentType = CONSTANTS.CARD_PAYMENT | CONSTANTS.BANK_TRANSFER;
+
+export type AccountBalance = {
+  accountBalance: {
+    accountBalance: number;
+    currency: string;
+  }[];
+};

@@ -1,9 +1,11 @@
 import { Box, HStack, Icon, Text } from '@chakra-ui/react';
+import { ColumnDef, createColumnHelper, PaginationState } from '@tanstack/react-table';
+import { useState } from 'react';
 import { FaEye } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 
 import { ReactComponent as LockIcon } from '@/assets/icons/lock.svg';
-import { Table, TableColumn } from '@/components';
+import { AppTable } from '@/components';
 import { CONSTANTS, LINKS } from '@/constants';
 import { KycStatus } from '@/features/user-flow';
 import { checkStatusType, createEncryptedUrlParams } from '@/utils';
@@ -18,7 +20,7 @@ type UserListProps = {
   totalPages: number;
 };
 
-export const UserList = ({ currentPage, handlePage, users, totalPages }: UserListProps) => {
+export const UserList = ({ users }: UserListProps) => {
   const navigate = useNavigate();
   const handleViewUser = (userId: number) => {
     const queryParams = {
@@ -31,54 +33,65 @@ export const UserList = ({ currentPage, handlePage, users, totalPages }: UserLis
   const handleDeleteUser = (userId: number) => {
     console.log(userId);
   };
-  const tableColumns: TableColumn<UserDTO>[] = [
-    {
-      title: 'Name',
-      Cell: ({ entry }) => (
-        <Text as="span">{`${entry.kyc?.firstName ?? 'N/A'} ${entry.kyc?.lastName ?? 'N/A'}`}</Text>
-      ),
-    },
-    {
-      title: 'Email',
-      field: 'username',
-    },
-    {
-      title: 'Phone Number',
-      field: 'phoneNumber',
-    },
-    {
-      title: 'KYC STATUS',
-      Cell: ({ entry }) =>
-        checkStatusType(entry.kyc?.kycStatus || (CONSTANTS.PENDING as KycStatus)),
-    },
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
-    {
-      title: 'ACTIONS',
-      Cell: ({ entry }) => (
+  const tableColumnHelper = createColumnHelper<UserDTO>();
+  const tableColumns: ColumnDef<UserDTO, any>[] = [
+    tableColumnHelper.accessor('email', {
+      id: 'email',
+      cell: (info) => (
+        <Text as="span">{`${info.row.original.kyc?.firstName ?? 'N/A'} ${info.row.original.kyc?.lastName ?? 'N/A'}`}</Text>
+      ),
+      header: () => <Box as="span">Name</Box>,
+    }),
+    tableColumnHelper.accessor('username', {
+      id: 'username',
+      cell: (info) => info.getValue(),
+      header: () => <Box as="span">Email</Box>,
+    }),
+    tableColumnHelper.accessor('phoneNumber', {
+      id: 'phoneNumber',
+      cell: (info) => info.getValue(),
+      header: () => <Box as="span">Phone Number</Box>,
+    }),
+    tableColumnHelper.accessor('kyc.kycStatus', {
+      id: 'kycStatus',
+      cell: (info) =>
+        checkStatusType(info.row.original.kyc?.kycStatus || (CONSTANTS.PENDING as KycStatus)),
+      header: () => <Box as="span">Kyc Status</Box>,
+    }),
+    tableColumnHelper.display({
+      id: 'actions',
+      cell: (info) => (
         <HStack>
           <Box
-            onMouseEnter={() => prefetchUserDetails(entry.id)}
-            onClick={() => handleViewUser(entry.id)}
+            onMouseEnter={() => prefetchUserDetails(info.row.original.id)}
+            onClick={() => handleViewUser(info.row.original.id)}
             _hover={{ cursor: 'pointer' }}
           >
             <Icon color="black.700" as={FaEye} boxSize={8} />
           </Box>
-          <Box onClick={() => handleDeleteUser(entry.id)} _hover={{ cursor: 'pointer' }}>
+          <Box
+            onClick={() => handleDeleteUser(info.row.original.id)}
+            _hover={{ cursor: 'pointer' }}
+          >
             <Icon as={LockIcon} boxSize={8} />
           </Box>
         </HStack>
       ),
-    },
+    }),
   ];
+
   return (
-    <Table
+    <AppTable
       columns={tableColumns}
-      currentPage={currentPage}
-      data={users}
-      totalPages={totalPages}
-      uniqueKey="email"
-      handlePage={handlePage}
-      emptyData={{ title: 'No Users found', body: 'All users created will be added here' }}
+      pagination={pagination}
+      setPagination={setPagination}
+      data={users || []}
+      isServerSide
     />
   );
 };

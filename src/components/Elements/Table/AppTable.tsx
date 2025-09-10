@@ -1,12 +1,9 @@
 import {
   Box,
   Center,
-  Flex,
-  HStack,
   Icon,
-  IconButton,
   Stack,
-  Table,
+  Table as ChakraTable,
   TableContainer,
   Tbody,
   Td,
@@ -16,25 +13,27 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  PaginationState,
-  // getPaginationRowModel,
+  getPaginationRowModel,
+  type PaginationState,
   useReactTable,
 } from '@tanstack/react-table';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { PiSealWarningFill } from 'react-icons/pi';
 
-// import { getPageSizeRange } from '@/utils';
+import { scrollbarSx } from './Table';
+import { TableFooter } from './TableFooter';
 
 interface IAppTable<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  pageCount: number;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
   pagination: PaginationState;
+  pageCount?: number;
+  totalItems?: number;
+  isServerSide?: boolean;
 }
 
 export function AppTable<TData, TValue>({
@@ -43,21 +42,25 @@ export function AppTable<TData, TValue>({
   setPagination,
   pageCount,
   pagination,
+  totalItems,
+  isServerSide = false,
 }: IAppTable<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    // getPaginationRowModel: getPaginationRowModel(),
-    debugTable: true,
-    manualPagination: true,
-    pageCount: pageCount,
+    getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
+    debugTable: true,
     state: {
       pagination,
     },
+    manualPagination: isServerSide,
+    pageCount: isServerSide ? pageCount : undefined,
   });
+
+  const actualTotalItems = totalItems ?? data.length;
 
   if (!data?.length) {
     return (
@@ -78,83 +81,60 @@ export function AppTable<TData, TValue>({
   }
 
   return (
-    <TableContainer className="scrollable-element">
-      <Table minW={'full'} variant="unstyled">
-        <Thead>
-          {table.getHeaderGroups().map((headerGroup, index) => (
-            <Tr key={`${headerGroup.id}-${index}`}>
-              {headerGroup.headers.map((header, index) => {
-                return (
-                  <Th
-                    fontSize="sm"
-                    textAlign={'left'}
-                    key={`${header.id}-${index}`}
-                    colSpan={header.colSpan}
-                  >
-                    {header.isPlaceholder ? null : (
-                      <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-                    )}
-                  </Th>
-                );
-              })}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody>
-          {table.getRowModel().rows.map((row, index) => {
-            return (
-              <Tr key={`${row.id}-${index}`} py={4}>
-                {row.getVisibleCells().map((cell) => {
+    <Box w="100%" overflow="auto" bgColor="white">
+      <TableContainer sx={scrollbarSx} maxW="-moz-max-content">
+        <ChakraTable>
+          <Thead>
+            {table.getHeaderGroups().map((headerGroup, index) => (
+              <Tr borderRadius="8px" key={`${headerGroup.id}-${index}`}>
+                {headerGroup.headers.map((header, index) => {
                   return (
-                    <Td
-                      maxWidth="180px"
-                      whiteSpace="nowrap"
-                      overflow="hidden"
-                      textOverflow="ellipsis"
+                    <Th
+                      fontSize="sm"
+                      key={`${header.id}-${index}`}
+                      colSpan={header.colSpan}
+                      textTransform="capitalize"
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Td>
+                      {header.isPlaceholder ? null : (
+                        <div>{flexRender(header.column.columnDef.header, header.getContext())}</div>
+                      )}
+                    </Th>
                   );
                 })}
               </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
-      <Flex
-        gap={4}
-        justify={'end'}
-        alignItems={'center'}
-        px={4}
-        py={8}
-        w={'full'}
-        display={table.getPageCount() > 1 ? 'flex' : 'none'}
-      >
-        <HStack>
-          <IconButton
-            aria-label="go-left"
-            size="sm"
-            borderRadius="4px"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            icon={<FaAngleLeft />}
-          />
-          <Flex gap={1} justify={'center'} alignItems={'center'}>
-            <Text textStyle="p">Page</Text>
-            <Text textStyle="p">
-              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-            </Text>
-          </Flex>
-          <IconButton
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            aria-label="go-right"
-            size="sm"
-            borderRadius="4px"
-            icon={<FaAngleRight />}
-          />
-        </HStack>
-      </Flex>
-    </TableContainer>
+            ))}
+          </Thead>
+          <Tbody>
+            {table.getRowModel().rows.map((row, index) => {
+              return (
+                <Tr key={`${row.id}-${index}`}>
+                  {row.getVisibleCells().map((cell, index) => {
+                    return (
+                      <Td
+                        maxW="180px"
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        key={`${cell.id}-${index}`}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </Td>
+                    );
+                  })}
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </ChakraTable>
+        <TableFooter
+          table={table}
+          actualTotalItems={actualTotalItems}
+          pageCount={pageCount ?? 0}
+          pagination={pagination}
+          setPagination={setPagination}
+          isServerSide={isServerSide}
+        />
+      </TableContainer>
+    </Box>
   );
 }

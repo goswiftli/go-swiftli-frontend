@@ -12,6 +12,7 @@ import {
   StepTitle,
   useSteps,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router';
 
 import { BankingInformation } from './BankingInformation';
 import { BeneficiaryAddress } from './BeneficiaryAddress';
@@ -57,8 +58,13 @@ export const AddBeneficiary = () => {
     }
   };
 
+  const navigate = useNavigate();
+  const navigatePrevious = () => {
+    navigate(-1);
+  };
+
   const stepComponents = [
-    <BankingInformation handleNext={handleNext} handlePrevious={handlePrevious} />,
+    <BankingInformation handleNext={handleNext} handlePrevious={navigatePrevious} />,
     <BeneficiaryAddress handlePrevious={handlePrevious} />,
   ];
 

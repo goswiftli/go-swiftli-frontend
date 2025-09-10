@@ -1,5 +1,5 @@
 import { useToast } from '@/hooks';
-import { MutationConfig, useMutation } from '@/lib';
+import { MutationConfig, queryClient, useMutation } from '@/lib';
 import { axios } from '@/lib/axios';
 import { useAppDispatch } from '@/redux';
 import { ApiResponse } from '@/types';
@@ -7,7 +7,7 @@ import { clearDataFromSessStorage, formatError } from '@/utils';
 
 import { CreateBeneficiaryDTO } from '../../types';
 import { setBeneficiaryInformation } from '../../userFlowSlice';
-import { url } from '../url-query';
+import { queryKey, url } from '../url-query';
 
 export const createBeneficiary = async (data: CreateBeneficiaryDTO) => {
   try {
@@ -39,6 +39,7 @@ export const useCreateBeneficiary = ({ config }: UseCreateBeneficiary = {}) => {
     onSuccess: () => {
       clearDataFromSessStorage('beneficiary-info');
       dispatch(setBeneficiaryInformation({}));
+      queryClient.invalidateQueries({ queryKey: [queryKey.getBeneficiary()], exact: false });
     },
     mutationFn: createBeneficiary,
     ...config,

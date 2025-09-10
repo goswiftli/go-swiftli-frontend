@@ -8,10 +8,11 @@ import { formatError, retryQuery } from '@/utils';
 import { BeneficiaryListDTO } from '../../types';
 import { queryKey, url } from '../url-query';
 
-export const getBeneficiary = async (pagination: PaginationState) => {
+export const getBeneficiary = async (pagination: PaginationState, isAdmin?: boolean) => {
+  let adminUrl = url.adminBeneficiary;
   try {
     const response = await axios.get<ApiResponse<BeneficiaryListDTO>>(
-      `${url.beneficiary}?page=${pagination.pageIndex}&size=${pagination.pageSize}`
+      `${isAdmin ? adminUrl : url.beneficiary}?page=${pagination.pageIndex}&size=${pagination.pageSize}`
     );
     return response.data;
   } catch (err) {
@@ -25,20 +26,21 @@ type UseGetBeneficiaryOptions = QueryConfig<QueryFnType>;
 
 export const useGetBeneficiary = (
   pagination: PaginationState,
+  isAdmin?: boolean,
   config: UseGetBeneficiaryOptions = {}
 ) => {
   return useQuery<ExtractFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: [queryKey.getBeneficiary(), pagination],
-    queryFn: () => getBeneficiary(pagination),
+    queryKey: [queryKey.getBeneficiary(), pagination, isAdmin],
+    queryFn: () => getBeneficiary(pagination, isAdmin),
     retry: (failureCount, error: any) => retryQuery(failureCount, error),
   });
 };
 
-export const prefetchBeneficiary = (pagination: PaginationState) => {
+export const prefetchBeneficiary = (pagination: PaginationState, isAdmin?: boolean) => {
   return queryClient.prefetchQuery({
-    queryKey: [queryKey.getBeneficiary(), pagination],
-    queryFn: () => getBeneficiary(pagination),
+    queryKey: [queryKey.getBeneficiary(), pagination, isAdmin],
+    queryFn: () => getBeneficiary(pagination, isAdmin),
     staleTime: 60 * 1000,
   });
 };

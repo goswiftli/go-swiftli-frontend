@@ -22,7 +22,7 @@ type UseGetSettingsOptions = QueryConfig<QueryFnType>;
 export const useGetSettings = (config: UseGetSettingsOptions = {}) => {
   return useQuery<ExtractFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: [queryKey.getSettings()],
+    queryKey: queryKey.getSettings(),
     queryFn: () => getSettings(),
     retry: (failureCount, error: any) => retryQuery(failureCount, error),
   });
@@ -30,7 +30,7 @@ export const useGetSettings = (config: UseGetSettingsOptions = {}) => {
 
 export const prefetchSettings = () => {
   return queryClient.prefetchQuery({
-    queryKey: [queryKey.getSettings()],
+    queryKey: queryKey.getSettings(),
     queryFn: () => getSettings(),
     staleTime: 60 * 1000,
   });

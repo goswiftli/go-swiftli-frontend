@@ -22,7 +22,7 @@ type UseGetProfileOptions = QueryConfig<QueryFnType>;
 export const useGetProfile = (config?: UseGetProfileOptions) => {
   return useQuery<ExtractFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: [queryKey.getProfile()],
+    queryKey: queryKey.getProfile(),
     queryFn: () => getProfile(),
     retry: (failureCount, error: any) => retryQuery(failureCount, error),
   });
@@ -30,7 +30,7 @@ export const useGetProfile = (config?: UseGetProfileOptions) => {
 
 export const prefetchProfile = () => {
   return queryClient.prefetchQuery({
-    queryKey: [queryKey.getProfile()],
+    queryKey: queryKey.getProfile(),
     queryFn: () => getProfile(),
     staleTime: 60 * 1000,
   });

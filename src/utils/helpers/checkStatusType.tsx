@@ -39,6 +39,10 @@ export const checkStatusType = (status: StatusType) => {
       bgColor: 'success.200',
       text: 'Successful',
     },
+    [CONSTANTS.COMPLETED]: {
+      bgColor: 'success.200',
+      text: 'Completed',
+    },
     [CONSTANTS.FAILED]: {
       bgColor: 'error.200',
       text: 'Failed',
@@ -63,7 +67,14 @@ export const checkStatusType = (status: StatusType) => {
   };
 
   return (
-    <Tag bgColor={bgColor} justifyContent="center" rounded="16px" px={3} py={1} w="100px">
+    <Tag
+      bgColor={bgColor}
+      justifyContent="center"
+      rounded="16px"
+      px={3}
+      py={1}
+      w="-moz-fit-content"
+    >
       <TagLabel fontFamily="body" fontWeight="normal" color="#000000" fontSize="md">
         {text}
       </TagLabel>

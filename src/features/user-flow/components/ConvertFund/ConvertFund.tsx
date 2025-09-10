@@ -1,26 +1,45 @@
-import { Box, Button, Flex, HStack, Icon, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router';
 import * as yup from 'yup';
 
-import { ReactComponent as NigeriaIcon } from '@/assets/icons/nigeria-flag.svg';
-import { ReactComponent as USIcon } from '@/assets/icons/united-states.svg';
-import { FormInput } from '@/components';
-import { formatCurrency } from '@/utils';
+import { FormInput, FormSelect } from '@/components';
+import { getFormikFields } from '@/utils';
+
+import { useConvertFund } from '../../apis';
 
 const validationSchema = yup.object().shape({
-  amountToConvert: yup.string().email().required().label('Amount to convert'),
-  convertedAmount: yup.string().required().label('Converted amount'),
+  amount: yup
+    .number()
+    .positive('Amount must be a positive number')
+    .min(100, 'Amount must be more than 100')
+    .required()
+    .label('Amount'),
+  baseCurrency: yup.string().required().label('Base Currency'),
+  targetCurrency: yup.string().required().label('Target Currency'),
 });
 
 export const ConvertFund = () => {
+  const navigate = useNavigate();
+  const convertFundMutation = useConvertFund();
+
   const formik = useFormik({
     initialValues: {
-      amountToConvert: '',
-      convertedAmount: '',
+      amount: '',
+      baseCurrency: '',
+      targetCurrency: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: (values, { resetForm }) => {
+      convertFundMutation.mutate(
+        { ...values, amount: Number(values.amount) },
+        {
+          onSuccess() {
+            resetForm();
+            navigate(-1);
+          },
+        }
+      );
     },
   });
 
@@ -39,70 +58,24 @@ export const ConvertFund = () => {
                 Convert Fund
               </Text>
               <form style={{ width: '100%' }} onSubmit={formik.handleSubmit}>
-                <Stack w="full" spacing={12}>
-                  <Box w="full">
-                    <Box pb={1}>
-                      <FormInput
-                        label="Amount to convert"
-                        name="amountToConvert"
-                        placeholder="$"
-                        rightElement={<Icon as={NigeriaIcon} boxSize={6} />}
-                        value={formik.values.amountToConvert}
-                        isInvalid={
-                          formik.touched.amountToConvert && Boolean(formik.errors.amountToConvert)
-                        }
-                        onChange={formik.handleChange}
-                        errorMessage={
-                          formik.touched.amountToConvert && formik.errors.amountToConvert
-                        }
-                      />
-                    </Box>
-
-                    <HStack
-                      bgColor="primary.50"
-                      borderRadius="4px"
-                      p={2}
-                      justifyContent="space-between"
-                    >
-                      <Text fontFamily="body" fontWeight="light" fontSize="md">
-                        NGN Balance
-                      </Text>
-                      <Text fontFamily="inter" fontWeight="medium" fontSize="md">
-                        {formatCurrency(0, 'NGN', 'en-NG')}
-                      </Text>
-                    </HStack>
-                  </Box>
-                  <Box w="full">
-                    <Box pb={1}>
-                      <FormInput
-                        label="You'll get"
-                        name="convertedAmount"
-                        rightElement={<Icon as={USIcon} boxSize={6} />}
-                        value={formik.values.convertedAmount}
-                        isInvalid={
-                          formik.touched.convertedAmount && Boolean(formik.errors.convertedAmount)
-                        }
-                        onChange={formik.handleChange}
-                        errorMessage={
-                          formik.touched.convertedAmount && formik.errors.convertedAmount
-                        }
-                      />
-                    </Box>
-
-                    <HStack
-                      bgColor="primary.50"
-                      borderRadius="4px"
-                      p={2}
-                      justifyContent="space-between"
-                    >
-                      <Text fontFamily="body" fontWeight="light" fontSize="md">
-                        USD Balance
-                      </Text>
-                      <Text fontFamily="inter" fontWeight="medium" fontSize="md">
-                        {formatCurrency(0, 'USD', 'en-US')}
-                      </Text>
-                    </HStack>
-                  </Box>
+                <Stack w="full" spacing={8}>
+                  <FormSelect
+                    label="Base Currency"
+                    placeholder="Select base currency"
+                    {...getFormikFields(formik, 'baseCurrency')}
+                    options={currencyOptions}
+                  />
+                  <FormSelect
+                    label="Target Currency"
+                    placeholder="Select target currency"
+                    {...getFormikFields(formik, 'targetCurrency')}
+                    options={currencyOptions}
+                  />
+                  <FormInput
+                    label="Amount"
+                    placeholder="Enter Amount"
+                    {...getFormikFields(formik, 'amount')}
+                  />
 
                   <Text
                     textAlign="center"
@@ -111,7 +84,13 @@ export const ConvertFund = () => {
                     fontSize="md"
                   >{`1USD = 1600NGN`}</Text>
 
-                  <Button type="submit">Convert Funds</Button>
+                  <Button
+                    type="submit"
+                    _hover={{ bgColor: 'primary.800' }}
+                    isLoading={convertFundMutation.isPending}
+                  >
+                    Convert Funds
+                  </Button>
                 </Stack>
               </form>
             </Stack>
@@ -121,3 +100,13 @@ export const ConvertFund = () => {
     </section>
   );
 };
+
+const currencyOptions = [
+  {
+    label: 'NGN',
+    value: 'NGN',
+  },
+  { label: 'USD', value: 'USD' },
+  { label: 'CAD', value: 'CAD' },
+  { label: 'GBP', value: 'GBP' },
+];

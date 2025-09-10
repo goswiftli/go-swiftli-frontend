@@ -24,9 +24,9 @@ export const useBusinessDetails = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      occupation: profile?.data.occupation ?? '',
-      companyName: profile?.data.companyName ?? '',
-      jobTitle: profile?.data.jobTitle ?? '',
+      occupation: profile?.data?.occupation ?? '',
+      companyName: profile?.data?.companyName ?? '',
+      jobTitle: profile?.data?.jobTitle ?? '',
     },
     validationSchema: validationSchema,
     onSubmit: () => {

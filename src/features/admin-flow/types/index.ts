@@ -48,3 +48,17 @@ export type BeneficiaryDTO = {
   status: BeneficiaryStatus;
   date: string;
 };
+
+export type Fx = {
+  targetCurrency: string;
+  baseCurrency: string;
+  rate: number;
+};
+
+export type ConvertFund = Omit<Fx, 'rate'> & {
+  amount: number;
+};
+
+export type FxDTO = {
+  createFxRateResponse: Fx[];
+};
