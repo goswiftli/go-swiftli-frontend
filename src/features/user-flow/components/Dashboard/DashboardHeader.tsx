@@ -7,11 +7,12 @@ import { ReactComponent as NigeriaIcon } from '@/assets/icons/nigeria-flag.svg';
 import { ReactComponent as UnitedStatesIcon } from '@/assets/icons/united-states.svg';
 import { Skeleton } from '@/components';
 import { CONSTANTS, CURRENCY, LINKS } from '@/constants';
-import { useGetUserDetails } from '@/features/admin-flow';
+import { useGetFx, useGetUserDetails } from '@/features/admin-flow';
 import { useAppSelector } from '@/redux';
-import { formatCurrency } from '@/utils';
+import { formatCurrency, formatDate } from '@/utils';
 
 import { useGetAccountBalance } from '../../apis';
+import { returnNairaUsdPair } from '../../utils';
 
 export const DashboardHeader = () => {
   const [showBalance, setShowBalance] = useState(true);
@@ -33,7 +34,8 @@ export const DashboardHeader = () => {
   const { data: user } = useGetUserDetails(authUser.id);
 
   const { data: accountBalance, isPending, isError } = useGetAccountBalance();
-
+  const fxQuery = useGetFx();
+  const fxRate = returnNairaUsdPair(fxQuery.data?.data?.createFxRateResponse);
   const isKycStatus = user?.data?.kyc?.kycStatus === CONSTANTS.APPROVED;
   const filteredHeaderBtns = () => {
     if (isKycStatus) {
@@ -97,80 +99,82 @@ export const DashboardHeader = () => {
           </Box>
         ))}
         <Box boxShadow="sm" p={4} rounded="8px" w="full" bgColor="white">
-          <Stack justifyContent="space-between" h="full">
-            <HStack w="full" justifyContent="space-between">
-              <Box>
+          <Skeleton isLoading={fxQuery.isPending} isError={fxQuery.isError}>
+            <Stack justifyContent="space-between" h="full">
+              <HStack w="full" justifyContent="space-between">
+                <Box>
+                  <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.400">
+                    Today's Rate
+                  </Text>
+                  <Text fontFamily="body" fontWeight="medium" fontSize="md" color="black.400">
+                    Check Exchange Rate
+                  </Text>
+                </Box>
                 <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.400">
-                  Today's Rate
+                  {formatDate(new Date().toISOString()).fullDate}
                 </Text>
-                <Text fontFamily="body" fontWeight="medium" fontSize="md" color="black.400">
-                  Check Exchange Rate
-                </Text>
-              </Box>
-              <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.400">
-                24th March, 2025
-              </Text>
-            </HStack>
+              </HStack>
 
-            <HStack w="full" justifyContent="space-between" spacing={4}>
-              <HStack
-                p={1}
-                border="1px solid"
-                justifyContent="space-between"
-                borderColor="grey.300"
-                rounded="3px"
-                w="full"
-              >
-                <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.500">
-                  1.00
-                </Text>
-                <Box
-                  rounded="4px"
-                  bgColor="grey.100"
-                  border="1px solid"
-                  borderColor="grey.300"
+              <HStack w="full" justifyContent="space-between" spacing={4}>
+                <HStack
                   p={1}
-                >
-                  <HStack>
-                    <Box boxSize="22px">
-                      <NigeriaIcon />
-                    </Box>
-                    <Text fontFamily="body" fontWeight="medium" fontSize="md" color="black.300">
-                      NGN
-                    </Text>
-                  </HStack>
-                </Box>
-              </HStack>
-              <HStack
-                p={1}
-                border="1px solid"
-                justifyContent="space-between"
-                borderColor="grey.300"
-                rounded="3px"
-                w="full"
-              >
-                <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.500">
-                  1678.94
-                </Text>
-                <Box
-                  rounded="4px"
-                  bgColor="grey.100"
                   border="1px solid"
+                  justifyContent="space-between"
                   borderColor="grey.300"
-                  p={1}
+                  rounded="3px"
+                  w="full"
                 >
-                  <HStack>
-                    <Box boxSize="22px">
-                      <UnitedStatesIcon />
-                    </Box>
-                    <Text fontFamily="body" fontWeight="medium" fontSize="md" color="black.300">
-                      USD
-                    </Text>
-                  </HStack>
-                </Box>
+                  <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.500">
+                    1.00
+                  </Text>
+                  <Box
+                    rounded="4px"
+                    bgColor="grey.100"
+                    border="1px solid"
+                    borderColor="grey.300"
+                    p={1}
+                  >
+                    <HStack>
+                      <Box boxSize="22px">
+                        <UnitedStatesIcon />
+                      </Box>
+                      <Text fontFamily="body" fontWeight="medium" fontSize="md" color="black.300">
+                        USD
+                      </Text>
+                    </HStack>
+                  </Box>
+                </HStack>
+                <HStack
+                  p={1}
+                  border="1px solid"
+                  justifyContent="space-between"
+                  borderColor="grey.300"
+                  rounded="3px"
+                  w="full"
+                >
+                  <Text fontFamily="body" fontWeight="medium" fontSize="lg" color="black.500">
+                    {fxRate?.rate}
+                  </Text>
+                  <Box
+                    rounded="4px"
+                    bgColor="grey.100"
+                    border="1px solid"
+                    borderColor="grey.300"
+                    p={1}
+                  >
+                    <HStack>
+                      <Box boxSize="22px">
+                        <NigeriaIcon />
+                      </Box>
+                      <Text fontFamily="body" fontWeight="medium" fontSize="md" color="black.300">
+                        NGN
+                      </Text>
+                    </HStack>
+                  </Box>
+                </HStack>
               </HStack>
-            </HStack>
-          </Stack>
+            </Stack>
+          </Skeleton>
         </Box>
       </Stack>
     </Stack>

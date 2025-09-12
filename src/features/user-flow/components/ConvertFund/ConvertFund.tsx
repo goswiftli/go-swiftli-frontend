@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router';
 import * as yup from 'yup';
 
 import { FormInput, FormSelect } from '@/components';
+import { useGetFx } from '@/features/admin-flow';
 import { getFormikFields } from '@/utils';
 
 import { useConvertFund } from '../../apis';
+import { returnNairaUsdPair } from '../../utils';
 
 const validationSchema = yup.object().shape({
   amount: yup
@@ -21,6 +23,9 @@ const validationSchema = yup.object().shape({
 
 export const ConvertFund = () => {
   const navigate = useNavigate();
+
+  const fxQuery = useGetFx();
+  const fxRate = returnNairaUsdPair(fxQuery.data?.data?.createFxRateResponse);
   const convertFundMutation = useConvertFund();
 
   const formik = useFormik({
@@ -82,7 +87,7 @@ export const ConvertFund = () => {
                     fontFamily="body"
                     fontWeight="light"
                     fontSize="md"
-                  >{`1USD = 1600NGN`}</Text>
+                  >{`1${fxRate?.targetCurrency} = ${fxRate?.rate}${fxRate?.baseCurrency}`}</Text>
 
                   <Button
                     type="submit"

@@ -1,4 +1,5 @@
 import { CONSTANTS } from '@/constants';
+import { Fx } from '@/features/admin-flow/types';
 import { clearDataFromSessStorage, deleteFileFromIdb } from '@/utils';
 
 export const clearKycData = async () => {
@@ -15,4 +16,11 @@ export const clearKycData = async () => {
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {}
+};
+
+export const returnNairaUsdPair = (fxRates: Fx[] = []) => {
+  const fxRate = fxRates.find(
+    (rate) => rate.baseCurrency === 'NGN' && rate.targetCurrency === 'USD'
+  );
+  return fxRate;
 };
