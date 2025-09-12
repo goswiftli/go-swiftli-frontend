@@ -1,3 +1,4 @@
+import { CONSTANTS } from '@/constants';
 import { useToast } from '@/hooks';
 import { MutationConfig, queryClient, useMutation } from '@/lib';
 import { axios } from '@/lib/axios';
@@ -21,6 +22,7 @@ export const setupKyc = async (data: KycDTO) => {
       comment: data.comment as string,
       idVerificationCountry: data.idVerification.country,
       idVerificationType: data.idVerification.fileDetails.type,
+      kycStatus: CONSTANTS.PENDING,
     };
 
     formData.append('kycDataJson', JSON.stringify(kycData));

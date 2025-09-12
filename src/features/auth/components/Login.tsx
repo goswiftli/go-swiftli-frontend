@@ -7,7 +7,7 @@ import bgImg1 from '@/assets/images/login-img-1.png';
 import bgImg2 from '@/assets/images/login-img-2.png';
 import bgImg3 from '@/assets/images/login-img-3.png';
 import logoImg from '@/assets/images/logo.png';
-import { FormInput, FormInputPassword } from '@/components';
+import { FormInput, FormInputPassword, scrollbarSx } from '@/components';
 import { LINKS } from '@/constants';
 
 import { useLogin } from '../apis';
@@ -42,7 +42,7 @@ export const Login = () => {
   };
   return (
     <Flex
-      minH="100vh"
+      h="100vh"
       bgColor="#F7F7FC"
       justifyContent="center"
       alignItems="center"
@@ -50,6 +50,8 @@ export const Login = () => {
       pos="relative"
       zIndex={1}
       overflowX="hidden"
+      overflowY="auto"
+      sx={scrollbarSx}
     >
       <Box boxSize={{ base: '50%', md: '40%', lg: '30%' }} pos="fixed" zIndex={-1} top={0} left={0}>
         <Image src={bgImg1} />

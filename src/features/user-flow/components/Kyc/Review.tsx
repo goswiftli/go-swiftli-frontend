@@ -17,20 +17,20 @@ import { useNavigate } from 'react-router';
 
 import { Modal } from '@/components';
 import { UserInfo } from '@/features/admin-flow';
-import { useAppSelector } from '@/redux';
 import { convertUnderscoreToSpace, fileToBase64, getFileFromIdb } from '@/utils';
 
 import { useSetupKyc } from '../../apis';
-import { FileDetails, IdType, KycDTO } from '../../types';
+import { FileDetails, IdentificationInfo, IdType, KycDTO, PersonalInfo } from '../../types';
 import { clearKycData } from '../../utils';
 
 type ReviewProps = {
   handlePrevious: () => void;
+  personalInfo: PersonalInfo | null;
+  identification: IdentificationInfo | null;
 };
-export const Review = ({ handlePrevious }: ReviewProps) => {
+export const Review = ({ handlePrevious, identification, personalInfo }: ReviewProps) => {
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { personalInfo, identification } = useAppSelector((state) => state.userFlow);
 
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [documentDetails, setDocumentDetails] = useState<{
@@ -44,7 +44,7 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
   );
   useEffect(() => {
     const returnIdentityDocument = async () => {
-      if (identification.fileDetails.name) {
+      if (identification && identification.fileDetails.name) {
         const data = (await getFileFromIdb(identification.fileDetails.type ?? 'default_value')) as {
           file: File;
           fileType: string;
@@ -75,30 +75,30 @@ export const Review = ({ handlePrevious }: ReviewProps) => {
   const userDetails = [
     {
       name: 'First Name',
-      value: personalInfo.firstName,
+      value: personalInfo?.firstName,
     },
     {
       name: 'Last Name',
-      value: personalInfo.lastName,
+      value: personalInfo?.lastName,
     },
     {
       name: 'Email Address',
-      value: personalInfo.email,
+      value: personalInfo?.email,
     },
   ];
 
   const setupKycMutation = useSetupKyc();
   const handleComplete = async () => {
     const profileFile = (await getFileFromIdb('uploaded-photo')) as { file: File };
-    const idData = (await getFileFromIdb(identification.fileDetails.type)) as {
+    const idData = (await getFileFromIdb(identification?.fileDetails.type ?? '')) as {
       file: File;
       fileType: IdType;
       country: string;
     };
     const kycData: KycDTO = {
-      firstName: personalInfo.firstName,
-      lastName: personalInfo.lastName,
-      email: personalInfo.email,
+      firstName: personalInfo?.firstName ?? '',
+      lastName: personalInfo?.lastName ?? '',
+      email: personalInfo?.email ?? '',
       idVerification: {
         country: idData.country,
         fileDetails: {

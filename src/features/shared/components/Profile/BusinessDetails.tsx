@@ -4,6 +4,7 @@ import { useState } from 'react';
 import * as yup from 'yup';
 
 import { FormInput, Skeleton } from '@/components';
+import { returnString } from '@/utils';
 
 import { useGetProfile, useSetupProfilePatch } from '../../apis';
 
@@ -53,7 +54,7 @@ export const useBusinessDetails = () => {
           />
         </Skeleton>
       ) : (
-        <Text as="span">Not Available</Text>
+        <Text as="span">{returnString(formik.values.companyName)}</Text>
       ),
     },
     {
@@ -70,7 +71,7 @@ export const useBusinessDetails = () => {
           />
         </Skeleton>
       ) : (
-        <Text as="span">Not Available</Text>
+        <Text as="span">{returnString(formik.values.occupation)}</Text>
       ),
     },
     {
@@ -87,7 +88,7 @@ export const useBusinessDetails = () => {
           />
         </Skeleton>
       ) : (
-        <Text as="span">Not Available</Text>
+        <Text as="span">{returnString(formik.values.jobTitle)}</Text>
       ),
     },
   ];

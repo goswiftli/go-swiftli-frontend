@@ -9,7 +9,7 @@ import { queryKey, url } from '../url-query';
 
 export const setupProfile = async (data: ProfileDTO) => {
   try {
-    const response = await axios.put<ApiResponse<ProfileDTO>>(url.profile, data);
+    const response = await axios.patch<ApiResponse<ProfileDTO>>(url.profile, data);
     return response.data;
   } catch (err) {
     throw Error(formatError(err));
@@ -37,6 +37,7 @@ export const useSetupProfile = ({ config }: UseSetupProfile = {}) => {
         status: 'success',
         description: res.message ?? 'Profile updated successful!',
       });
+      queryClient.invalidateQueries({ queryKey: queryKey.getProfile(), exact: false });
     },
     mutationFn: setupProfile,
     ...config,

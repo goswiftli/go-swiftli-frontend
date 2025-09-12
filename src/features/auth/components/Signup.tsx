@@ -19,7 +19,7 @@ import logoImg from '@/assets/images/logo.png';
 import bgImg2 from '@/assets/images/sign-bg-2.png';
 import bgImg1 from '@/assets/images/signup-bg-1.png';
 import bgImg3 from '@/assets/images/signup-bg-3.png';
-import { Form, FormInput, FormInputPassword } from '@/components';
+import { Form, FormInput, FormInputPassword, scrollbarSx } from '@/components';
 
 import { useSignup } from '../apis';
 
@@ -87,7 +87,7 @@ export const Signup = () => {
 
   return (
     <Flex
-      minH="100vh"
+      h="100vh"
       bgColor="#F7F7FC"
       justifyContent="center"
       alignItems="center"
@@ -95,6 +95,7 @@ export const Signup = () => {
       pos="relative"
       zIndex={1}
       overflowX="hidden"
+      sx={scrollbarSx}
     >
       <Box boxSize={{ base: '50%', md: '40%', lg: '30%' }} pos="fixed" zIndex={-1} top={0} left={0}>
         <Image src={bgImg1} />

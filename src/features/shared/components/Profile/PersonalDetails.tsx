@@ -4,6 +4,7 @@ import { useState } from 'react';
 import * as yup from 'yup';
 
 import { FormInput, FormSelect, Skeleton } from '@/components';
+import { convertUnderscoreToSpace, returnString } from '@/utils';
 
 import { useGetProfile, useSetupProfilePatch } from '../../apis';
 
@@ -53,7 +54,7 @@ export const usePersonalDetails = () => {
           />
         </Skeleton>
       ) : (
-        <Text as="span">Not Available</Text>
+        <Text as="span">{returnString(formik.values.dateOfBirth)}</Text>
       ),
     },
     {
@@ -71,7 +72,7 @@ export const usePersonalDetails = () => {
           />
         </Skeleton>
       ) : (
-        <Text as="span">Not Available</Text>
+        <Text as="span">{convertUnderscoreToSpace(returnString(formik.values.gender))}</Text>
       ),
     },
     {
@@ -89,7 +90,7 @@ export const usePersonalDetails = () => {
           />
         </Skeleton>
       ) : (
-        <Text as="span">Not Available</Text>
+        <Text as="span">{convertUnderscoreToSpace(returnString(formik.values.maritalStatus))}</Text>
       ),
     },
   ];
