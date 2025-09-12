@@ -13,11 +13,15 @@ import {
   useBreakpointValue,
   useSteps,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { BiSolidUser } from 'react-icons/bi';
 
 import { ReactComponent as SelfieIcon } from '@/assets/icons/Front camera.svg';
 import { ReactComponent as ReviewIcon } from '@/assets/icons/Review.svg';
 import { ReactComponent as ScanIcon } from '@/assets/icons/Scanning.svg';
+import { getDataFromSessStorage } from '@/utils';
+
+import { IdentificationInfo, PersonalInfo } from '../../types';
 
 import { IdVerification } from './IdVerification';
 import { PersonalInformation } from './PersonalInformation';
@@ -95,15 +99,32 @@ export const Kyc = () => {
     }
   };
 
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(
+    getDataFromSessStorage('kyc-per-info')
+  );
+  const [identification, setIdentification] = useState<IdentificationInfo | null>(
+    getDataFromSessStorage('identification-details')
+  );
   const stepComponents = [
     <PersonalInformation
       handleNext={handleNext}
       handlePrevious={handlePrevious}
       activeStep={activeStep}
+      personalInfo={personalInfo}
+      setPersonalInfo={setPersonalInfo}
     />,
-    <IdVerification handleNext={handleNext} handlePrevious={handlePrevious} />,
+    <IdVerification
+      handleNext={handleNext}
+      handlePrevious={handlePrevious}
+      identification={identification}
+      setIdentification={setIdentification}
+    />,
     <Selfie handleNext={handleNext} handlePrevious={handlePrevious} />,
-    <Review handlePrevious={handlePrevious} />,
+    <Review
+      handlePrevious={handlePrevious}
+      identification={identification}
+      personalInfo={personalInfo}
+    />,
   ];
 
   return (

@@ -62,7 +62,11 @@ export const useSecuritySettings = () => {
       const { onClick, nextStep } = stepsConfig[twoFactorStep as keyof typeof stepsConfig];
 
       return (
-        <Stack spacing={8} alignItems="end">
+        <Stack
+          spacing={8}
+          direction={{ base: 'row', lg: 'column' }}
+          alignItems={{ base: 'center', lg: 'end' }}
+        >
           <Text
             color="blue.300"
             _hover={{ cursor: 'pointer' }}
@@ -128,7 +132,7 @@ export const useSecuritySettings = () => {
               fontSize="xs"
               fontWeight="light"
               color="black.400"
-              maxW="50%"
+              maxW={{ base: 'full', lg: '50%' }}
               whiteSpace="normal"
             >
               Use your authenticator app to scan the barcode/QR code below. Alternatively, you can
@@ -179,7 +183,11 @@ export const useSecuritySettings = () => {
         </Box>
       ),
       value: isOpenReset ? (
-        <Stack spacing={8} alignItems="end">
+        <Stack
+          spacing={8}
+          direction={{ base: 'row', lg: 'column' }}
+          alignItems={{ base: 'center', lg: 'end' }}
+        >
           <Text color="blue.300" _hover={{ cursor: 'pointer' }} onClick={onCloseReset}>
             Cancel
           </Text>

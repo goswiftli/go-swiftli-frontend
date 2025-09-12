@@ -20,7 +20,7 @@ import { Approve, Modal, PDFViewer, RejectRequest, Skeleton } from '@/components
 import { CONSTANTS } from '@/constants';
 import { ApproveKyc, useApproveKyc } from '@/features/user-flow';
 import { useErrorNotification } from '@/hooks';
-import { decryptUrlParams, downloadFile } from '@/utils';
+import { dataURLtoBlob, decryptUrlParams, downloadFile, returnString } from '@/utils';
 
 import { useGetUserDetails } from '../../apis';
 
@@ -39,26 +39,29 @@ export const UserDetails = () => {
   const userDetails = [
     {
       name: 'Email',
-      value: user?.data?.kyc?.email,
+      value: returnString(user?.data?.kyc?.email),
     },
     {
       name: 'Phone number',
-      value: user?.data?.phoneNumber,
+      value: returnString(user?.data?.phoneNumber),
     },
     {
       name: 'Country',
-      value: user?.data?.kyc?.idVerificationCountry,
+      value: returnString(user?.data?.kyc?.idVerificationCountry),
     },
   ];
 
   useEffect(() => {
     if (user && user?.data?.kyc?.profilePicture) {
-      setImageSrc(user?.data?.kyc?.profilePicture);
+      const blob = dataURLtoBlob(user?.data?.kyc?.profilePicture ?? '');
+      const imageUrl = URL.createObjectURL(blob);
+
+      setImageSrc(imageUrl);
     }
     if (user?.data?.kyc?.idVerificationFile) {
       setDocument(user?.data?.kyc?.idVerificationFile);
     }
-  });
+  }, [user?.data?.kyc?.profilePicture]);
 
   useErrorNotification({
     name: 'user-details',
@@ -90,9 +93,9 @@ export const UserDetails = () => {
             <Card>
               <CardBody as={Stack} p={4} spacing={4}>
                 <Stack alignItems="center" w="full" spacing={4}>
-                  <Avatar src={`data:image/jpeg;base64,${imageSrc}`} boxSize="120px" />
+                  <Avatar src={imageSrc} boxSize="120px" />
                   <Text fontFamily="body" color="black.800" fontSize="md">
-                    {`${user?.data?.kyc?.firstName}-${user?.data?.kyc?.lastName}`}
+                    {returnString(user?.data?.kyc?.firstName, user?.data?.kyc?.lastName)}
                   </Text>
                   <Box rounded="4px" p={3} bgColor="blue.100" w="full">
                     <Text fontFamily="body" fontSize="sm" pb={2}>

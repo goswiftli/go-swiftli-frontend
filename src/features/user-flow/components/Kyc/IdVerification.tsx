@@ -23,7 +23,6 @@ import passportImg from '@/assets/images/passport.png';
 import { FormSelect } from '@/components';
 import { CONSTANTS } from '@/constants';
 import { useToast } from '@/hooks';
-import { useAppDispatch, useAppSelector } from '@/redux';
 import {
   convertUnderscoreToSpace,
   deleteFileFromIdb,
@@ -33,8 +32,7 @@ import {
   transformDataToOptions,
 } from '@/utils';
 
-import { FileDetails, IdentificationInfo, IdType } from '../../types';
-import { setIdentificationInfo } from '../../userFlowSlice';
+import { IdentificationInfo, IdType } from '../../types';
 
 const validationSchema = yup.object().shape({
   country: yup.string().required().label('Country'),
@@ -43,21 +41,25 @@ const validationSchema = yup.object().shape({
 type IdVerificationProps = {
   handleNext: () => void;
   handlePrevious: () => void;
+  identification: IdentificationInfo | null;
+  setIdentification: React.Dispatch<React.SetStateAction<IdentificationInfo | null>>;
 };
 
-export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationProps) => {
+export const IdVerification = ({
+  handleNext,
+  handlePrevious,
+  setIdentification,
+  identification,
+}: IdVerificationProps) => {
   const toast = useToast();
-  const dispatch = useAppDispatch();
-  const { identification } = useAppSelector((state) => state.userFlow);
   const { data: countries } = useGetCountries();
   const countryOptions = transformDataToOptions(
     countries,
     (item) => item.name.common,
-    (item) => item.cca2
+    (item) => item.name.common
   );
 
   const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
-  // const [selectedFile, setSelectedFile] = useState<{ type: string; file: File } | null>(null);
   const handleFile = (fileType: string) => {
     const input = inputRefs.current[fileType];
     if (input) {
@@ -69,7 +71,7 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    const MAX_FILE_SIZE = 4 * 1024 * 1024; // 5MB
     const isValidType = ['application/pdf', 'image/jpeg', 'image/png'].includes(file.type);
     const isValidSize = file.size <= MAX_FILE_SIZE;
     if (!isValidType) {
@@ -85,87 +87,94 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
       toast({
         id: 'invalid-size',
         title: 'File too large',
-        description: 'maximum file size is 5MB',
+        description: 'maximum file size is 4MB',
         status: 'error',
         duration: 3000,
       });
       e.target.value = '';
     } else {
-      dispatch(
-        setIdentificationInfo({
-          country: '',
-          fileDetails: { file: file, name: file.name, size: file.size, type: fileType as IdType },
-        })
-      );
+      setIdentification({
+        country: '',
+        fileDetails: { file: file, name: file.name, size: file.size, type: fileType as IdType },
+      });
     }
   };
   const removeSelectedFile = async () => {
-    await deleteFileFromIdb(identification.fileDetails.type ?? '');
-    // setSelectedFile(null);
-    dispatch(setIdentificationInfo({} as IdentificationInfo));
+    await deleteFileFromIdb(identification?.fileDetails.type ?? '');
+    setIdentification({} as IdentificationInfo);
   };
-  console.log('coint', identification);
   useEffect(() => {
     const fetchData = async () => {
       const keysToCheck = [CONSTANTS.ID_CARD, CONSTANTS.PASSPORT, CONSTANTS.DRIVING_LICENSE];
 
-      for (const key of keysToCheck) {
-        const data = (await getFileFromIdb(key)) as {
-          id: IdType;
-          country: string;
-          file: File;
-        };
+      const results = await Promise.all(
+        keysToCheck.map(async (key) => {
+          const data = (await getFileFromIdb(key)) as {
+            id: IdType;
+            country: string;
+            file: File;
+          } | null;
+          return data ? { ...data, key } : null;
+        })
+      );
 
-        if (data) {
-          dispatch(
-            setIdentificationInfo({
-              country: data.country,
-              fileDetails: {
-                type: data.id,
-                name: data.file.name,
-                size: data.file.size,
-              } as FileDetails,
-            })
-          );
-          saveDataToSessStorage('identification-details', {
-            fileDetails: {
-              type: data.id,
-              name: data.file.name,
-              size: data.file.size,
-            } as FileDetails,
-          });
-          // setSelectedFile({ file: data.file, type: data.id });
-          break;
-        }
+      // Filter out empty results
+      const validResults = results.filter(Boolean) as {
+        id: IdType;
+        country: string;
+        file: File;
+        key: string;
+      }[];
+
+      if (validResults.length > 0) {
+        const data = validResults[0];
+
+        setIdentification({
+          country: data.country,
+          fileDetails: {
+            type: data.id,
+            name: data.file.name,
+            size: data.file.size,
+            file: data.file,
+          },
+        });
+
+        saveDataToSessStorage('identification-details', {
+          fileDetails: {
+            type: data.id,
+            name: data.file.name,
+            size: data.file.size,
+          },
+        });
       }
     };
 
     fetchData();
-  }, [identification.fileDetails]);
+  }, [identification?.fileDetails]);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      country: identification.country ?? '',
+      country: identification?.country ?? '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      if (identification.fileDetails === null) {
+      if (identification && identification.fileDetails === null) {
         toast({
           id: 'no-file',
-          description: 'Please add an identification document',
+          description: 'Please add an identification? document',
           status: 'error',
           duration: 3000,
         });
       } else {
         await saveFileToIdb({
-          key: identification.fileDetails.type,
+          key: identification?.fileDetails.type ?? '',
           data: {
             country: values.country,
-            file: identification.fileDetails.file,
-            fileType: identification.fileDetails.type,
-            name: identification.fileDetails.file.name,
-            size: identification.fileDetails.file.size,
+            file: identification?.fileDetails.file,
+            fileType: identification?.fileDetails.type,
+            name: identification?.fileDetails.file.name,
+            size: identification?.fileDetails.file.size,
             updatedAt: new Date(),
           },
         });
@@ -201,7 +210,7 @@ export const IdVerification = ({ handleNext, handlePrevious }: IdVerificationPro
               onChange={formik.handleChange}
               errorMessage={formik.touched.country && formik.errors.country}
             />
-            {identification.fileDetails && (
+            {identification && identification.fileDetails && (
               <HStack
                 p={2}
                 bgColor="grey.100"

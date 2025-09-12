@@ -8,7 +8,7 @@ import { ReactComponent as LockIcon } from '@/assets/icons/lock.svg';
 import { AppTable } from '@/components';
 import { CONSTANTS, LINKS } from '@/constants';
 import { KycStatus } from '@/features/user-flow';
-import { checkStatusType, createEncryptedUrlParams } from '@/utils';
+import { checkStatusType, createEncryptedUrlParams, returnString } from '@/utils';
 
 import { prefetchUserDetails } from '../../apis';
 import { UserDTO } from '../../types';
@@ -43,7 +43,9 @@ export const UserList = ({ users }: UserListProps) => {
     tableColumnHelper.accessor('email', {
       id: 'email',
       cell: (info) => (
-        <Text as="span">{`${info.row.original.kyc?.firstName ?? 'N/A'} ${info.row.original.kyc?.lastName ?? 'N/A'}`}</Text>
+        <Text as="span">
+          {returnString(info.row.original.kyc?.firstName, info.row.original.kyc?.lastName)}
+        </Text>
       ),
       header: () => <Box as="span">Name</Box>,
     }),
@@ -54,7 +56,7 @@ export const UserList = ({ users }: UserListProps) => {
     }),
     tableColumnHelper.accessor('phoneNumber', {
       id: 'phoneNumber',
-      cell: (info) => info.getValue(),
+      cell: (info) => returnString(info.getValue()),
       header: () => <Box as="span">Phone Number</Box>,
     }),
     tableColumnHelper.accessor('kyc.kycStatus', {

@@ -182,18 +182,18 @@ const headerButtons = [
     name: 'Complete KYC',
     link: LINKS.COMPLETE_KYC,
   },
-  {
-    name: 'Withdraw',
-    link: LINKS.WITHDRAW,
-  },
+  // {
+  //   name: 'Withdraw',
+  //   link: LINKS.WITHDRAW,
+  // },
   {
     name: 'Convert Fund',
     link: LINKS.CONVERT_FUNDS,
   },
-  {
-    name: 'Deposit',
-    link: LINKS.DEPOSIT,
-  },
+  // {
+  //   name: 'Deposit',
+  //   link: LINKS.DEPOSIT,
+  // },
   {
     name: 'Make Payment',
     link: '/user' + '/' + LINKS.MAKE_PAYMENT,

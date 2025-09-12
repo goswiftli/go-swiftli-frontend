@@ -3,7 +3,7 @@ import { Text } from '@chakra-ui/react';
 import { Skeleton } from '@/components';
 import { useGetUserDetails } from '@/features/admin-flow';
 import { useAppSelector } from '@/redux';
-import { convertUnderscoreToSpace } from '@/utils';
+import { convertUnderscoreToSpace, formatDate, returnString } from '@/utils';
 
 export const useAccountInfo = () => {
   const { authUser } = useAppSelector((state) => state.auth);
@@ -13,13 +13,13 @@ export const useAccountInfo = () => {
   const accountInfo = [
     {
       name: 'Joined',
-      value: 'March, 2024',
+      value: user?.dateTime ? formatDate(user?.dateTime).fullDate : returnString(user?.dateTime),
     },
     {
       name: 'Account Email',
       value: (
         <Skeleton isLoading={isPending} isError={isError} display="flex" justifyContent="flex-end">
-          <Text as="span">{user?.data?.username}</Text>
+          <Text as="span">{returnString(user?.data?.username)}</Text>
         </Skeleton>
       ),
     },
@@ -27,7 +27,7 @@ export const useAccountInfo = () => {
       name: 'Personal KYC status',
       value: (
         <Skeleton isLoading={isPending} isError={isError} display="flex" justifyContent="flex-end">
-          <Text as="span">{convertUnderscoreToSpace(user?.data.kyc?.kycStatus)}</Text>
+          <Text as="span">{convertUnderscoreToSpace(returnString(user?.data.kyc?.kycStatus))}</Text>
         </Skeleton>
       ),
     },

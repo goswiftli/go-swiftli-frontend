@@ -49,3 +49,10 @@ export const getPageSizeRange = (totalItems: number): number[] => {
 
   return pageSizeOptions;
 };
+
+export const returnString = (...args: (undefined | string | null)[]) => {
+  if (args.some((arg) => !arg)) {
+    return 'Not Available';
+  }
+  return args.join(' ');
+};

@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { Skeleton } from '@/components';
 import { useGetUserDetails, UserInfo } from '@/features/admin-flow';
 import { useAppSelector } from '@/redux';
-import { dataURLtoBlob } from '@/utils';
+import { dataURLtoBlob, returnString } from '@/utils';
 
 import { useSetupProfile } from '../../apis';
 
@@ -33,15 +33,15 @@ export const Profile = () => {
   const userDetails = [
     {
       name: 'Email',
-      value: user?.data.username,
+      value: returnString(user?.data.username),
     },
     {
       name: 'Phone number',
-      value: user?.data.phoneNumber,
+      value: returnString(user?.data.phoneNumber),
     },
     {
       name: 'Location',
-      value: user?.data?.kyc?.idVerificationCountry ?? 'N/A',
+      value: returnString(user?.data?.kyc?.idVerificationCountry),
     },
   ];
 
@@ -75,9 +75,9 @@ export const Profile = () => {
   const [showAllForm, setShowAllForm] = useState(false);
 
   const handleSubmitAll = async () => {
-    showBusinessDetailsForm();
-    showPersonalDetailsForm();
-    setShowAllForm(true);
+    // showBusinessDetailsForm();
+    // showPersonalDetailsForm();
+    // setShowAllForm(true);
     formikPersonal.setTouched({
       dateOfBirth: true,
       gender: true,
@@ -104,9 +104,19 @@ export const Profile = () => {
         {
           onSuccess() {
             formikBusiness.resetForm(), formikPersonal.resetForm();
+            setShowAllForm(false);
           },
         }
       );
+    }
+    if (!(personalValid && businessDetails)) {
+      setShowAllForm(true);
+    }
+    if (!personalValid) {
+      showPersonalDetailsForm();
+    }
+    if (!businessValid) {
+      showBusinessDetailsForm();
     }
   };
 
@@ -120,7 +130,7 @@ export const Profile = () => {
                 <Stack alignItems="center" w="full" spacing={4}>
                   <Avatar src={objectUrl} boxSize="120px" />
                   <Text fontFamily="body" color="black.800" fontSize="md">
-                    {`${user?.data?.kyc?.firstName || 'N/A'} ${user?.data?.kyc?.lastName ?? 'N/A'}`}
+                    {returnString(user?.data?.kyc?.firstName, user?.data?.kyc?.lastName)}
                   </Text>
                   <Box rounded="4px" p={3} bgColor="blue.100" w="full">
                     <Text fontFamily="body" fontSize="sm" pb={2}>

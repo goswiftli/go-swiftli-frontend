@@ -3,10 +3,10 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import { FormInput } from '@/components';
-import { useAppDispatch, useAppSelector } from '@/redux';
+import { useAppSelector } from '@/redux';
 import { saveDataToSessStorage } from '@/utils';
 
-import { setPersonalInfo } from '../../userFlowSlice';
+import { PersonalInfo } from '../../types';
 
 const validationSchema = yup.object().shape({
   firstName: yup.string().required().label('First Name'),
@@ -18,27 +18,29 @@ type PersonalInformationProps = {
   handleNext: () => void;
   handlePrevious: () => void;
   activeStep: number;
+  personalInfo: PersonalInfo | null;
+  setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfo | null>>;
 };
 
 export const PersonalInformation = ({
   handleNext,
   handlePrevious,
   activeStep,
+  personalInfo,
+  setPersonalInfo,
 }: PersonalInformationProps) => {
-  const dispatch = useAppDispatch();
-  const { personalInfo } = useAppSelector((state) => state.userFlow);
   const { authUser } = useAppSelector((state) => state.auth);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstName: personalInfo.firstName ?? '',
-      lastName: personalInfo.lastName ?? '',
+      firstName: personalInfo?.firstName ?? '',
+      lastName: personalInfo?.lastName ?? '',
       email: authUser.username ?? '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       saveDataToSessStorage('kyc-per-info', values);
-      dispatch(setPersonalInfo({ ...values }));
+      setPersonalInfo({ ...values });
       handleNext();
     },
   });

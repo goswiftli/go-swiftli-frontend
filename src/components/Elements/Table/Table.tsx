@@ -127,7 +127,7 @@ export const scrollbarSx: SystemStyleObject = {
     top: '0',
     backgroundColor: '#ccc',
     opacity: '0.3',
-    width: '5px',
+    width: '0px',
   },
   '&::-webkit-scrollbar-thumb': {
     borderRadius: '1em',

@@ -24,9 +24,16 @@ type UserInfoProps = {
     editBtnAction: () => void;
   };
   actionItem?: React.ReactNode;
+  isStacked?: boolean;
 };
 
-export const UserInfo = ({ headerName, column, hasEditBtn, actionItem }: UserInfoProps) => {
+export const UserInfo = ({
+  headerName,
+  column,
+  hasEditBtn,
+  actionItem,
+  isStacked,
+}: UserInfoProps) => {
   return (
     <TableContainer bgColor="white" rounded="18px 18px 0 0">
       <Table variant="simple" size="md">
@@ -59,12 +66,21 @@ export const UserInfo = ({ headerName, column, hasEditBtn, actionItem }: UserInf
         </Thead>
         <Tbody>
           {column.map((data, index) => (
-            <Tr key={index}>
-              <Td whiteSpace="normal" maxW="60%">
+            <Tr
+              key={index}
+              display={isStacked ? 'flex' : 'table-row'}
+              flexDirection={isStacked ? 'column' : 'row'}
+              alignItems={isStacked ? 'flex-start' : 'center'}
+            >
+              <Td
+                whiteSpace="normal"
+                maxW={isStacked ? '100%' : '60%'}
+                display={isStacked ? 'block' : 'table-cell'}
+              >
                 {data.name}
               </Td>
-              <Td>
-                <Flex justifyContent="flex-end">{data.value}</Flex>
+              <Td display={isStacked ? 'block' : 'table-cell'} w={isStacked ? '100%' : 'auto'}>
+                <Flex justifyContent={isStacked ? 'flex-start' : 'flex-end'}>{data.value}</Flex>
               </Td>
             </Tr>
           ))}
